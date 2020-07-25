@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
@@ -11,6 +12,38 @@ namespace IceCoffee.Common
 {
     public static class CommonHelper
     {
+
+        #region 获取配置项
+
+        /// <summary>
+        /// 获取 appSettings
+        /// </summary>
+        /// <param name="key">键名</param>
+        public static string GetAppSettings(string key)
+        {
+            return ConfigurationManager.AppSettings[key];
+        }
+
+        /// <summary>
+        /// 获取连接字符串
+        /// </summary>
+        /// <param name="key">键名</param>        
+        public static string GetConnectionString(string key)
+        {
+            return ConfigurationManager.ConnectionStrings[key].ToString();
+        }
+
+        /// <summary>
+        /// 获取数据提供程序名称
+        /// </summary>
+        /// <param name="key">键名</param>
+        public static string GetProviderName(string key)
+        {
+            return ConfigurationManager.ConnectionStrings[key].ProviderName;
+        }
+
+        #endregion
+
         /// <summary>
         /// CRC16校验
         /// </summary>
