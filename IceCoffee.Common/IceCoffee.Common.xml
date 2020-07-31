@@ -1,0 +1,818 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IceCoffee.Common</name>
+    </assembly>
+    <members>
+        <member name="T:IceCoffee.Common.CommonHelper">
+            <summary>
+            工具类
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.CommonHelper.GetAppSettings(System.String)">
+            <summary>
+            获取 appSettings
+            </summary>
+            <param name="key">键名</param>
+        </member>
+        <member name="M:IceCoffee.Common.CommonHelper.GetConnectionString(System.String)">
+            <summary>
+            获取连接字符串
+            </summary>
+            <param name="key">键名</param>        
+        </member>
+        <member name="M:IceCoffee.Common.CommonHelper.GetProviderName(System.String)">
+            <summary>
+            获取数据提供程序名称
+            </summary>
+            <param name="key">键名</param>
+        </member>
+        <member name="M:IceCoffee.Common.CommonHelper.CRC16_Checkout(System.String)">
+            <summary>
+            CRC16校验
+            </summary>
+            <param name="arg">需要校验的字符串</param>
+            <returns>CRC16 校验码</returns>
+        </member>
+        <member name="M:IceCoffee.Common.CommonHelper.CreateExpressionByPropertyInfo``2(System.Reflection.PropertyInfo)">
+            <summary>
+            通过PropertyInfo创建Expression表达式
+            </summary>
+            <typeparam name="TModel"></typeparam>
+            <typeparam name="TProperty"></typeparam>
+            <param name="propertyInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.CommonHelper.GetRandomString(System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.String)">
+            <summary>
+            生成随机字符串 
+            </summary>
+            <param name="length">目标字符串的长度</param>
+            <param name="useNum">是否包含数字，1=包含，默认为包含</param>
+            <param name="useLow">是否包含小写字母，1=包含，默认为包含</param>
+            <param name="useUpp">是否包含大写字母，1=包含，默认为包含</param>
+            <param name="useSpe">是否包含特殊字符，1=包含，默认为不包含</param>
+            <param name="custom">要包含的自定义字符，直接输入要包含的字符列表</param>
+            <returns>指定长度的随机字符串</returns>
+        </member>
+        <member name="T:IceCoffee.Common.CustomExceptionType">
+            <summary>
+            自定义异常类型
+            </summary>
+        </member>
+        <member name="F:IceCoffee.Common.CustomExceptionType.Unchecked">
+            <summary>
+            非检查异常，致命异常并且对于被捕获者不知如何处理的异常
+            </summary>
+        </member>
+        <member name="F:IceCoffee.Common.CustomExceptionType.Checked">
+            <summary>
+            检查异常，必须处理的异常
+            </summary>
+        </member>
+        <member name="T:IceCoffee.Common.CustomExceptionBase">
+            <summary>
+            自定义异常基类
+            </summary>
+        </member>
+        <member name="P:IceCoffee.Common.CustomExceptionBase.CustomExceptionType">
+            <summary>
+            异常类型
+            </summary>
+        </member>
+        <member name="F:IceCoffee.Common.EventLoop._eventsQueue">
+            <summary>
+            EventQueue
+            </summary>
+        </member>
+        <member name="P:IceCoffee.Common.EventLoop.IsRunning">
+            <summary>
+            Returns true if the event loop is running; otherwise returns false. 
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.EventLoop.Exec">
+            <summary>
+            Enters the main event loop and waits until Exit() is called. 
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.EventLoop.Exit">
+            <summary>
+            Tells the event loop to exit.
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.EventLoop.processEvents">
+            <summary>
+            Processes pending events until there are no more events to process.
+            </summary>
+        </member>
+        <member name="T:IceCoffee.Common.Extensions.PoolExtensions">
+            <summary>对象池扩展</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Extensions.PoolExtensions.StringBuilder">
+            <summary>字符串构建器池</summary>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.PoolExtensions.Put(System.Text.StringBuilder,System.Boolean)">
+            <summary>归还一个字符串构建器到对象池</summary>
+            <param name="sb"></param>
+            <param name="requireResult">是否需要返回结果</param>
+            <returns></returns>
+        </member>
+        <member name="T:IceCoffee.Common.Extensions.PoolExtensions.StringBuilderPool">
+            <summary>字符串构建器池</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Extensions.PoolExtensions.StringBuilderPool.InitialCapacity">
+            <summary>初始容量。默认100个</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Extensions.PoolExtensions.StringBuilderPool.MaximumCapacity">
+            <summary>最大容量。超过该大小时不进入池内，默认4k</summary>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.PoolExtensions.StringBuilderPool.OnCreate">
+            <summary>创建</summary>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.PoolExtensions.StringBuilderPool.Put(System.Text.StringBuilder)">
+            <summary>归还</summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="P:IceCoffee.Common.Extensions.PoolExtensions.MemoryStream">
+            <summary>内存流池</summary>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.PoolExtensions.Put(System.IO.MemoryStream,System.Boolean)">
+            <summary>归还一个内存流到对象池</summary>
+            <param name="ms"></param>
+            <param name="requireResult">是否需要返回结果</param>
+            <returns></returns>
+        </member>
+        <member name="T:IceCoffee.Common.Extensions.PoolExtensions.MemoryStreamPool">
+            <summary>内存流池</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Extensions.PoolExtensions.MemoryStreamPool.InitialCapacity">
+            <summary>初始容量。默认1024个</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Extensions.PoolExtensions.MemoryStreamPool.MaximumCapacity">
+            <summary>最大容量。超过该大小时不进入池内，默认64k</summary>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.PoolExtensions.MemoryStreamPool.OnCreate">
+            <summary>创建</summary>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.PoolExtensions.MemoryStreamPool.Put(System.IO.MemoryStream)">
+            <summary>归还</summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.GetMidStr(System.String,System.String,System.String,System.Int32@,System.Int32)">
+            <summary>
+            从startIndex位置开始搜索，取出中间子文本，outEnd返回后面文本在原字符串中的位置，startIndex七日杀获取聊天信息为26最佳
+            </summary>
+            <param name="src"></param>
+            <param name="front"></param>
+            <param name="rear"></param>
+            <param name="outEnd"></param>
+            <param name="startIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.GetMidStr(System.String,System.String,System.String,System.Int32)">
+            <summary>
+            从startIndex位置开始搜索，取出中间子文本
+            </summary>
+            <param name="src"></param>
+            <param name="front"></param>
+            <param name="rear"></param>
+            <param name="startIndex"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToShort(System.String)">
+            <summary>
+            将string转换为十进制有符号短整数，如果格式错误将转换失败并返回0
+            </summary>
+            <param name="src"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToInt(System.String)">
+            <summary>
+            将string转换为十进制有符号整数，如果格式错误将转换失败并返回0
+            </summary>
+            <param name="src"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToUInt(System.String)">
+            <summary>
+            将string转换为十进制无符号整数，如果格式错误将转换失败并返回0
+            </summary>
+            <param name="src"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToLong(System.String)">
+            <summary>
+            将string转换为十进制有符号长整数，如果格式错误将转换失败并返回0
+            </summary>
+            <param name="src"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToDouble(System.String)">
+            <summary>
+            将string转换为十进制双精度数，如果格式错误将转换失败并返回0
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToUtf8(System.String)">
+            <summary>
+            将字符串转为UTF-8编码的字节数组
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.Split(System.String,System.String)">
+            <summary>
+            分割字符串
+            </summary>
+            <param name="str"></param>
+            <param name="pattern"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.Split(System.String,System.String,System.Text.RegularExpressions.RegexOptions)">
+            <summary>
+            分割字符串
+            </summary>
+            <param name="str"></param>
+            <param name="pattern"></param>
+            <param name="regexOption"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToBase64(System.String)">
+            <summary>
+            将字符串转为Base64编码
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.FormBase64(System.String)">
+            <summary>
+            从Base64编码的字符串解析出原字符串
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.TaskExtension.WaitAndGetResult``1(System.Threading.Tasks.Task{``0})">
+            <summary>
+            同步等待获取异步方法的结果
+            </summary>
+            <typeparam name="TResult"></typeparam>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IceCoffee.Common.LogManager.LogRecordedEventHandler">
+            <summary>
+            日志记录事件
+            </summary>
+        </member>
+        <member name="E:IceCoffee.Common.LogManager.Log.LogRecorded">
+            <summary>
+            日志被记录
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.OverrideConfiguration(NLog.Config.LoggingConfiguration)">
+            <summary>
+            覆盖默认配置文件
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.OverrideConfiguration(System.String)">
+            <summary>
+            覆盖默认配置文件路径
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Trace(System.String)">
+            <summary>
+            追踪信息
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Trace(System.String,System.Exception)">
+            <summary>
+            追踪信息
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Debug(System.String)">
+            <summary>
+            调试信息
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Debug(System.String,System.Exception)">
+            <summary>
+            调试信息
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Info(System.String)">
+            <summary>
+            状态信息
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Info(System.String,System.Exception)">
+            <summary>
+            状态信息
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Warn(System.String)">
+            <summary>
+            警告信息
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Warn(System.String,System.Exception)">
+            <summary>
+            警告信息
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Error(System.String)">
+            <summary>
+            普通错误信息
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Error(System.Exception)">
+            <summary>
+            普通错误信息
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Error(System.String,System.Exception)">
+            <summary>
+            普通错误信息
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Fatal(System.String)">
+            <summary>
+            将导致程序退出的严重错误
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Fatal(System.String,System.Exception)">
+            <summary>
+            将导致程序退出的严重错误
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="T:IceCoffee.Common.LogManager.LogLevel">
+            <summary>
+            日志等级
+            </summary>
+        </member>
+        <member name="F:IceCoffee.Common.LogManager.LogLevel.Trace">
+            <summary>
+            追踪信息
+            </summary>
+        </member>
+        <member name="F:IceCoffee.Common.LogManager.LogLevel.Debug">
+            <summary>
+            普通信息
+            </summary>
+        </member>
+        <member name="F:IceCoffee.Common.LogManager.LogLevel.Info">
+            <summary>
+            调试信息
+            </summary>
+        </member>
+        <member name="F:IceCoffee.Common.LogManager.LogLevel.Warn">
+            <summary>
+            警告信息
+            </summary>
+        </member>
+        <member name="F:IceCoffee.Common.LogManager.LogLevel.Error">
+            <summary>
+            错误信息
+            </summary>
+        </member>
+        <member name="F:IceCoffee.Common.LogManager.LogLevel.Fatal">
+            <summary>
+            严重错误
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.NetHelper.GetStringAsync(System.String)">
+            <summary>
+            将 GET 请求发送到指定 URI 并在异步操作中以字符串的形式返回响应正文。
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.NetHelper.GetString(System.String)">
+            <summary>
+            将 GET 请求发送到指定 URI 并在同步操作中以字符串的形式返回响应正文。
+            </summary>
+        </member>
+        <member name="T:IceCoffee.Common.ObjectClone">
+            <summary>
+            具有默认构造方法的对象深拷贝
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.ObjectClone.DeepCopy``1(``0)">
+            <summary>
+            深拷贝对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.ObjectClone.DeepCopy(System.Object)">
+            <summary>
+            深拷贝对象，不能有循环引用
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.ObjectClone.CopyProperties``1(System.Object)">
+            <summary>
+            简单拷贝对象的公开属性
+            </summary>
+            <typeparam name="TOut"></typeparam>
+            <param name="inObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.ObjectClone.CopyProperties(System.Object,System.Type)">
+            <summary>
+            简单拷贝对象的公开属性
+            </summary>
+            <param name="outType"></param>
+            <param name="inObject"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.ObjectClone.CopyProperties(System.Object,System.Object)">
+            <summary>
+            简单拷贝对象的公开属性
+            </summary>
+            <param name="srcObject"></param>
+            <param name="toObject"></param>
+        </member>
+        <member name="T:IceCoffee.Common.ObjectClone`2">
+            <summary>
+            具有默认构造方法的对象浅拷贝
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.ObjectClone`2.ShallowCopy(`0)">
+            <summary>
+            浅拷贝对象
+            </summary>
+            <param name="tIn"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IceCoffee.Common.ObjectClone`1">
+            <summary>
+            具有默认构造方法的对象浅拷贝
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.ObjectClone`1.ShallowCopy(`0)">
+            <summary>
+            浅拷贝对象
+            </summary>
+            <param name="tObject"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IceCoffee.Common.Pools.ConnectionPool`1">
+            <summary>资源池。支持空闲释放，主要用于数据库连接池和网络连接池</summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.ConnectionPool`1.Name">
+            <summary>名称</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.ConnectionPool`1.FreeCount">
+            <summary>空闲个数</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.ConnectionPool`1.BusyCount">
+            <summary>繁忙个数</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.ConnectionPool`1.Max">
+            <summary>最大个数。默认100</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.ConnectionPool`1.Min">
+            <summary>最小个数。默认1</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.ConnectionPool`1.IdleTime">
+            <summary>空闲清理时间。最小个数之上的资源超过空闲时间时被清理，默认10s</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.ConnectionPool`1.AllIdleTime">
+            <summary>完全空闲清理时间。最小个数之下的资源超过空闲时间时被清理，默认0s永不清理</summary>
+        </member>
+        <member name="F:IceCoffee.Common.Pools.ConnectionPool`1._free">
+            <summary>基础空闲集合。只保存最小个数，最热部分</summary>
+        </member>
+        <member name="F:IceCoffee.Common.Pools.ConnectionPool`1._free2">
+            <summary>扩展空闲集合。保存最小个数以外部分</summary>
+        </member>
+        <member name="F:IceCoffee.Common.Pools.ConnectionPool`1._busy">
+            <summary>借出去的放在这</summary>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.ConnectionPool`1.#ctor">
+            <summary>实例化一个资源池</summary>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.ConnectionPool`1.OnDispose(System.Boolean)">
+            <summary>销毁</summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.ConnectionPool`1.Item.Value">
+            <summary>数值</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.ConnectionPool`1.Item.LastTime">
+            <summary>过期时间</summary>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.ConnectionPool`1.Take">
+            <summary>借出</summary>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.ConnectionPool`1.OnGet(`0)">
+            <summary>借出时是否可用</summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.ConnectionPool`1.GetItem">
+            <summary>申请资源包装项，Dispose时自动归还到池中</summary>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.ConnectionPool`1.Put(`0)">
+            <summary>归还</summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.ConnectionPool`1.OnPut(`0)">
+            <summary>归还时是否可用</summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.ConnectionPool`1.Clear">
+            <summary>清空已有对象</summary>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.ConnectionPool`1.OnDispose(`0)">
+            <summary>销毁</summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.ConnectionPool`1.Create">
+            <summary>创建实例</summary>
+            <returns></returns>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.ConnectionPool`1.Total">
+            <summary>总请求数</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.ConnectionPool`1.Success">
+            <summary>成功数</summary>
+        </member>
+        <member name="F:IceCoffee.Common.Pools.ConnectionPool`1.Cost">
+            <summary>平均耗时。单位ms</summary>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.ConnectionPool`1.Substring(System.String,System.String,System.String,System.Int32,System.Int32[])">
+            <summary>写日志</summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="T:IceCoffee.Common.Pools.IDisposable2">
+            <summary>具有是否已释放和释放后事件的接口</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.IDisposable2.Disposed">
+            <summary>是否已经释放</summary>
+        </member>
+        <member name="E:IceCoffee.Common.Pools.IDisposable2.OnDisposed">
+            <summary>被销毁时触发事件</summary>
+        </member>
+        <member name="T:IceCoffee.Common.Pools.DisposeBase">
+            <summary>具有销毁资源处理的抽象基类</summary>
+            <example>
+            <code>
+            /// &lt;summary&gt;子类重载实现资源释放逻辑时必须首先调用基类方法&lt;/summary&gt;
+            /// &lt;param name="disposing"&gt;从Dispose调用（释放所有资源）还是析构函数调用（释放非托管资源）。
+            /// 因为该方法只会被调用一次，所以该参数的意义不太大。&lt;/param&gt;
+            protected override void OnDispose(bool disposing)
+            {
+                base.OnDispose(disposing);
+            
+                if (disposing)
+                {
+                    // 如果是构造函数进来，不执行这里的代码
+                }
+            }
+            </code>
+            </example>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.DisposeBase.Dispose">
+            <summary>释放资源</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.DisposeBase.Disposed">
+            <summary>是否已经释放</summary>
+        </member>
+        <member name="E:IceCoffee.Common.Pools.DisposeBase.OnDisposed">
+            <summary>被销毁时触发事件</summary>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.DisposeBase.Dispose(System.Boolean)">
+            <summary>释放资源，参数表示是否由Dispose调用。该方法保证OnDispose只被调用一次！</summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.DisposeBase.OnDispose(System.Boolean)">
+            <summary>子类重载实现资源释放逻辑时必须首先调用基类方法</summary>
+            <param name="disposing">从Dispose调用（释放所有资源）还是析构函数调用（释放非托管资源）。
+            因为该方法只会被调用一次，所以该参数的意义不太大。</param>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.DisposeBase.Finalize">
+            <summary>析构函数</summary>
+            <remarks>
+            如果忘记调用Dispose，这里会释放非托管资源
+            如果曾经调用过Dispose，因为GC.SuppressFinalize(this)，不会再调用该析构函数
+            </remarks>
+        </member>
+        <member name="T:IceCoffee.Common.Pools.DisposeHelper">
+            <summary>销毁助手。扩展方法专用</summary>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.DisposeHelper.TryDispose(System.Object)">
+            <summary>尝试销毁对象，如果有<see cref="T:System.IDisposable"/>则调用</summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="T:IceCoffee.Common.Pools.IPool`1">
+            <summary>对象池接口</summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.IPool`1.Take">
+            <summary>从池中取走一个对象</summary>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.IPool`1.Put(`0)">
+            <summary>往池中放入一个对象</summary>
+            <param name="value">是否归还成功</param>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.IPool`1.Clear">
+            <summary>清空</summary>
+        </member>
+        <member name="T:IceCoffee.Common.Pools.LocklessPool`1">
+            <summary>轻量级对象池。数组无锁实现，高性能</summary>
+            <remarks>
+            内部 1+N 的存储结果，保留最热的一个对象在外层，便于快速存取。
+            数组具有极快的查找速度，结构体确保没有GC操作。
+            </remarks>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.LocklessPool`1.Count">
+            <summary>对象池大小。默认CPU*2，初始化后改变无效</summary>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.LocklessPool`1.#ctor(System.Int32)">
+            <summary>实例化对象池。默认大小CPU*2</summary>
+            <param name="count"></param>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.LocklessPool`1.Take">
+            <summary>获取</summary>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.LocklessPool`1.Put(`0)">
+            <summary>归还</summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.LocklessPool`1.Clear">
+            <summary>清空</summary>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.LocklessPool`1.OnCreate">
+            <summary>创建实例</summary>
+            <returns></returns>
+        </member>
+        <member name="T:IceCoffee.Common.Pools.PoolItem`1">
+            <summary>资源池包装项，自动归还资源到池中</summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.PoolItem`1.Value">
+            <summary>数值</summary>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.PoolItem`1.Pool">
+            <summary>池</summary>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.PoolItem`1.#ctor(IceCoffee.Common.Pools.IPool{`0},`0)">
+            <summary>包装项</summary>
+            <param name="pool"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.PoolItem`1.OnDispose(System.Boolean)">
+            <summary>销毁</summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.SimplePool`1.Count">
+            <summary>
+            池中对象数量
+            </summary>
+        </member>
+        <member name="P:IceCoffee.Common.Pools.SimplePool`1.IsDisposed">
+            <summary>
+            资源是否被释放
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.SimplePool`1.Create">
+            <summary>
+            创建一个对象实例
+            </summary>
+            <returns>返回对象</returns>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.SimplePool`1.Take">
+            <summary>
+            从池中取走一个对象
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.SimplePool`1.Put(`0)">
+            <summary>
+            往池中放入一个对象
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.SimplePool`1.Initialize(System.Int32)">
+            <summary>
+            使用Create方法创建指定数量对象初始化对象池
+            </summary>
+            <param name="count"></param>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.SimplePool`1.Dispose">
+            <summary>
+            释放资源
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.Pools.SimplePool`1.Dispose(System.Boolean)">
+            <summary>
+            释放资源
+            </summary>
+            <param name="disposing">正在释放资源</param>
+        </member>
+        <member name="T:IceCoffee.Common.Singleton1`1">
+            <summary>
+            饿汉模式
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:IceCoffee.Common.Singleton1`1.Instance">
+            <summary>
+            获得实例
+            </summary>
+        </member>
+        <member name="T:IceCoffee.Common.Singleton2`1">
+            <summary>
+            懒汉模式
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:IceCoffee.Common.Singleton3`1">
+            <summary>
+            使用反射,懒汉模式
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="T:IceCoffee.Common.Structure.IntPoint">
+            <summary>
+            整数点
+            </summary>
+        </member>
+        <member name="T:IceCoffee.Common.Xml.ConfigNodeAttribute">
+            <summary>
+            标记需要读写的配置属性节点
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.Xml.XmlHelper.SaveConfig(System.Object,System.Xml.XmlDocument,System.Xml.XmlNode)">
+            <summary>
+            保存指定对象的配置信息
+            </summary>
+            <param name="obj"></param>
+            <param name="contextDoc"></param>
+            <param name="baseNode"></param>
+        </member>
+        <member name="M:IceCoffee.Common.Xml.XmlHelper.LoadConfig(System.Object,System.Xml.XmlNode)">
+            <summary>
+            加载指定对象的配置信息
+            </summary>
+            <param name="obj"></param>
+            <param name="baseNode"></param>
+        </member>
+        <member name="M:IceCoffee.Common.Xml.XmlNodeExtension.GetSingleChildNode(System.Xml.XmlNode,System.Xml.XmlDocument,System.String)">
+            <summary>
+            得到单个子节点，如果节点不存在则自动创建Element元素
+            </summary>
+            <param name="thisNode"></param>
+            <param name="contextDoc"></param>
+            <param name="childName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:IceCoffee.Common.Xml.XmlNodeExtension.LoadAttribute(System.Xml.XmlNode,System.Object,System.Reflection.PropertyInfo)">
+            <summary>
+            在根节点baseNode下查找具有name Attribute的子节点，加载value
+            </summary>
+            <param name="baseNode"></param>
+            <param name="obj"></param>
+            <param name="property"></param>
+        </member>
+        <member name="M:IceCoffee.Common.Xml.XmlNodeExtension.SaveAttribute(System.Xml.XmlNode,System.Xml.XmlDocument,System.String,System.String)">
+            <summary>
+            在根节点baseNode下查找具有name Attribute的子节点，保存value，自动创建不存在的子节点
+            </summary>
+            <param name="baseNode"></param>
+            <param name="contextDoc"></param>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+    </members>
+</doc>

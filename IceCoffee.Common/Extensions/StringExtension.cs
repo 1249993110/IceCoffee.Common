@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace IceCoffee.Common
+namespace IceCoffee.Common.Extensions
 {
     public static class StringExtension
     {
@@ -53,20 +53,50 @@ namespace IceCoffee.Common
         /// <returns></returns>
         public static string GetMidStr(this string src, string front, string rear, int startIndex = 0)
         {
-            return src.GetMidStr(front, rear, out int outEnd, startIndex);
+            return src.GetMidStr(front, rear, out _, startIndex);
         }
 
         /// <summary>
-        /// 将string转换为十进制整数，如果格式错误将转换失败并返回0
+        /// 将string转换为十进制有符号短整数，如果格式错误将转换失败并返回0
         /// </summary>
         /// <param name="src"></param>
-        /// <param name="front"></param>
-        /// <param name="rear"></param>
-        /// <param name="startIndex"></param>
+        /// <returns></returns>
+        public static short ToShort(this string str)
+        {
+            short.TryParse(str, out short result);
+            return result;
+        }
+
+        /// <summary>
+        /// 将string转换为十进制有符号整数，如果格式错误将转换失败并返回0
+        /// </summary>
+        /// <param name="src"></param>
         /// <returns></returns>
         public static int ToInt(this string str)
         {
             int.TryParse(str, out int result);
+            return result;
+        }
+
+        /// <summary>
+        /// 将string转换为十进制无符号整数，如果格式错误将转换失败并返回0
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns></returns>
+        public static uint ToUInt(this string str)
+        {
+            uint.TryParse(str, out uint result);
+            return result;
+        }
+
+        /// <summary>
+        /// 将string转换为十进制有符号长整数，如果格式错误将转换失败并返回0
+        /// </summary>
+        /// <param name="src"></param>
+        /// <returns></returns>
+        public static long ToLong(this string str)
+        {
+            long.TryParse(str, out long result);
             return result;
         }
 

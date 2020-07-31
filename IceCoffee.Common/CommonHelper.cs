@@ -10,9 +10,11 @@ using System.Threading.Tasks;
 
 namespace IceCoffee.Common
 {
+    /// <summary>
+    /// 工具类
+    /// </summary>
     public static class CommonHelper
     {
-
         #region 获取配置项
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog.Config;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,9 @@ namespace IceCoffee.Common.LogManager
         #region 构造方法
         static Log()
         {
+            //初始化配置日志
+            OverrideConfiguration(AppDomain.CurrentDomain.BaseDirectory + "DefaultNLog.config");
+        
             _logger = NLog.LogManager.GetCurrentClassLogger();
         }
         #endregion
@@ -26,6 +30,22 @@ namespace IceCoffee.Common.LogManager
         /// 日志被记录
         /// </summary>
         public static event LogRecordedEventHandler LogRecorded;
+
+        /// <summary>
+        /// 覆盖默认配置文件
+        /// </summary>
+        public static void OverrideConfiguration(LoggingConfiguration loggingConfiguration)
+        {
+            NLog.LogManager.Configuration = loggingConfiguration;
+        }
+
+        /// <summary>
+        /// 覆盖默认配置文件路径
+        /// </summary>
+        public static void OverrideConfiguration(string path = "NLog.config")
+        {
+            NLog.LogManager.Configuration = new XmlLoggingConfiguration(path);
+        }
 
         #region Trace
         /// <summary>
