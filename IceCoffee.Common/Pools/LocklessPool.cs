@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace IceCoffee.Common.Pools
@@ -24,13 +21,15 @@ namespace IceCoffee.Common.Pools
         private Item[] _items;
         private T _current;
 
-        struct Item
+        private struct Item
         {
             public T Value;
         }
-        #endregion
+
+        #endregion 属性
 
         #region 构造
+
         /// <summary>实例化对象池。默认大小CPU*2</summary>
         /// <param name="count"></param>
         public LocklessPool(int count = 0)
@@ -50,9 +49,11 @@ namespace IceCoffee.Common.Pools
                 _items = new Item[_count - 1];
             }
         }
-        #endregion
+
+        #endregion 构造
 
         #region 方法
+
         /// <summary>获取</summary>
         /// <returns></returns>
         public virtual T Take()
@@ -117,9 +118,11 @@ namespace IceCoffee.Common.Pools
 
             return count;
         }
-        #endregion
+
+        #endregion 方法
 
         #region 重载
+
         /// <summary>创建实例</summary>
         /// <returns></returns>
         //protected virtual T OnCreate() => typeof(T).CreateInstance() as T;
@@ -128,6 +131,7 @@ namespace IceCoffee.Common.Pools
             var type = typeof(T);
             return Activator.CreateInstance(type, true) as T;
         }
-        #endregion
+
+        #endregion 重载
     }
 }

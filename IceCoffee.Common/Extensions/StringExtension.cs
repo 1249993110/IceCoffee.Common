@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace IceCoffee.Common.Extensions
 {
+    /// <summary>
+    /// string扩展
+    /// </summary>
     public static class StringExtension
     {
         /// <summary>
@@ -33,7 +33,7 @@ namespace IceCoffee.Common.Extensions
                 return string.Empty;
             }
 
-            outEnd = src.IndexOf(rear, start + front.Length);            
+            outEnd = src.IndexOf(rear, start + front.Length);
 
             if (outEnd == -1)
             {
@@ -160,7 +160,7 @@ namespace IceCoffee.Common.Extensions
         /// <param name="str"></param>
         /// <returns></returns>
         public static string FormBase64(string str)
-        {            
+        {
             return Encoding.UTF8.GetString(Convert.FromBase64String(str));
         }
     }

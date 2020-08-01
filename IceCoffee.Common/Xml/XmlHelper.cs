@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using System.Xml;
 
 namespace IceCoffee.Common.Xml
@@ -39,11 +34,13 @@ namespace IceCoffee.Common.Xml
                                 SaveConfig(property.GetValue(obj), contextDoc, currentNode);
                             }
                             break;
+
                         case XmlNodeType.Attribute:
                             {
                                 baseNode.SaveAttribute(contextDoc, property.Name, property.GetValue(obj)?.ToString());
                             }
                             break;
+
                         default:
                             break;
                     }
@@ -58,7 +55,7 @@ namespace IceCoffee.Common.Xml
         /// <param name="baseNode"></param>
         public static void LoadConfig(object obj, XmlNode baseNode)
         {
-            if(obj == null || baseNode == null)
+            if (obj == null || baseNode == null)
             {
                 return;
             }
@@ -81,11 +78,13 @@ namespace IceCoffee.Common.Xml
                                 }
                             }
                             break;
+
                         case XmlNodeType.Attribute:
                             {
                                 baseNode.LoadAttribute(obj, property);
                             }
                             break;
+
                         default:
                             break;
                     }

@@ -19,7 +19,7 @@
             <summary>
             获取连接字符串
             </summary>
-            <param name="key">键名</param>        
+            <param name="key">键名</param>
         </member>
         <member name="M:IceCoffee.Common.CommonHelper.GetProviderName(System.String)">
             <summary>
@@ -45,7 +45,7 @@
         </member>
         <member name="M:IceCoffee.Common.CommonHelper.GetRandomString(System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.String)">
             <summary>
-            生成随机字符串 
+            生成随机字符串
             </summary>
             <param name="length">目标字符串的长度</param>
             <param name="useNum">是否包含数字，1=包含，默认为包含</param>
@@ -87,12 +87,12 @@
         </member>
         <member name="P:IceCoffee.Common.EventLoop.IsRunning">
             <summary>
-            Returns true if the event loop is running; otherwise returns false. 
+            Returns true if the event loop is running; otherwise returns false.
             </summary>
         </member>
         <member name="M:IceCoffee.Common.EventLoop.Exec">
             <summary>
-            Enters the main event loop and waits until Exit() is called. 
+            Enters the main event loop and waits until Exit() is called.
             </summary>
         </member>
         <member name="M:IceCoffee.Common.EventLoop.Exit">
@@ -587,7 +587,7 @@
             protected override void OnDispose(bool disposing)
             {
                 base.OnDispose(disposing);
-            
+
                 if (disposing)
                 {
                     // 如果是构造函数进来，不执行这里的代码
@@ -625,7 +625,7 @@
             <summary>销毁助手。扩展方法专用</summary>
         </member>
         <member name="M:IceCoffee.Common.Pools.DisposeHelper.TryDispose(System.Object)">
-            <summary>尝试销毁对象，如果有<see cref="T:System.IDisposable"/>则调用</summary>
+            <summary>尝试销毁对象，如果有<see cref="T:System.IDisposable" />则调用</summary>
             <param name="obj"></param>
             <returns></returns>
         </member>

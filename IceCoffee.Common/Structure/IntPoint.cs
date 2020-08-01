@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IceCoffee.Common.Structure
+﻿namespace IceCoffee.Common.Structure
 {
     /// <summary>
     /// 整数点
@@ -13,6 +7,7 @@ namespace IceCoffee.Common.Structure
     {
         public int X;
         public int Y;
+
         public IntPoint(int x, int y)
         {
             this.X = x;
@@ -25,10 +20,13 @@ namespace IceCoffee.Common.Structure
             this.Y = (int)y;
         }
 
-        ////隐式转换
-        //public static implicit operator IntPoint(System.Windows.Point point)
-        //{
-        //    return new IntPoint(point.X, point.Y);
-        //}
+        /// <summary>
+        /// 隐式转换
+        /// </summary>
+        /// <param name="point"></param>
+        public static implicit operator IntPoint(System.Drawing.Point point)
+        {
+            return new IntPoint(point.X, point.Y);
+        }
     }
 }

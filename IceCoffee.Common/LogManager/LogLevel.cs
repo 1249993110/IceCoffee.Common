@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IceCoffee.Common.LogManager
+﻿namespace IceCoffee.Common.LogManager
 {
     /// <summary>
     /// 日志等级
@@ -40,6 +34,5 @@ namespace IceCoffee.Common.LogManager
         /// 严重错误
         /// </summary>
         Fatal
-
     }
 }

@@ -23,7 +23,7 @@
 //            _builder = new ContainerBuilder();
 
 //            //var assemblys = AppDomain.CurrentDomain.GetAssemblies();
-            
+
 //            // 在程序集中自动查找类型
 //            //_builder.RegisterAssemblyTypes(Assembly.LoadFrom("ESIL.Data.DaYaWan.dll")).AsImplementedInterfaces();
 //            //_builder.RegisterAssemblyTypes(assemblys.FirstOrDefault(x => x.FullName.StartsWith("JT809_Superior.Sockets")));

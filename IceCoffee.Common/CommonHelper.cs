@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace IceCoffee.Common
 {
@@ -29,7 +26,7 @@ namespace IceCoffee.Common
         /// <summary>
         /// 获取连接字符串
         /// </summary>
-        /// <param name="key">键名</param>        
+        /// <param name="key">键名</param>
         public static string GetConnectionString(string key)
         {
             return ConfigurationManager.ConnectionStrings[key].ToString();
@@ -44,7 +41,7 @@ namespace IceCoffee.Common
             return ConfigurationManager.ConnectionStrings[key].ProviderName;
         }
 
-        #endregion
+        #endregion 获取配置项
 
         /// <summary>
         /// CRC16校验
@@ -112,7 +109,7 @@ namespace IceCoffee.Common
         }
 
         /// <summary>
-        /// 生成随机字符串 
+        /// 生成随机字符串
         /// </summary>
         /// <param name="length">目标字符串的长度</param>
         /// <param name="useNum">是否包含数字，1=包含，默认为包含</param>

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace IceCoffee.Common.Pools
@@ -13,30 +10,37 @@ namespace IceCoffee.Common.Pools
     public class ConnectionPool<T> : DisposeBase, IPool<T> where T : class
     {
         #region 属性
+
         /// <summary>名称</summary>
         public string Name { get; set; }
 
         private int _freeCount;
+
         /// <summary>空闲个数</summary>
         public int FreeCount { get { return _freeCount; } }
 
         private int _busyCount;
+
         /// <summary>繁忙个数</summary>
         public int BusyCount { get { return _busyCount; } }
 
         private int _max = 100;
+
         /// <summary>最大个数。默认100</summary>
         public int Max { get { return _max; } set { _max = value; } }
 
         private int _min = 1;
+
         /// <summary>最小个数。默认1</summary>
         public int Min { get { return _min; } set { _min = value; } }
 
         private int _idleTime = 10;
-        /// <summary>空闲清理时间。最小个数之上的资源超过空闲时间时被清理，默认10s</summary>
+
+        /// <summary>空闲清理时间。最小个数之上的资源超过空闲时间时被清理，默认10s，0s永不清理</summary>
         public int IdleTime { get { return _idleTime; } set { _idleTime = value; } }
 
         private int _allIdleTime = 0;
+
         /// <summary>完全空闲清理时间。最小个数之下的资源超过空闲时间时被清理，默认0s永不清理</summary>
         public int AllIdleTime { get { return _allIdleTime; } set { _allIdleTime = value; } }
 
@@ -50,9 +54,18 @@ namespace IceCoffee.Common.Pools
         private readonly ConcurrentDictionary<T, Item> _busy = new ConcurrentDictionary<T, Item>();
 
         private readonly object _syncRoot = new object();
-        #endregion
+
+        private bool _isClearOverdue = true;
+
+        /// <summary>
+        /// 是否清理过期不还
+        /// </summary>
+        public bool IsClearOverdue { get => _isClearOverdue; set => _isClearOverdue = value; }
+
+        #endregion 属性
 
         #region 构造
+
         /// <summary>实例化一个资源池</summary>
         public ConnectionPool()
         {
@@ -82,6 +95,7 @@ namespace IceCoffee.Common.Pools
         }
 
         private volatile bool _inited;
+
         private void Init()
         {
             if (_inited) return;
@@ -94,10 +108,12 @@ namespace IceCoffee.Common.Pools
                 //WriteLog($"Init {typeof(T).FullName} Min={Min} Max={Max} IdleTime={IdleTime}s AllIdleTime={AllIdleTime}s");
             }
         }
-        #endregion
+
+        #endregion 构造
 
         #region 内嵌
-        class Item
+
+        private class Item
         {
             /// <summary>数值</summary>
             public T Value { get; set; }
@@ -105,9 +121,11 @@ namespace IceCoffee.Common.Pools
             /// <summary>过期时间</summary>
             public DateTime LastTime { get; set; }
         }
-        #endregion
+
+        #endregion 内嵌
 
         #region 主方法
+
         /// <summary>借出</summary>
         /// <returns></returns>
         public virtual T Take()
@@ -271,9 +289,11 @@ namespace IceCoffee.Common.Pools
         {
             value.TryDispose();
         }
-        #endregion
+
+        #endregion 主方法
 
         #region 重载
+
         /// <summary>创建实例</summary>
         /// <returns></returns>
         //protected virtual T OnCreate() => typeof(T).CreateInstance() as T;
@@ -282,9 +302,11 @@ namespace IceCoffee.Common.Pools
             var type = typeof(T);
             return Activator.CreateInstance(type, true) as T;
         }
-        #endregion
+
+        #endregion 重载
 
         #region 定期清理
+
         //private TimerX _timer;
         private Timer _timer;
 
@@ -309,7 +331,7 @@ namespace IceCoffee.Common.Pools
             var count = 0;
 
             // 清理过期不还。避免有借没还
-            if (!_busy.IsEmpty)
+            if (_isClearOverdue && _busy.IsEmpty == false)
             {
                 //var exp = TimerX.Now.AddSeconds(-AllIdleTime);
                 var exp = DateTime.Now.AddSeconds(-_allIdleTime);
@@ -372,10 +394,13 @@ namespace IceCoffee.Common.Pools
                 //WriteLog("Release Free={0} Busy={1} 清除过期资源 {2:n0} 项。总请求 {3:n0} 次，命中 {4:p2}，平均 {5:n2}us", FreeCount, BusyCount, count, Total, p, Cost * 1000);
             }
         }
-        #endregion
+
+        #endregion 定期清理
 
         #region 统计
+
         private int _Total;
+
         /// <summary>总请求数</summary>
         public int Total
         {
@@ -386,6 +411,7 @@ namespace IceCoffee.Common.Pools
         }
 
         private int _Success;
+
         /// <summary>成功数</summary>
         public int Success
         {
@@ -397,9 +423,11 @@ namespace IceCoffee.Common.Pools
 
         /// <summary>平均耗时。单位ms</summary>
         private double Cost;
-        #endregion
+
+        #endregion 统计
 
         #region 日志
+
         /// <summary>日志</summary>
         //public ILog Log { get; set; } = Logger.Null;
 
@@ -412,7 +440,8 @@ namespace IceCoffee.Common.Pools
 
         //    Log.Info(Name + "." + format, args);
         //}
-        #endregion
+
+        #endregion 日志
 
         private static string Substring(string str, string after, string before = null, int startIndex = 0, int[] positions = null)
         {

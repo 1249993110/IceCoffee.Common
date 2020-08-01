@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-
-namespace IceCoffee.Common.Pools
+﻿namespace IceCoffee.Common.Pools
 {
     /// <summary>对象池接口</summary>
     /// <typeparam name="T"></typeparam>

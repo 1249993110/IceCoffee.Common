@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace IceCoffee.Common.Pools
@@ -28,7 +26,7 @@ namespace IceCoffee.Common.Pools
     /// protected override void OnDispose(bool disposing)
     /// {
     ///     base.OnDispose(disposing);
-    /// 
+    ///
     ///     if (disposing)
     ///     {
     ///         // 如果是构造函数进来，不执行这里的代码
@@ -39,6 +37,7 @@ namespace IceCoffee.Common.Pools
     public abstract class DisposeBase : IDisposable2
     {
         #region 释放资源
+
         /// <summary>释放资源</summary>
         public void Dispose()
         {
@@ -47,6 +46,7 @@ namespace IceCoffee.Common.Pools
 
         [NonSerialized]
         private int disposed = 0;
+
         /// <summary>是否已经释放</summary>
         //[XmlIgnore]
         public bool Disposed
@@ -130,7 +130,8 @@ namespace IceCoffee.Common.Pools
         {
             Dispose(false);
         }
-        #endregion
+
+        #endregion 释放资源
     }
 
     /// <summary>销毁助手。扩展方法专用</summary>

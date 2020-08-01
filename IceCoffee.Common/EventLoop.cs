@@ -1,22 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 using System.Collections.Concurrent;
+using System.Threading;
 
 namespace IceCoffee.Common
 {
     public class EventLoop
     {
         #region 构造方法
+
         public EventLoop()
         {
         }
-        #endregion
+
+        #endregion 构造方法
 
         #region 嵌套类
+
         public class MetaEvent
         {
             public EventHandler eventHandler1;
@@ -24,7 +23,8 @@ namespace IceCoffee.Common
             public object sender = null;
             public EventArgs args = null;
         }
-        #endregion
+
+        #endregion 嵌套类
 
         #region 字段&属性
 
@@ -36,14 +36,16 @@ namespace IceCoffee.Common
         private ConcurrentQueue<MetaEvent> _eventsQueue = new ConcurrentQueue<MetaEvent>();
 
         private bool _isRunning = false;
+
         /// <summary>
-        /// Returns true if the event loop is running; otherwise returns false. 
+        /// Returns true if the event loop is running; otherwise returns false.
         /// </summary>
         public bool IsRunning
         {
             get { return _isRunning; }
         }
-        #endregion
+
+        #endregion 字段&属性
 
         #region 方法
 
@@ -51,9 +53,9 @@ namespace IceCoffee.Common
         {
             _eventsQueue.Enqueue(_event);
         }
-        
+
         /// <summary>
-        /// Enters the main event loop and waits until Exit() is called. 
+        /// Enters the main event loop and waits until Exit() is called.
         /// </summary>
         public void Exec()
         {
@@ -87,7 +89,7 @@ namespace IceCoffee.Common
             }
             while (_eventsQueue.IsEmpty == false);
         }
-        #endregion
 
+        #endregion 方法
     }
 }

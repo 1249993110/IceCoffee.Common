@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IceCoffee.Common
 {
@@ -16,6 +13,7 @@ namespace IceCoffee.Common
     public static class ObjectClone
     {
         #region 深拷贝
+
         /// <summary>
         /// 深拷贝对象
         /// </summary>
@@ -83,7 +81,8 @@ namespace IceCoffee.Common
             else
                 throw new ArgumentException("Unknown type");
         }
-        #endregion
+
+        #endregion 深拷贝
 
         /// <summary>
         /// 简单拷贝对象的公开属性
@@ -110,7 +109,7 @@ namespace IceCoffee.Common
 
             foreach (PropertyInfo propertyInfo in outType.GetProperties())
             {
-                if(propertyInfo.CanWrite)
+                if (propertyInfo.CanWrite)
                 {
                     object propertyValue = inObjectType.GetProperty(propertyInfo.Name).GetValue(inObject);
                     if (propertyValue != null)
@@ -153,10 +152,11 @@ namespace IceCoffee.Common
         where TOut : new()
     {
         private static readonly Func<TIn, TOut> cache = GetFunc();
+
         private static Func<TIn, TOut> GetFunc()
         {
             ParameterExpression parameterExpression = Expression.Parameter(typeof(TIn), "p");
-            List<MemberBinding> memberBindingList = new List<MemberBinding>();            
+            List<MemberBinding> memberBindingList = new List<MemberBinding>();
 
             foreach (var item in typeof(TOut).GetProperties())
             {
@@ -167,7 +167,7 @@ namespace IceCoffee.Common
                     MemberExpression property = Expression.Property(parameterExpression, propertyInfo);
                     MemberBinding memberBinding = Expression.Bind(item, property);
                     memberBindingList.Add(memberBinding);
-                }                
+                }
             }
 
             MemberInitExpression memberInitExpression = Expression.MemberInit(Expression.New(typeof(TOut)), memberBindingList.ToArray());
@@ -193,6 +193,7 @@ namespace IceCoffee.Common
     public static class ObjectClone<TObject> where TObject : new()
     {
         private static readonly Func<TObject, TObject> cache = GetFunc();
+
         private static Func<TObject, TObject> GetFunc()
         {
             Type objectType = typeof(TObject);
@@ -270,7 +271,7 @@ namespace IceCoffee.Common
     //        if (_dic.TryGetValue(tInType,out cache) == false)
     //        {
     //            cache = GetFunc(tInType);
-    //            _dic.Add(tInType, cache); 
+    //            _dic.Add(tInType, cache);
     //        }
 
     //        return cache(inObject);

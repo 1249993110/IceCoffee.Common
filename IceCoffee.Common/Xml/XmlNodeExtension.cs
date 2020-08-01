@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace IceCoffee.Common.Xml
@@ -32,10 +28,10 @@ namespace IceCoffee.Common.Xml
         {
             XmlElement currentNode = baseNode.SelectSingleNode(string.Format("property[@name='{0}']", property.Name)) as XmlElement;
 
-            if(currentNode == null)
+            if (currentNode == null)
             {
                 return;
-            }           
+            }
 
             string value = currentNode.GetAttribute("value");
 
@@ -45,8 +41,8 @@ namespace IceCoffee.Common.Xml
             {
                 property.SetValue(obj, value);
             }
-            else if(string.IsNullOrEmpty(value) == false)
-            {               
+            else if (string.IsNullOrEmpty(value) == false)
+            {
                 if (metaType.IsGenericType && metaType.GetGenericTypeDefinition() == typeof(Nullable<>))
                 {
                     metaType = property.PropertyType.GetGenericArguments()[0];
@@ -74,6 +70,5 @@ namespace IceCoffee.Common.Xml
             }
             currentNode.SetAttribute("value", value);
         }
-
     }
 }

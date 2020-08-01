@@ -3,9 +3,14 @@ using System.Collections.Concurrent;
 
 namespace IceCoffee.Common.Pools
 {
+    /// <summary>
+    /// 简单的线程安全对象池，无资源释放
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class SimplePool<T> : IPool<T>, IDisposable where T : class
     {
         #region 字段
+
         // 并发安全集合
         private readonly ConcurrentBag<T> _bag = new ConcurrentBag<T>();
 
@@ -14,9 +19,11 @@ namespace IceCoffee.Common.Pools
 
         // 是否已释放资源
         private bool _isDisposed;
-        #endregion
+
+        #endregion 字段
 
         #region 属性
+
         /// <summary>
         /// 池中对象数量
         /// </summary>
@@ -41,12 +48,13 @@ namespace IceCoffee.Common.Pools
                 }
             }
         }
-        #endregion
+
+        #endregion 属性
 
         #region 方法
+
         public SimplePool()
         {
-
         }
 
         /// <summary>
@@ -83,7 +91,7 @@ namespace IceCoffee.Common.Pools
             {
                 _bag.Add(item);
                 return true;
-            }            
+            }
         }
 
         /// <summary>
@@ -118,7 +126,7 @@ namespace IceCoffee.Common.Pools
                 if (_isDisposed)
                 {
                     return;
-                }                    
+                }
 
                 if (disposing)
                 {
@@ -133,9 +141,9 @@ namespace IceCoffee.Common.Pools
         public virtual int Clear()
         {
             lock (_bagLock)
-            {                
+            {
                 return InternalClear();
-            }                
+            }
         }
 
         private int InternalClear()
@@ -151,6 +159,7 @@ namespace IceCoffee.Common.Pools
             }
             return count;
         }
-        #endregion
+
+        #endregion 方法
     }
 }

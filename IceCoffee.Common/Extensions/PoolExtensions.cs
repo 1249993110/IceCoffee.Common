@@ -1,20 +1,17 @@
 ﻿using IceCoffee.Common.Pools;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace IceCoffee.Common.Extensions
 {
-    /// <summary>对象池扩展</summary>
+    /// <summary>
+    /// 对象池扩展
+    /// </summary>
     public static class PoolExtensions
     {
-        #region 扩展
-        #endregion
-
         #region StringBuilder
+
         /// <summary>字符串构建器池</summary>
         public static IPool<StringBuilder> StringBuilder { get; set; } = new StringBuilderPool();
 
@@ -58,9 +55,11 @@ namespace IceCoffee.Common.Extensions
                 return true;
             }
         }
-        #endregion
+
+        #endregion StringBuilder
 
         #region MemoryStream
+
         /// <summary>内存流池</summary>
         public static IPool<MemoryStream> MemoryStream { get; set; } = new MemoryStreamPool();
 
@@ -105,6 +104,7 @@ namespace IceCoffee.Common.Extensions
                 return true;
             }
         }
-        #endregion
+
+        #endregion MemoryStream
     }
 }

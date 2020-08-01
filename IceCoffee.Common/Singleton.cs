@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IceCoffee.Common
 {
@@ -29,6 +26,7 @@ namespace IceCoffee.Common
     {
         private static T _instance = null;
         private static readonly object _singleton_Lock = new object();
+
         public static T Instance
         {
             get
@@ -42,7 +40,7 @@ namespace IceCoffee.Common
                             _instance = new T();
                         }
                     }
-                }   
+                }
                 return _instance;
             }
         }
