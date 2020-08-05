@@ -122,6 +122,16 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
+        /// 将字节数组按UTF-8编码转为字符串
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public static string FormUtf8(byte[] bytes)
+        {
+            return Encoding.UTF8.GetString(bytes);
+        }
+
+        /// <summary>
         /// 分割字符串
         /// </summary>
         /// <param name="str"></param>
@@ -163,5 +173,7 @@ namespace IceCoffee.Common.Extensions
         {
             return Encoding.UTF8.GetString(Convert.FromBase64String(str));
         }
+
+
     }
 }

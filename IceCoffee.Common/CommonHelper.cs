@@ -29,7 +29,7 @@ namespace IceCoffee.Common
         /// <param name="key">键名</param>
         public static string GetConnectionString(string key)
         {
-            return ConfigurationManager.ConnectionStrings[key].ToString();
+            return ConfigurationManager.ConnectionStrings[key].ConnectionString;
         }
 
         /// <summary>

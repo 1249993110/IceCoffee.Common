@@ -105,8 +105,22 @@
             Processes pending events until there are no more events to process.
             </summary>
         </member>
+        <member name="T:IceCoffee.Common.Extensions.ObjectExtension">
+            <summary>
+            Object扩展
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.ObjectExtension.ToJson(System.Object)">
+            <summary>
+            将对象转换为Json格式
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
         <member name="T:IceCoffee.Common.Extensions.PoolExtensions">
-            <summary>对象池扩展</summary>
+            <summary>
+            对象池扩展
+            </summary>
         </member>
         <member name="P:IceCoffee.Common.Extensions.PoolExtensions.StringBuilder">
             <summary>字符串构建器池</summary>
@@ -161,6 +175,11 @@
             <summary>归还</summary>
             <param name="value"></param>
             <returns></returns>
+        </member>
+        <member name="T:IceCoffee.Common.Extensions.StringExtension">
+            <summary>
+            string扩展
+            </summary>
         </member>
         <member name="M:IceCoffee.Common.Extensions.StringExtension.GetMidStr(System.String,System.String,System.String,System.Int32@,System.Int32)">
             <summary>
@@ -225,6 +244,13 @@
             <param name="str"></param>
             <returns></returns>
         </member>
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.FormUtf8(System.Byte[])">
+            <summary>
+            将字节数组按UTF-8编码转为字符串
+            </summary>
+            <param name="bytes"></param>
+            <returns></returns>
+        </member>
         <member name="M:IceCoffee.Common.Extensions.StringExtension.Split(System.String,System.String)">
             <summary>
             分割字符串
@@ -256,6 +282,11 @@
             <param name="str"></param>
             <returns></returns>
         </member>
+        <member name="T:IceCoffee.Common.Extensions.TaskExtension">
+            <summary>
+            Task扩展
+            </summary>
+        </member>
         <member name="M:IceCoffee.Common.Extensions.TaskExtension.WaitAndGetResult``1(System.Threading.Tasks.Task{``0})">
             <summary>
             同步等待获取异步方法的结果
@@ -266,7 +297,7 @@
         </member>
         <member name="T:IceCoffee.Common.LogManager.LogRecordedEventHandler">
             <summary>
-            日志记录事件
+            日志记录事件处理器
             </summary>
         </member>
         <member name="E:IceCoffee.Common.LogManager.Log.LogRecorded">
@@ -356,6 +387,12 @@
             </summary>
             <param name="message"></param>
         </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Fatal(System.Exception)">
+            <summary>
+            将导致程序退出的严重错误
+            </summary>
+            <param name="message"></param>
+        </member>
         <member name="M:IceCoffee.Common.LogManager.Log.Fatal(System.String,System.Exception)">
             <summary>
             将导致程序退出的严重错误
@@ -374,12 +411,12 @@
         </member>
         <member name="F:IceCoffee.Common.LogManager.LogLevel.Debug">
             <summary>
-            普通信息
+            调试信息
             </summary>
         </member>
         <member name="F:IceCoffee.Common.LogManager.LogLevel.Info">
             <summary>
-            调试信息
+            普通信息
             </summary>
         </member>
         <member name="F:IceCoffee.Common.LogManager.LogLevel.Warn">
@@ -494,7 +531,7 @@
             <summary>最小个数。默认1</summary>
         </member>
         <member name="P:IceCoffee.Common.Pools.ConnectionPool`1.IdleTime">
-            <summary>空闲清理时间。最小个数之上的资源超过空闲时间时被清理，默认10s</summary>
+            <summary>空闲清理时间。最小个数之上的资源超过空闲时间时被清理，默认10s，0s永不清理</summary>
         </member>
         <member name="P:IceCoffee.Common.Pools.ConnectionPool`1.AllIdleTime">
             <summary>完全空闲清理时间。最小个数之下的资源超过空闲时间时被清理，默认0s永不清理</summary>
@@ -578,23 +615,23 @@
             <summary>被销毁时触发事件</summary>
         </member>
         <member name="T:IceCoffee.Common.Pools.DisposeBase">
-            <summary>具有销毁资源处理的抽象基类</summary>
-            <example>
-            <code>
-            /// &lt;summary&gt;子类重载实现资源释放逻辑时必须首先调用基类方法&lt;/summary&gt;
-            /// &lt;param name="disposing"&gt;从Dispose调用（释放所有资源）还是析构函数调用（释放非托管资源）。
-            /// 因为该方法只会被调用一次，所以该参数的意义不太大。&lt;/param&gt;
-            protected override void OnDispose(bool disposing)
-            {
-                base.OnDispose(disposing);
-
-                if (disposing)
-                {
-                    // 如果是构造函数进来，不执行这里的代码
-                }
-            }
-            </code>
-            </example>
+             <summary>具有销毁资源处理的抽象基类</summary>
+             <example>
+             <code>
+             /// &lt;summary&gt;子类重载实现资源释放逻辑时必须首先调用基类方法&lt;/summary&gt;
+             /// &lt;param name="disposing"&gt;从Dispose调用（释放所有资源）还是析构函数调用（释放非托管资源）。
+             /// 因为该方法只会被调用一次，所以该参数的意义不太大。&lt;/param&gt;
+             protected override void OnDispose(bool disposing)
+             {
+                 base.OnDispose(disposing);
+            
+                 if (disposing)
+                 {
+                     // 如果是构造函数进来，不执行这里的代码
+                 }
+             }
+             </code>
+             </example>
         </member>
         <member name="M:IceCoffee.Common.Pools.DisposeBase.Dispose">
             <summary>释放资源</summary>
@@ -625,7 +662,7 @@
             <summary>销毁助手。扩展方法专用</summary>
         </member>
         <member name="M:IceCoffee.Common.Pools.DisposeHelper.TryDispose(System.Object)">
-            <summary>尝试销毁对象，如果有<see cref="T:System.IDisposable" />则调用</summary>
+            <summary>尝试销毁对象，如果有<see cref="T:System.IDisposable"/>则调用</summary>
             <param name="obj"></param>
             <returns></returns>
         </member>
@@ -694,6 +731,12 @@
         <member name="M:IceCoffee.Common.Pools.PoolItem`1.OnDispose(System.Boolean)">
             <summary>销毁</summary>
             <param name="disposing"></param>
+        </member>
+        <member name="T:IceCoffee.Common.Pools.SimplePool`1">
+            <summary>
+            简单的线程安全对象池，无资源释放
+            </summary>
+            <typeparam name="T"></typeparam>
         </member>
         <member name="P:IceCoffee.Common.Pools.SimplePool`1.Count">
             <summary>
@@ -768,9 +811,21 @@
             整数点
             </summary>
         </member>
+        <member name="M:IceCoffee.Common.Structure.IntPoint.op_Implicit(System.Drawing.Point)~IceCoffee.Common.Structure.IntPoint">
+            <summary>
+            隐式转换
+            </summary>
+            <param name="point"></param>
+        </member>
         <member name="T:IceCoffee.Common.Xml.ConfigNodeAttribute">
             <summary>
-            标记需要读写的配置属性节点
+            <para>标记了ConfigNodeType.Element特性的属性作为父节点</para>
+            <para>标记了ConfigNodeType.Attribute特性的属性作为需要直接读写属性的节点</para>
+            </summary>
+        </member>
+        <member name="P:IceCoffee.Common.Xml.ConfigNodeAttribute.XmlNodeType">
+            <summary>
+            节点类型
             </summary>
         </member>
         <member name="M:IceCoffee.Common.Xml.XmlHelper.SaveConfig(System.Object,System.Xml.XmlDocument,System.Xml.XmlNode)">

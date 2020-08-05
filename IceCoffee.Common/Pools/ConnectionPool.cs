@@ -55,13 +55,6 @@ namespace IceCoffee.Common.Pools
 
         private readonly object _syncRoot = new object();
 
-        private bool _isClearOverdue = true;
-
-        /// <summary>
-        /// 是否清理过期不还
-        /// </summary>
-        public bool IsClearOverdue { get => _isClearOverdue; set => _isClearOverdue = value; }
-
         #endregion 属性
 
         #region 构造
@@ -217,7 +210,7 @@ namespace IceCoffee.Common.Pools
             if (!_busy.TryRemove(value, out var pi))
             {
                 //WriteLog("Put Error");
-
+                value.TryDispose();
                 return false;
             }
 
@@ -331,7 +324,7 @@ namespace IceCoffee.Common.Pools
             var count = 0;
 
             // 清理过期不还。避免有借没还
-            if (_isClearOverdue && _busy.IsEmpty == false)
+            if (_allIdleTime > 0 && _busy.IsEmpty == false)
             {
                 //var exp = TimerX.Now.AddSeconds(-AllIdleTime);
                 var exp = DateTime.Now.AddSeconds(-_allIdleTime);
@@ -342,8 +335,6 @@ namespace IceCoffee.Common.Pools
                         if (_busy.TryRemove(item.Key, out var v))
                         {
                             // 业务层可能故意有借没还
-                            //v.TryDispose();
-
                             Interlocked.Decrement(ref _busyCount);
                         }
                     }

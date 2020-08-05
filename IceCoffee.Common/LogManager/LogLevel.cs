@@ -3,7 +3,7 @@
     /// <summary>
     /// 日志等级
     /// </summary>
-    public enum LogLevel : int
+    public enum LogLevel : byte
     {
         /// <summary>
         /// 追踪信息
@@ -11,12 +11,12 @@
         Trace,
 
         /// <summary>
-        /// 普通信息
+        /// 调试信息
         /// </summary>
         Debug,
 
         /// <summary>
-        /// 调试信息
+        /// 普通信息
         /// </summary>
         Info,
 
