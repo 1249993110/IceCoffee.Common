@@ -12,14 +12,17 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Authors>IceCoffee</Authors>
     <Company>IceCoffee</Company>
-    <Version>1.0.0.1</Version>
+    <Version>1.0.0.2</Version>
+    <UserSecretsId>98a73eac-3b14-4b19-ac5c-bf09702da14b</UserSecretsId>
   </PropertyGroup>
+  
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
     <DocumentationFile>G:\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common\IceCoffee.Common.xml</DocumentationFile>
   </PropertyGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Configuration" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
   
@@ -42,15 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog">
-      <Version>4.7.2</Version>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="NLogDefault.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

@@ -194,7 +194,7 @@ namespace IceCoffee.Common
             int i;
             int.TryParse(fs.Length.ToString(), out i);
             byte[] ss = r.ReadBytes(i);
-            if (IsUTF8Bytes(ss) || (ss[0] == 0xEF && ss[1] == 0xBB && ss[2] == 0xBF))
+            if (IsUtf8Bytes(ss) || (ss[0] == 0xEF && ss[1] == 0xBB && ss[2] == 0xBF))
             {
                 reVal = Encoding.UTF8;
             }
@@ -210,10 +210,10 @@ namespace IceCoffee.Common
             return reVal;
         }
 
-        /// 判断是否是不带 BOM 的 UTF8 格式
+        /// 判断是否是不带 BOM 的 Utf8 格式
         /// <param name="data"></param>
         /// <returns></returns>
-        private static bool IsUTF8Bytes(byte[] data)
+        private static bool IsUtf8Bytes(byte[] data)
         {
             int charByteCounter = 1;　 //计算当前正分析的字符应还有的字节数
             byte curByte; //当前分析的字节.
