@@ -136,7 +136,7 @@ namespace IceCoffee.Common.Pools
 
     /// <summary>销毁助手。扩展方法专用</summary>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
-    public static class DisposeHelper
+    internal static class DisposeHelper
     {
         /// <summary>尝试销毁对象，如果有<see cref="IDisposable"/>则调用</summary>
         /// <param name="obj"></param>

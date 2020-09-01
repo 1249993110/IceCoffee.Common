@@ -55,6 +55,21 @@
             <param name="custom">要包含的自定义字符，直接输入要包含的字符列表</param>
             <returns>指定长度的随机字符串</returns>
         </member>
+        <member name="M:IceCoffee.Common.CommonHelper.GetType(System.String)">
+            给定文件的路径，读取文件的二进制数据，判断文件的编码类型
+            <param name="path">文件路径</param>
+            <returns>文件的编码类型</returns>
+        </member>
+        <member name="M:IceCoffee.Common.CommonHelper.GetType(System.IO.FileStream)">
+            通过给定的文件流，判断文件的编码类型
+            <param name="fs">文件流</param>
+            <returns>文件的编码类型</returns>
+        </member>
+        <member name="M:IceCoffee.Common.CommonHelper.IsUTF8Bytes(System.Byte[])">
+            判断是否是不带 BOM 的 UTF8 格式
+            <param name="data"></param>
+            <returns></returns>
+        </member>
         <member name="T:IceCoffee.Common.CustomExceptionType">
             <summary>
             自定义异常类型
@@ -104,6 +119,19 @@
             <summary>
             Processes pending events until there are no more events to process.
             </summary>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.EnumExtension.GetValue(System.Enum)">
+            <summary>
+            获取成员值
+            </summary>
+            <param name="instance">枚举实例</param>
+        </member>
+        <member name="M:IceCoffee.Common.Extensions.EnumExtension.GetValue(System.Type,System.Object)">
+            <summary>
+            获取成员值
+            </summary>
+            <param name="type">枚举类型</param>
+            <param name="member">成员名、值、实例均可</param>
         </member>
         <member name="T:IceCoffee.Common.Extensions.ObjectExtension">
             <summary>
@@ -183,7 +211,7 @@
         </member>
         <member name="M:IceCoffee.Common.Extensions.StringExtension.GetMidStr(System.String,System.String,System.String,System.Int32@,System.Int32)">
             <summary>
-            从startIndex位置开始搜索，取出中间子文本，outEnd返回后面文本在原字符串中的位置，startIndex七日杀获取聊天信息为26最佳
+            从startIndex位置开始搜索，取出中间子文本，outEnd返回后面文本在原字符串中的位置
             </summary>
             <param name="src"></param>
             <param name="front"></param>
@@ -295,6 +323,55 @@
             <param name="task"></param>
             <returns></returns>
         </member>
+        <member name="T:IceCoffee.Common.GIS.CoordinateTransTool">
+            <summary>
+            坐标转换
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.WGS84_to_GCJ02(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            WGS84坐标转高德坐标
+            </summary>
+            <param name="in_lng"></param>
+            <param name="wg_lat"></param>
+            <param name="out_lng"></param>
+            <param name="out_lat"></param>
+        </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.WGS84_to_GCJ02(System.Double,System.Double)">
+            <summary>
+            WGS84坐标转高德坐标
+            </summary>
+            <param name="lat"></param>
+            <param name="lng"></param>
+        </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.WGS84_to_GCJ02(System.Double[])">
+            <summary>
+            WGS84坐标转高德坐标
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.WGS84_to_GCJ02(System.String[])">
+            <summary>
+            WGS84坐标转高德坐标
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.WGS84_to_GCJ02(System.String,System.String)">
+            <summary>
+            WGS84坐标转高德坐标
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.WGS84_to_GCJ02(System.String,System.String,System.String@,System.String@)">
+            <summary>
+            WGS84坐标转高德坐标
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.OutOfChina(System.Double,System.Double)">
+            <summary>
+            坐标是否在中国境内
+            </summary>
+            <param name="lat"></param>
+            <param name="lng"></param>
+            <returns></returns>
+        </member>
         <member name="T:IceCoffee.Common.LogManager.LogRecordedEventHandler">
             <summary>
             日志记录事件处理器
@@ -321,7 +398,7 @@
             </summary>
             <param name="message"></param>
         </member>
-        <member name="M:IceCoffee.Common.LogManager.Log.Trace(System.String,System.Exception)">
+        <member name="M:IceCoffee.Common.LogManager.Log.Trace(System.Exception,System.String)">
             <summary>
             追踪信息
             </summary>
@@ -333,7 +410,7 @@
             </summary>
             <param name="message"></param>
         </member>
-        <member name="M:IceCoffee.Common.LogManager.Log.Debug(System.String,System.Exception)">
+        <member name="M:IceCoffee.Common.LogManager.Log.Debug(System.Exception,System.String)">
             <summary>
             调试信息
             </summary>
@@ -345,7 +422,14 @@
             </summary>
             <param name="message"></param>
         </member>
-        <member name="M:IceCoffee.Common.LogManager.Log.Info(System.String,System.Exception)">
+        <member name="M:IceCoffee.Common.LogManager.Log.Info(System.String,System.Object[])">
+            <summary>
+            状态信息
+            </summary>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Info(System.Exception,System.String)">
             <summary>
             状态信息
             </summary>
@@ -357,7 +441,7 @@
             </summary>
             <param name="message"></param>
         </member>
-        <member name="M:IceCoffee.Common.LogManager.Log.Warn(System.String,System.Exception)">
+        <member name="M:IceCoffee.Common.LogManager.Log.Warn(System.Exception,System.String)">
             <summary>
             警告信息
             </summary>
@@ -369,13 +453,25 @@
             </summary>
             <param name="message"></param>
         </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Error(System.String,System.Object[])">
+            <summary>
+            普通错误信息
+            </summary>
+            <param name="message"></param>
+        </member>
         <member name="M:IceCoffee.Common.LogManager.Log.Error(System.Exception)">
             <summary>
             普通错误信息
             </summary>
             <param name="message"></param>
         </member>
-        <member name="M:IceCoffee.Common.LogManager.Log.Error(System.String,System.Exception)">
+        <member name="M:IceCoffee.Common.LogManager.Log.Error(System.Exception,System.String)">
+            <summary>
+            普通错误信息
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:IceCoffee.Common.LogManager.Log.Error(System.Exception,System.String,System.Object[])">
             <summary>
             普通错误信息
             </summary>
@@ -393,7 +489,7 @@
             </summary>
             <param name="message"></param>
         </member>
-        <member name="M:IceCoffee.Common.LogManager.Log.Fatal(System.String,System.Exception)">
+        <member name="M:IceCoffee.Common.LogManager.Log.Fatal(System.Exception,System.String)">
             <summary>
             将导致程序退出的严重错误
             </summary>
@@ -816,6 +912,26 @@
             隐式转换
             </summary>
             <param name="point"></param>
+        </member>
+        <member name="T:IceCoffee.Common.Wpf.IClearCaller">
+            <summary>
+            主动清理ViewModel接口，在窗口关闭事件中调用
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.Wpf.IClearCaller.InvokeClearMethod">
+            <summary>
+            调用ViewModel的Clear接口
+            </summary>
+        </member>
+        <member name="T:IceCoffee.Common.Wpf.IClearViewModel">
+            <summary>
+            清理ViewModel资源接口
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.Wpf.IClearViewModel.Clear">
+            <summary>
+            清理ViewModel资源，在窗口关闭时调用
+            </summary>
         </member>
         <member name="T:IceCoffee.Common.Xml.ConfigNodeAttribute">
             <summary>

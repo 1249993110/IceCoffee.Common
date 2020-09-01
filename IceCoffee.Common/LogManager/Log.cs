@@ -13,7 +13,7 @@ namespace IceCoffee.Common.LogManager
         static Log()
         {
             //初始化配置日志
-            OverrideConfiguration(AppDomain.CurrentDomain.BaseDirectory + "DefaultNLog.config");
+            OverrideConfiguration(AppDomain.CurrentDomain.BaseDirectory + "NLogDefault.config");
 
             _logger = NLog.LogManager.GetCurrentClassLogger();
         }
@@ -42,11 +42,10 @@ namespace IceCoffee.Common.LogManager
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void OnLogRecorded(string message, Exception exception, LogLevel logLevel)
+        private static void OnLogRecorded(Exception exception, string message, LogLevel logLevel)
         {
-            LogRecorded?.Invoke(DateTime.Now.ToString() + " " + message, exception, logLevel);
+            LogRecorded?.Invoke(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + " " + message, exception, logLevel);
         }
-
         #region Trace
 
         /// <summary>
@@ -56,17 +55,17 @@ namespace IceCoffee.Common.LogManager
         public static void Trace(string message)
         {
             _logger.Trace(message);
-            OnLogRecorded(message, null, LogLevel.Trace);
+            OnLogRecorded(null, message, LogLevel.Trace);
         }
 
         /// <summary>
         /// 追踪信息
         /// </summary>
         /// <param name="message"></param>
-        public static void Trace(string message, Exception exception)
+        public static void Trace(Exception exception, string message)
         {
             _logger.Trace(exception, message);
-            OnLogRecorded(message, exception, LogLevel.Trace);
+            OnLogRecorded(exception, message, LogLevel.Trace);
         }
 
         #endregion Trace
@@ -80,17 +79,17 @@ namespace IceCoffee.Common.LogManager
         public static void Debug(string message)
         {
             _logger.Debug(message);
-            OnLogRecorded(message, null, LogLevel.Debug);
+            OnLogRecorded(null, message, LogLevel.Debug);
         }
 
         /// <summary>
         /// 调试信息
         /// </summary>
         /// <param name="message"></param>
-        public static void Debug(string message, Exception exception)
+        public static void Debug(Exception exception, string message)
         {
             _logger.Debug(exception, message);
-            OnLogRecorded(message, exception, LogLevel.Debug);
+            OnLogRecorded(exception, message, LogLevel.Debug);
         }
 
         #endregion Debug
@@ -104,17 +103,28 @@ namespace IceCoffee.Common.LogManager
         public static void Info(string message)
         {
             _logger.Info(message);
-            OnLogRecorded(message, null, LogLevel.Info);
+            OnLogRecorded(null, message, LogLevel.Info);
         }
 
         /// <summary>
         /// 状态信息
         /// </summary>
         /// <param name="message"></param>
-        public static void Info(string message, Exception exception)
+        /// <param name="args"></param>
+        public static void Info(string message, params object[] args)
+        {
+            _logger.Info(message, args);
+            OnLogRecorded(null, string.Format(message, args), LogLevel.Info);
+        }
+
+        /// <summary>
+        /// 状态信息
+        /// </summary>
+        /// <param name="message"></param>
+        public static void Info(Exception exception, string message)
         {
             _logger.Info(exception, message);
-            OnLogRecorded(message, exception, LogLevel.Info);
+            OnLogRecorded(exception, message, LogLevel.Info);
         }
 
         #endregion Info
@@ -128,17 +138,17 @@ namespace IceCoffee.Common.LogManager
         public static void Warn(string message)
         {
             _logger.Warn(message);
-            OnLogRecorded(message, null, LogLevel.Warn);
+            OnLogRecorded(null, message, LogLevel.Warn);
         }
 
         /// <summary>
         /// 警告信息
         /// </summary>
         /// <param name="message"></param>
-        public static void Warn(string message, Exception exception)
+        public static void Warn(Exception exception, string message)
         {
             _logger.Warn(exception, message);
-            OnLogRecorded(message, exception, LogLevel.Warn);
+            OnLogRecorded(exception, message, LogLevel.Warn);
         }
 
         #endregion Warn
@@ -152,7 +162,17 @@ namespace IceCoffee.Common.LogManager
         public static void Error(string message)
         {
             _logger.Error(message);
-            OnLogRecorded(message, null, LogLevel.Error);
+            OnLogRecorded(null, message, LogLevel.Error);
+        }
+
+        /// <summary>
+        /// 普通错误信息
+        /// </summary>
+        /// <param name="message"></param>
+        public static void Error(string message, params object[] args)
+        {
+            _logger.Error(message, args);
+            OnLogRecorded(null, string.Format(message, args), LogLevel.Error);
         }
 
         /// <summary>
@@ -162,19 +182,28 @@ namespace IceCoffee.Common.LogManager
         public static void Error(Exception exception)
         {
             _logger.Error(exception);
-            OnLogRecorded(exception.Message, exception.InnerException, LogLevel.Error);
+            OnLogRecorded(exception.InnerException, exception.Message, LogLevel.Error);
         }
 
         /// <summary>
         /// 普通错误信息
         /// </summary>
         /// <param name="message"></param>
-        public static void Error(string message, Exception exception)
+        public static void Error(Exception exception, string message)
         {
             _logger.Error(exception, message);
-            OnLogRecorded(message, exception, LogLevel.Error);
+            OnLogRecorded(exception, message, LogLevel.Error);
         }
 
+        /// <summary>
+        /// 普通错误信息
+        /// </summary>
+        /// <param name="message"></param>
+        public static void Error(Exception exception, string message, params object[] args)
+        {
+            _logger.Error(message, args);
+            OnLogRecorded(exception, string.Format(message, args), LogLevel.Error);
+        }
         #endregion Error
 
         #region Fatal
@@ -186,7 +215,7 @@ namespace IceCoffee.Common.LogManager
         public static void Fatal(string message)
         {
             _logger.Fatal(message);
-            OnLogRecorded(message, null, LogLevel.Fatal);
+            OnLogRecorded(null, message, LogLevel.Fatal);
         }
 
         /// <summary>
@@ -196,17 +225,17 @@ namespace IceCoffee.Common.LogManager
         public static void Fatal(Exception exception)
         {
             _logger.Fatal(exception);
-            OnLogRecorded(exception.Message, exception.InnerException, LogLevel.Fatal);
+            OnLogRecorded(exception.InnerException, exception.Message, LogLevel.Fatal);
         }
 
         /// <summary>
         /// 将导致程序退出的严重错误
         /// </summary>
         /// <param name="message"></param>
-        public static void Fatal(string message, Exception exception)
+        public static void Fatal(Exception exception, string message)
         {
             _logger.Fatal(exception, message);
-            OnLogRecorded(message, exception, LogLevel.Fatal);
+            OnLogRecorded(exception, message, LogLevel.Fatal);
         }
 
         #endregion Fatal

@@ -10,7 +10,7 @@ namespace IceCoffee.Common.Extensions
     public static class StringExtension
     {
         /// <summary>
-        /// 从startIndex位置开始搜索，取出中间子文本，outEnd返回后面文本在原字符串中的位置，startIndex七日杀获取聊天信息为26最佳
+        /// 从startIndex位置开始搜索，取出中间子文本，outEnd返回后面文本在原字符串中的位置
         /// </summary>
         /// <param name="src"></param>
         /// <param name="front"></param>
@@ -20,27 +20,30 @@ namespace IceCoffee.Common.Extensions
         /// <returns></returns>
         public static string GetMidStr(this string src, string front, string rear, out int outEnd, int startIndex = 0)
         {
+            int srcLength = src.Length;
+            int frontLength = front.Length;
+
             outEnd = -1;
-            if (startIndex > src.Length)// 越界
+            if (startIndex > srcLength)// 越界
             {
                 return string.Empty;
             }
 
             int start = src.IndexOf(front, startIndex);
 
-            if (start == -1 || start + front.Length > src.Length)// 没找到或尾部越界
+            if (start == -1 || start + frontLength > srcLength)// 没找到或尾部越界
             {
                 return string.Empty;
             }
 
-            outEnd = src.IndexOf(rear, start + front.Length);
+            outEnd = src.IndexOf(rear, start + frontLength);
 
             if (outEnd == -1)
             {
                 return string.Empty;
             }
 
-            return src.Substring(start + front.Length, outEnd - front.Length - start);
+            return src.Substring(start + frontLength, outEnd - frontLength - start);
         }
 
         /// <summary>
@@ -161,6 +164,11 @@ namespace IceCoffee.Common.Extensions
         /// <returns></returns>
         public static string ToBase64(this string str)
         {
+            if (string.IsNullOrEmpty(str))
+            {
+                return string.Empty;
+            }
+
             return Convert.ToBase64String(Encoding.UTF8.GetBytes(str));
         }
 
@@ -171,6 +179,11 @@ namespace IceCoffee.Common.Extensions
         /// <returns></returns>
         public static string FormBase64(string str)
         {
+            if(string.IsNullOrEmpty(str))
+            {
+                return string.Empty;
+            }
+
             return Encoding.UTF8.GetString(Convert.FromBase64String(str));
         }
 

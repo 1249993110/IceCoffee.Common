@@ -3,6 +3,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace IceCoffee.Common
@@ -134,5 +135,117 @@ namespace IceCoffee.Common
             }
             return s;
         }
+
+        //#define MB_OK                       0x00000000L
+        //#define MB_OKCANCEL                 0x00000001L
+        //#define MB_ABORTRETRYIGNORE         0x00000002L
+        //#define MB_YESNOCANCEL              0x00000003L
+        //#define MB_YESNO                    0x00000004L
+        //#define MB_RETRYCANCEL              0x00000005L
+
+        [DllImport("user32.dll", EntryPoint = "MessageBoxTimeoutW", SetLastError = true,
+            CharSet = CharSet.Unicode, CallingConvention = CallingConvention.Winapi)]
+        private static extern IntPtr MessageBoxTimeoutW(IntPtr hWnd,
+            [MarshalAs(UnmanagedType.LPWStr)] string content,
+            [MarshalAs(UnmanagedType.LPWStr)] string title,
+            [MarshalAs(UnmanagedType.U4)] uint utype = 0,
+            ushort wLanguageId = 0, uint dwMilliseconds = 3000);
+
+        public static IntPtr MessageBoxTimeout(string content, string title = "提示", uint dwMilliseconds = 3000)
+        {
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                return MessageBoxTimeoutW(IntPtr.Zero, content, title, 0, 0, dwMilliseconds);
+            }
+            else
+            {
+                throw new Exception("定时关闭消息框仅支持Win32平台");
+            }
+        }
+
+        /// 给定文件的路径，读取文件的二进制数据，判断文件的编码类型
+        /// <param name="path">文件路径</param>
+        /// <returns>文件的编码类型</returns>
+        public static Encoding GetType(string path)
+        {
+            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            Encoding r = GetType(fs);
+            fs.Close();
+            return r;
+        }
+
+        /// 通过给定的文件流，判断文件的编码类型
+        /// <param name="fs">文件流</param>
+        /// <returns>文件的编码类型</returns>
+        public static Encoding GetType(FileStream fs)
+        {
+            // byte[] Unicode = new byte[] { 0xFF, 0xFE, 0x41 };
+            // byte[] UnicodeBIG = new byte[] { 0xFE, 0xFF, 0x00 };
+            // byte[] UTF8 = new byte[] { 0xEF, 0xBB, 0xBF }; // 带BOM
+            Encoding reVal = Encoding.Default;
+
+            BinaryReader r = new BinaryReader(fs, Encoding.Default);
+            int i;
+            int.TryParse(fs.Length.ToString(), out i);
+            byte[] ss = r.ReadBytes(i);
+            if (IsUTF8Bytes(ss) || (ss[0] == 0xEF && ss[1] == 0xBB && ss[2] == 0xBF))
+            {
+                reVal = Encoding.UTF8;
+            }
+            else if (ss[0] == 0xFE && ss[1] == 0xFF && ss[2] == 0x00)
+            {
+                reVal = Encoding.BigEndianUnicode;
+            }
+            else if (ss[0] == 0xFF && ss[1] == 0xFE && ss[2] == 0x41)
+            {
+                reVal = Encoding.Unicode;
+            }
+            r.Close();
+            return reVal;
+        }
+
+        /// 判断是否是不带 BOM 的 UTF8 格式
+        /// <param name="data"></param>
+        /// <returns></returns>
+        private static bool IsUTF8Bytes(byte[] data)
+        {
+            int charByteCounter = 1;　 //计算当前正分析的字符应还有的字节数
+            byte curByte; //当前分析的字节.
+            for (int i = 0; i < data.Length; i++)
+            {
+                curByte = data[i];
+                if (charByteCounter == 1)
+                {
+                    if (curByte >= 0x80)
+                    {
+                        //判断当前
+                        while (((curByte <<= 1) & 0x80) != 0)
+                        {
+                            charByteCounter++;
+                        }
+                        //标记位首位若为非0 则至少以2个1开始 如:110XXXXX...........1111110X　
+                        if (charByteCounter == 1 || charByteCounter > 6)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                else
+                {
+                    //若是UTF-8 此时第一位必须为1
+                    if ((curByte & 0xC0) != 0x80)
+                    {
+                        return false;
+                    }
+                    charByteCounter--;
+                }
+            }
+            if (charByteCounter > 1)
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 }

@@ -2,6 +2,14 @@
   <!--netcoreapp2.1;-->
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard2.0;netstandard2.1</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Product>IceCoffee</Product>
+    <Description>大部分库需要用到的公共模块</Description>
+    <Copyright>Copyright (c) 2020 IceCoffee</Copyright>
+    <PackageProjectUrl>https://github.com/1249993110/IceCoffee.Common</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/1249993110/IceCoffee.Common</RepositoryUrl>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
     <DocumentationFile>G:\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common\IceCoffee.Common.xml</DocumentationFile>
@@ -9,7 +17,7 @@
   
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
     <Reference Include="System.Net.Http" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
@@ -37,8 +45,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="DefaultNLog.config">
+    <None Update="NLogDefault.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
     </None>
   </ItemGroup>
 
