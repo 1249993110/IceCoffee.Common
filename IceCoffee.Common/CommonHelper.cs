@@ -150,7 +150,13 @@ namespace IceCoffee.Common
             [MarshalAs(UnmanagedType.LPWStr)] string title,
             [MarshalAs(UnmanagedType.U4)] uint utype = 0,
             ushort wLanguageId = 0, uint dwMilliseconds = 3000);
-
+        /// <summary>
+        /// 定时关闭消息框
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="title"></param>
+        /// <param name="dwMilliseconds"></param>
+        /// <returns></returns>
         public static IntPtr MessageBoxTimeout(string content, string title = "提示", uint dwMilliseconds = 3000)
         {
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)

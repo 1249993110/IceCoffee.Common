@@ -2,7 +2,7 @@
   <!--netcoreapp2.1;-->
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard2.0;netstandard2.1</TargetFrameworks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Product>IceCoffee</Product>
     <Description>大部分库需要用到的公共模块</Description>
     <Copyright>Copyright (c) 2020 IceCoffee</Copyright>
@@ -10,6 +10,9 @@
     <RepositoryUrl>https://github.com/1249993110/IceCoffee.Common</RepositoryUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Authors>IceCoffee</Authors>
+    <Company>IceCoffee</Company>
+    <Version>1.0.1.0</Version>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
     <DocumentationFile>G:\C#Tools\IceCoffee\IceCoffee.Common\IceCoffee.Common\IceCoffee.Common.xml</DocumentationFile>

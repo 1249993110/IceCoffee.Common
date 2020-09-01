@@ -60,58 +60,78 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
-        /// 将string转换为十进制有符号短整数，如果格式错误将转换失败并返回0
+        /// 将string转换为十进制有符号短整数，如果格式错误将转换失败并返回默认值
         /// </summary>
         /// <param name="src"></param>
         /// <returns></returns>
-        public static short ToShort(this string str)
+        public static short ToShort(this string str, short defaultValue = default)
         {
-            short.TryParse(str, out short result);
-            return result;
+            if (short.TryParse(str, out short result))
+            {
+                return result;
+            }
+
+            return defaultValue;
         }
 
         /// <summary>
-        /// 将string转换为十进制有符号整数，如果格式错误将转换失败并返回0
+        /// 将string转换为32位十进制有符号整数，如果格式错误将转换失败并返回默认值
         /// </summary>
         /// <param name="src"></param>
         /// <returns></returns>
-        public static int ToInt(this string str)
+        public static int ToInt(this string str, int defaultValue = default)
         {
-            int.TryParse(str, out int result);
-            return result;
+            if(int.TryParse(str, out int result))
+            {
+                return result;
+            }
+
+            return defaultValue;
         }
 
         /// <summary>
-        /// 将string转换为十进制无符号整数，如果格式错误将转换失败并返回0
+        /// 将string转换为32位十进制无符号整数，如果格式错误将转换失败并返回默认值
         /// </summary>
         /// <param name="src"></param>
         /// <returns></returns>
-        public static uint ToUInt(this string str)
+        public static uint ToUInt(this string str, uint defaultValue = default)
         {
-            uint.TryParse(str, out uint result);
-            return result;
+            if(uint.TryParse(str, out uint result))
+            {
+                return result;
+            }
+
+            return defaultValue;
         }
 
         /// <summary>
-        /// 将string转换为十进制有符号长整数，如果格式错误将转换失败并返回0
+        /// 将string转换为十进制有符号长整数，如果格式错误将转换失败并返回默认值
         /// </summary>
         /// <param name="src"></param>
         /// <returns></returns>
-        public static long ToLong(this string str)
+        public static long ToLong(this string str, long defaultValue = default)
         {
-            long.TryParse(str, out long result);
-            return result;
+            if(long.TryParse(str, out long result))
+            {
+                return result;
+            }
+
+            return defaultValue;
         }
 
         /// <summary>
-        /// 将string转换为十进制双精度数，如果格式错误将转换失败并返回0
+        /// 将string转换为十进制双精度数，如果格式错误将转换失败并返回默认值
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static double ToDouble(this string str)
+        public static double ToDouble(this string str, double defaultValue = default)
         {
-            double.TryParse(str, out double result);
-            return result;
+            if(double.TryParse(str, out double result))
+            {
+                return result;
+            }
+
+            return defaultValue;
         }
 
         /// <summary>

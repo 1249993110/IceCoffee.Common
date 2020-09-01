@@ -55,6 +55,15 @@
             <param name="custom">要包含的自定义字符，直接输入要包含的字符列表</param>
             <returns>指定长度的随机字符串</returns>
         </member>
+        <member name="M:IceCoffee.Common.CommonHelper.MessageBoxTimeout(System.String,System.String,System.UInt32)">
+            <summary>
+            定时关闭消息框
+            </summary>
+            <param name="content"></param>
+            <param name="title"></param>
+            <param name="dwMilliseconds"></param>
+            <returns></returns>
+        </member>
         <member name="M:IceCoffee.Common.CommonHelper.GetType(System.String)">
             给定文件的路径，读取文件的二进制数据，判断文件的编码类型
             <param name="path">文件路径</param>
@@ -230,37 +239,37 @@
             <param name="startIndex"></param>
             <returns></returns>
         </member>
-        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToShort(System.String)">
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToShort(System.String,System.Int16)">
             <summary>
-            将string转换为十进制有符号短整数，如果格式错误将转换失败并返回0
+            将string转换为十进制有符号短整数，如果格式错误将转换失败并返回默认值
             </summary>
             <param name="src"></param>
             <returns></returns>
         </member>
-        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToInt(System.String)">
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToInt(System.String,System.Int32)">
             <summary>
-            将string转换为十进制有符号整数，如果格式错误将转换失败并返回0
+            将string转换为32位十进制有符号整数，如果格式错误将转换失败并返回默认值
             </summary>
             <param name="src"></param>
             <returns></returns>
         </member>
-        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToUInt(System.String)">
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToUInt(System.String,System.UInt32)">
             <summary>
-            将string转换为十进制无符号整数，如果格式错误将转换失败并返回0
+            将string转换为32位十进制无符号整数，如果格式错误将转换失败并返回默认值
             </summary>
             <param name="src"></param>
             <returns></returns>
         </member>
-        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToLong(System.String)">
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToLong(System.String,System.Int64)">
             <summary>
-            将string转换为十进制有符号长整数，如果格式错误将转换失败并返回0
+            将string转换为十进制有符号长整数，如果格式错误将转换失败并返回默认值
             </summary>
             <param name="src"></param>
             <returns></returns>
         </member>
-        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToDouble(System.String)">
+        <member name="M:IceCoffee.Common.Extensions.StringExtension.ToDouble(System.String,System.Double)">
             <summary>
-            将string转换为十进制双精度数，如果格式错误将转换失败并返回0
+            将string转换为十进制双精度数，如果格式错误将转换失败并返回默认值
             </summary>
             <param name="str"></param>
             <returns></returns>
