@@ -337,12 +337,77 @@
             坐标转换
             </summary>
         </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.CalculateDev(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            计算偏差
+            </summary>
+            <param name="in_lng"></param>
+            <param name="in_lat"></param>
+            <param name="dLng"></param>
+            <param name="dLat"></param>
+        </member>
         <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.WGS84_to_GCJ02(System.Double,System.Double,System.Double@,System.Double@)">
             <summary>
             WGS84坐标转高德坐标
             </summary>
             <param name="in_lng"></param>
-            <param name="wg_lat"></param>
+            <param name="in_lat"></param>
+            <param name="out_lng"></param>
+            <param name="out_lat"></param>
+        </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.GCJ02_to_WGS84_Exact(System.Double,System.Double,System.Double@,System.Double@,System.Double)">
+            <summary>
+            高德坐标转WGS84坐标 精确(二分极限法)
+            默认设置的是精确到小数点后9位，这个值越小，越精确
+            </summary>
+            <param name="in_lng"></param>
+            <param name="in_lat"></param>
+            <param name="out_lng"></param>
+            <param name="out_lat"></param>
+            <param name="threshold"></param>
+        </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.GCJ02_to_WGS84(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            高德坐标转WGS84坐标
+            </summary>
+            <param name="in_lng"></param>
+            <param name="in_lat"></param>
+            <param name="out_lng"></param>
+            <param name="out_lat"></param>
+        </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.GCJ02_to_BD09(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            高德坐标转百度坐标
+            </summary>
+            <param name="in_lng"></param>
+            <param name="in_lat"></param>
+            <param name="out_lng"></param>
+            <param name="out_lat"></param>
+        </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.BD09_to_GCJ02(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            高德坐标转百度坐标
+            </summary>
+            <param name="in_lng"></param>
+            <param name="in_lat"></param>
+            <param name="out_lng"></param>
+            <param name="out_lat"></param>
+        </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.WGS84_to_Mercator(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            WGS-84 to Web mercator
+            </summary>
+            <param name="in_lng"></param>
+            <param name="in_lat"></param>
+            <param name="out_lng"></param>
+            <param name="out_lat"></param>
+        </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.Mercator_to_WGS84(System.Double,System.Double,System.Double@,System.Double@)">
+            <summary>
+            Web mercator to WGS-84
+            </summary>
+            <param name="in_lng"></param>
+            <param name="in_lat"></param>
             <param name="out_lng"></param>
             <param name="out_lat"></param>
         </member>
@@ -371,6 +436,11 @@
         <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.WGS84_to_GCJ02(System.String,System.String,System.String@,System.String@)">
             <summary>
             WGS84坐标转高德坐标
+            </summary>
+        </member>
+        <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.GetDistance(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            两点直接的距离
             </summary>
         </member>
         <member name="M:IceCoffee.Common.GIS.CoordinateTransTool.OutOfChina(System.Double,System.Double)">

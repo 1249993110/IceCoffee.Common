@@ -12,36 +12,204 @@ namespace IceCoffee.Common.GIS
     /// </summary>
     public static class CoordinateTransTool
     {
-        // 椭球参数
+        // 椭球参数-圆周率
         private const double pi = 3.14159265358979324;
+
+        private const double x_pi = pi * 3000.0 / 180.0;
+
+        // (北京54)椭球长半轴，卫星椭球坐标投影到平面地图坐标系的投影因子
         private const double a = 6378245.0;
+        /*
+            * Krasovsky 1940 (北京54)椭球长半轴第一偏心率平方
+            * 计算方式：
+            * 长半轴：
+            * a = 6378245.0
+            * 扁率：
+            * 1/f = 298.3（变量相关计算为：(a-b)/a）
+            * 短半轴：
+            * b = 6356863.0188 (变量相关计算方法为：b = a * (1 - f))
+            * 第一偏心率平方:
+            * e2 = (a^2 - b^2) / a^2;
+        */
         private const double ee = 0.00669342162296594323;
+        // 地球半径
+        private const double earthR = 6371000.0;
 
         /// <summary>
-        /// WGS84坐标转高德坐标
+        /// 计算偏差
         /// </summary>
         /// <param name="in_lng"></param>
-        /// <param name="wg_lat"></param>
-        /// <param name="out_lng"></param>
-        /// <param name="out_lat"></param>
-        public static void WGS84_to_GCJ02(double in_lng, double wg_lat, out double out_lng, out double out_lat)
+        /// <param name="in_lat"></param>
+        /// <param name="dLng"></param>
+        /// <param name="dLat"></param>
+        private static void CalculateDev(double in_lng, double in_lat, out double dLng, out double dLat)
         {
-            if (OutOfChina(wg_lat, in_lng))
-            {
-                out_lng = in_lng;
-                out_lat = wg_lat;
-                return;
-            }
-            double dLat = TransformLat(in_lng - 105.0, wg_lat - 35.0);
-            double dLng = TransformLng(in_lng - 105.0, wg_lat - 35.0);
-            double radLat = wg_lat / 180.0 * pi;
+            dLat = TransformLat(in_lng - 105.0, in_lat - 35.0);
+            dLng = TransformLng(in_lng - 105.0, in_lat - 35.0);
+
+            double radLat = in_lat / 180.0 * pi;
             double magic = Math.Sin(radLat);
             magic = 1 - ee * magic * magic;
             double sqrtMagic = Math.Sqrt(magic);
             dLat = (dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * pi);
             dLng = (dLng * 180.0) / (a / sqrtMagic * Math.Cos(radLat) * pi);
-            out_lng = in_lng + dLng;
-            out_lat = wg_lat + dLat;
+        }
+
+        /// <summary>
+        /// WGS84坐标转高德坐标
+        /// </summary>
+        /// <param name="in_lng"></param>
+        /// <param name="in_lat"></param>
+        /// <param name="out_lng"></param>
+        /// <param name="out_lat"></param>
+        public static void WGS84_to_GCJ02(double in_lng, double in_lat, out double out_lng, out double out_lat)
+        {
+            if (OutOfChina(in_lat, in_lng))
+            {
+                out_lng = in_lng;
+                out_lat = in_lat;
+                return;
+            }
+
+            CalculateDev(in_lng, in_lat, out out_lng, out out_lat);
+            out_lng = in_lng + out_lng;
+            out_lat = in_lat + out_lat;
+        }
+
+        /// <summary>
+        /// 高德坐标转WGS84坐标 精确(二分极限法)
+        /// 默认设置的是精确到小数点后9位，这个值越小，越精确
+        /// </summary>
+        /// <param name="in_lng"></param>
+        /// <param name="in_lat"></param>
+        /// <param name="out_lng"></param>
+        /// <param name="out_lat"></param>
+        /// <param name="threshold"></param>
+        public static void GCJ02_to_WGS84_Exact(double in_lng, double in_lat, out double out_lng, out double out_lat, double threshold = 0.000000001)
+        {
+            double dLng = 0.01, dLat = 0.01;
+            double mLng = in_lng - dLng, mLat = in_lat - dLat;
+            double pLng = in_lng + dLng, pLat = in_lat + dLat;
+            double wgsLng, wgsLat, i = 0;
+
+            while (true)
+            {
+                wgsLng = (mLng + pLng) / 2;
+                wgsLat = (mLat + pLat) / 2;
+
+                GCJ02_to_WGS84(wgsLat, wgsLng, out out_lng, out out_lat);
+                dLng = out_lng - in_lng;
+                dLat = out_lat - in_lat;
+
+                if ((Math.Abs(dLat) < threshold) && (Math.Abs(dLng) < threshold))
+                {
+                    break;
+                }
+
+                if (dLat > 0)
+                {
+                    pLat = wgsLat; 
+                }
+                else
+                {
+                    mLat = wgsLat;
+                }
+
+                if (dLng > 0)
+                {
+                    pLng = wgsLng;
+                }
+                else
+                {
+                    mLng = wgsLng;
+                }
+
+                if (++i > 10000)
+                {
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 高德坐标转WGS84坐标
+        /// </summary>
+        /// <param name="in_lng"></param>
+        /// <param name="in_lat"></param>
+        /// <param name="out_lng"></param>
+        /// <param name="out_lat"></param>
+        public static void GCJ02_to_WGS84(double in_lng, double in_lat, out double out_lng, out double out_lat)
+        {
+            if (OutOfChina(in_lat, in_lng))
+            {
+                out_lng = in_lng;
+                out_lat = in_lat;
+                return;
+            }
+
+            CalculateDev(in_lng, in_lat, out out_lng, out out_lat);
+            out_lng = in_lng - out_lng;
+            out_lat = in_lat - out_lat;
+        }
+
+        /// <summary>
+        /// 高德坐标转百度坐标
+        /// </summary>
+        /// <param name="in_lng"></param>
+        /// <param name="in_lat"></param>
+        /// <param name="out_lng"></param>
+        /// <param name="out_lat"></param>
+        public static void GCJ02_to_BD09(double in_lng, double in_lat, out double out_lng, out double out_lat)
+        {
+            double x = in_lng, y = in_lat;
+            double z = Math.Sqrt(x * x + y * y) + 0.00002 * Math.Sin(y * x_pi);
+            double theta = Math.Atan2(y, x) + 0.000003 * Math.Cos(x * x_pi);
+            out_lng = z * Math.Cos(theta) + 0.0065;
+            out_lat = z * Math.Sin(theta) + 0.006;
+        }
+
+        /// <summary>
+        /// 高德坐标转百度坐标
+        /// </summary>
+        /// <param name="in_lng"></param>
+        /// <param name="in_lat"></param>
+        /// <param name="out_lng"></param>
+        /// <param name="out_lat"></param>
+        public static void BD09_to_GCJ02(double in_lng, double in_lat, out double out_lng, out double out_lat)
+        {
+            double x = in_lng - 0.0065, y = in_lat - 0.006;
+            double z = Math.Sqrt(x * x + y * y) - 0.00002 * Math.Sin(y * x_pi);
+            double theta = Math.Atan2(y, x) - 0.000003 * Math.Cos(x * x_pi);
+            out_lng = z * Math.Cos(theta);
+            out_lat = z * Math.Sin(theta);
+        }
+
+        /// <summary>
+        /// WGS-84 to Web mercator
+        /// </summary>
+        /// <param name="in_lng"></param>
+        /// <param name="in_lat"></param>
+        /// <param name="out_lng"></param>
+        /// <param name="out_lat"></param>
+        public static void WGS84_to_Mercator(double in_lng, double in_lat, out double out_lng, out double out_lat)
+        {
+            out_lng = in_lng * 20037508.34 / 180.0;
+            double y = Math.Log(Math.Tan((90.0 + in_lat) * pi / 360.0)) / (pi / 180.0);
+            out_lat = y * 20037508.34 / 180.0;
+        }
+
+        /// <summary>
+        /// Web mercator to WGS-84
+        /// </summary>
+        /// <param name="in_lng"></param>
+        /// <param name="in_lat"></param>
+        /// <param name="out_lng"></param>
+        /// <param name="out_lat"></param>
+        public static void Mercator_to_WGS84(double in_lng, double in_lat, out double out_lng, out double out_lat)
+        {
+            out_lng = in_lng / 20037508.34 * 180.0;
+            double y = in_lat / 20037508.34 * 180.0;
+            out_lat = 180.0 / pi * (2 * Math.Atan(Math.Exp(y * pi / 180.0)) - pi / 2);
         }
 
         /// <summary>
@@ -91,6 +259,21 @@ namespace IceCoffee.Common.GIS
             WGS84_to_GCJ02(in_lng.ToDouble(), in_lat.ToDouble(), out _lng, out _lat);
             out_lng = _lng.ToString("f6");
             out_lat = _lat.ToString("f6");
+        }
+
+        /// <summary>
+        /// 两点直接的距离
+        /// </summary>
+        public static double GetDistance(double latA, double lonA, double latB, double lonB)
+        {
+            double x = Math.Cos(latA * pi / 180.0) * Math.Cos(latB * pi / 180.0) * Math.Cos((lonA - lonB) * pi / 180.0);
+            double y = Math.Sin(latA * pi / 180.0) * Math.Sin(latB * pi / 180.0);
+            double s = x + y;
+            if (s > 1) s = 1;
+            if (s < -1) s = -1;
+            double alpha = Math.Acos(s);
+            double distance = alpha * earthR;
+            return distance;
         }
 
         /// <summary>
