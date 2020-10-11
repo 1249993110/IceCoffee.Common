@@ -63,7 +63,8 @@ namespace IceCoffee.Common
             while (_isRunning)
             {
                 if (_eventsQueue.IsEmpty)
-                    Thread.Yield();
+                    //Thread.Yield();
+                    Thread.Sleep(20);
                 else
                     processEvents();
             }

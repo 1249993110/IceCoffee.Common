@@ -59,12 +59,12 @@ namespace IceCoffee.Common
 
               if (ctors.Count() != 1)//Type {0} must have exactly one constructor.
               {
-                  throw new InvalidOperationException(String.Format("类型{0}必须只有一个构造函数。", typeof(T)));
+                  throw new InvalidOperationException(string.Format("类型{0}必须只有一个构造函数。", typeof(T)));
               }
               var ctor = ctors.SingleOrDefault(c => !c.GetParameters().Any() && c.IsPrivate);
               if (ctor == null)//The constructor for {0} must be private and take no parameters.
               {
-                  throw new InvalidOperationException(String.Format("{0}的构造函数必须是私有的，并且不接受任何参数。", typeof(T)));
+                  throw new InvalidOperationException(string.Format("{0}的构造函数必须是私有的，并且不接受任何参数。", typeof(T)));
               }
               return (T)ctor.Invoke(null);
           }, true);

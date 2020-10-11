@@ -70,29 +70,6 @@ namespace IceCoffee.Common
             return crc_reg.ToString("X2");
         }
 
-        public static string GetMD5HashFromFile(string fileName)
-        {
-            try
-            {
-                FileStream file = new FileStream(fileName, FileMode.Open);
-                System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
-                byte[] retVal = md5.ComputeHash(file);
-                file.Close();
-
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < retVal.Length; ++i)
-                {
-                    sb.Append(retVal[i].ToString("x2"));
-                }
-                return sb.ToString();
-            }
-            catch
-            {
-                //throw new Exception("GetMD5HashFromFile() fail,error:" + ex.Message);
-                return string.Empty;
-            }
-        }
-
         /// <summary>
         /// 通过PropertyInfo创建Expression表达式
         /// </summary>
@@ -227,7 +204,7 @@ namespace IceCoffee.Common
                         //判断当前
                         while (((curByte <<= 1) & 0x80) != 0)
                         {
-                            charByteCounter++;
+                            ++charByteCounter;
                         }
                         //标记位首位若为非0 则至少以2个1开始 如:110XXXXX...........1111110X　
                         if (charByteCounter == 1 || charByteCounter > 6)
@@ -243,7 +220,7 @@ namespace IceCoffee.Common
                     {
                         return false;
                     }
-                    charByteCounter--;
+                    --charByteCounter;
                 }
             }
             if (charByteCounter > 1)
