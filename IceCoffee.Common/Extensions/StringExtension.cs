@@ -178,7 +178,7 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
-        /// 将字符串转为Base64编码
+        /// 将utf-8编码的字符串转为Base64编码
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
@@ -193,7 +193,7 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
-        /// 从Base64编码的字符串解析出原字符串
+        /// 从Base64编码的字符串解析出原utf-8编码的字符串
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
