@@ -19,7 +19,7 @@ namespace IceCoffee.Common.Extensions
         /// <summary>
         /// 将对象转换为Json格式
         /// </summary>
-        /// <param name="str"></param>
+        /// <param name="obj"></param>
         /// <returns></returns>
         public static string ToJson(this object obj)
         {

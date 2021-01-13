@@ -36,7 +36,7 @@ namespace IceCoffee.Common.GIS
         */
         private const double ee = 0.00669342162296594323;
         // 地球半径
-        private const double earthR = 6371000.0;
+        private const double earthR = 6371004.0;
 
         /// <summary>
         /// 计算偏差
@@ -608,7 +608,7 @@ namespace IceCoffee.Common.GIS
         #endregion
 
         /// <summary>
-        /// 两点直接的距离
+        /// 两点之间的距离
         /// </summary>
         public static double GetDistance(double latA, double lonA, double latB, double lonB)
         {

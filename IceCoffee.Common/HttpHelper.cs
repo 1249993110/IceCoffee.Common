@@ -18,16 +18,24 @@ namespace IceCoffee.Common
     /// <summary>
     /// 使用全局唯一 HttpClient 实例执行 Http 请求
     /// </summary>
-    public class HttpHelper
+    public class HttpHelper : IDisposable
     {
-        public class ContentType
+        public struct ContentType
         {
-            public const string Json = "application/json";
+            public const string Json = "application/json";// StringContent
 
-            public const string Xml = "application/xml";
+            public const string Xml = "application/xml";// StringContent
+
+            public const string FormUrlencoded = "application/x-www-form-urlencoded";// FormUrlEncodedContent
+
+            public const string FormData = "multipart/form-data";// MultipartFormDataContent
+
+            public const string TextXml = "text/xml";// StringContent
+
+            public const string Binary = "binary";// StreamContent
         }
 
-        private static HttpClient _httpClient;
+        private HttpClient _httpClient;
 
 
         private static HttpHelper _instance = null;
@@ -57,7 +65,7 @@ namespace IceCoffee.Common
         private HttpHelper()
         {
             _httpClient = new HttpClient();
-            _httpClient.Timeout = TimeSpan.FromMilliseconds(20);
+            _httpClient.Timeout = TimeSpan.FromSeconds(20);
         }
 
         public HttpHelper(HttpClient httpClient)
@@ -243,6 +251,14 @@ namespace IceCoffee.Common
 #else
             return JsonSerializer.Deserialize<T>(responseBody);
 #endif
+        }
+
+        /// <summary>
+        /// 释放由 HttpMessageInvoker 使用的非托管资源和托管资源
+        /// </summary>
+        public void Dispose()
+        {
+            _httpClient.Dispose();
         }
         #endregion
     }

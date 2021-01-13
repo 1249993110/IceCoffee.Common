@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq.Expressions;
@@ -44,12 +45,13 @@ namespace IceCoffee.Common
 
         #endregion 获取配置项
 
+        #region CRC16校验
         /// <summary>
         /// CRC16校验
         /// </summary>
         /// <param name="arg">需要校验的字符串</param>
         /// <returns>CRC16 校验码</returns>
-        public static string CRC16_Checkout(string arg)
+        public static string CRC16(string arg)
         {
             char[] puchMsg = arg.ToCharArray();
             uint i, j, crc_reg, check;
@@ -69,6 +71,28 @@ namespace IceCoffee.Common
             }
             return crc_reg.ToString("X2");
         }
+        private static readonly ushort[] crcTlb = new ushort[16] { 0x0000, 0xCC01, 0xD801, 0x1400, 0xF001, 0x3C00, 0x2800, 0xE401, 0xA001, 0x6C00, 0x7800, 0xB401, 0x5000, 0x9C01, 0x8801, 0x4400 };
+        /// <summary>
+        /// CRC16校验
+        /// </summary>
+        /// <param name="pBuf"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static ushort CRC16(byte[] pBuf, int length = 0)
+        {
+            length = length == 0 ? pBuf.Length : length;
+            byte i = 0, ch = 0;
+            ushort crc = 0xFFFF;
+            for (i = 0; i < length - 2; ++i)
+            {
+                ch = pBuf[i];
+                crc = (ushort)(crcTlb[(ch ^ crc) & 0x0F] ^ (crc >> 4));
+                crc = (ushort)(crcTlb[((ch >> 4) ^ crc) & 0x0F] ^ (crc >> 4));
+            }
+
+            return (ushort)((crc & 0xFF) << 8 | (crc >> 8));
+        }
+        #endregion
 
         /// <summary>
         /// 通过PropertyInfo创建Expression表达式

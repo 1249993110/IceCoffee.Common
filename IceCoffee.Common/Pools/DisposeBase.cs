@@ -17,23 +17,6 @@ namespace IceCoffee.Common.Pools
         event EventHandler OnDisposed;
     }
 
-    /// <summary>具有销毁资源处理的抽象基类</summary>
-    /// <example>
-    /// <code>
-    /// /// &lt;summary&gt;子类重载实现资源释放逻辑时必须首先调用基类方法&lt;/summary&gt;
-    /// /// &lt;param name="disposing"&gt;从Dispose调用（释放所有资源）还是析构函数调用（释放非托管资源）。
-    /// /// 因为该方法只会被调用一次，所以该参数的意义不太大。&lt;/param&gt;
-    /// protected override void OnDispose(bool disposing)
-    /// {
-    ///     base.OnDispose(disposing);
-    ///
-    ///     if (disposing)
-    ///     {
-    ///         // 如果是构造函数进来，不执行这里的代码
-    ///     }
-    /// }
-    /// </code>
-    /// </example>
     public abstract class DisposeBase : IDisposable2
     {
         #region 释放资源
@@ -79,7 +62,6 @@ namespace IceCoffee.Common.Pools
             }
             catch (Exception)
             {
-                //if (XTrace.Debug) XTrace.WriteLine("设计错误，OnDispose中尽可能的不要抛出异常！{0}", ex.ToString());
                 //throw;
             }
             //}
@@ -91,7 +73,6 @@ namespace IceCoffee.Common.Pools
             // 只有基类的OnDispose被调用，才有可能是2
             if (Interlocked.CompareExchange(ref disposed, 3, 2) != 2)
             {
-                //throw new XException("设计错误，OnDispose应该只被调用一次！代码不应该直接调用OnDispose，而应该调用Dispose。子类重载OnDispose时必须首先调用基类方法！");
                 throw new Exception("设计错误，OnDispose应该只被调用一次！代码不应该直接调用OnDispose，而应该调用Dispose。子类重载OnDispose时必须首先调用基类方法！");
             }
         }
@@ -99,12 +80,11 @@ namespace IceCoffee.Common.Pools
         /// <summary>子类重载实现资源释放逻辑时必须首先调用基类方法</summary>
         /// <param name="disposing">从Dispose调用（释放所有资源）还是析构函数调用（释放非托管资源）。
         /// 因为该方法只会被调用一次，所以该参数的意义不太大。</param>
-        protected virtual void OnDispose(Boolean disposing)
+        protected virtual void OnDispose(bool disposing)
         {
             // 只有从Dispose中调用，才有可能是1
             if (Interlocked.CompareExchange(ref disposed, 2, 1) != 1)
             {
-                //throw new XException("设计错误，OnDispose应该只被调用一次！代码不应该直接调用OnDispose，而应该调用Dispose。");
                 throw new Exception("设计错误，OnDispose应该只被调用一次！代码不应该直接调用OnDispose，而应该调用Dispose。");
             }
 

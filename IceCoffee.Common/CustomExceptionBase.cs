@@ -28,14 +28,26 @@ namespace IceCoffee.Common
         /// </summary>
         public CustomExceptionType CustomExceptionType { get; set; } = CustomExceptionType.Unchecked;
 
+        /// <summary>
+        /// 实例化 CustomExceptionBase
+        /// </summary>
         public CustomExceptionBase()
         {
         }
 
+        /// <summary>
+        /// 实例化 CustomExceptionBase
+        /// </summary>
+        /// <param name="message"></param>
         public CustomExceptionBase(string message) : base(message)
         {
         }
 
+        /// <summary>
+        /// 实例化 CustomExceptionBase
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="innerException"></param>
         public CustomExceptionBase(string message, Exception innerException) : base(message, innerException)
         {
         }
