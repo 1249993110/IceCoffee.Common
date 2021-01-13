@@ -608,7 +608,7 @@ namespace IceCoffee.Common.GIS
         #endregion
 
         /// <summary>
-        /// 两点之间的距离
+        /// 得到两点之间的距离
         /// </summary>
         public static double GetDistance(double latA, double lonA, double latB, double lonB)
         {
