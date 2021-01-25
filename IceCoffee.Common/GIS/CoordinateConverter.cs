@@ -162,7 +162,7 @@ namespace IceCoffee.Common.GIS
                 wgsLng = (mLng + pLng) / 2;
                 wgsLat = (mLat + pLat) / 2;
 
-                GCJ02_to_WGS84(wgsLat, wgsLng, out out_lng, out out_lat);
+                GCJ02_to_WGS84(wgsLng, wgsLat, out out_lng, out out_lat);
                 dLng = out_lng - in_lng;
                 dLat = out_lat - in_lat;
 
@@ -608,7 +608,7 @@ namespace IceCoffee.Common.GIS
         #endregion
 
         /// <summary>
-        /// 得到两点之间的距离
+        /// 得到两点之间的距离，单位：米
         /// </summary>
         public static double GetDistance(double latA, double lonA, double latB, double lonB)
         {
