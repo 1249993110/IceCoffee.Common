@@ -161,7 +161,7 @@ namespace IceCoffee.Common.Security.Cryptography
         public static class DES3
         {
             /// <summary>
-            /// 加密
+            /// 加密 返回 Base64 加密值
             /// </summary>
             /// <param name="input"></param>
             /// <param name="key"></param>
@@ -221,6 +221,74 @@ namespace IceCoffee.Common.Security.Cryptography
                         catch
                         {
                             return string.Empty;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("DES3 解密异常", ex);
+                }
+            }
+
+            /// <summary>
+            /// 加密
+            /// </summary>
+            /// <param name="input"></param>
+            /// <param name="key"></param>
+            /// <param name="iv"></param>
+            /// <returns></returns>
+            public static byte[] Encrypt(byte[] input, byte[] key, byte[] iv)
+            {
+                try
+                {
+                    using (var des = new TripleDESCryptoServiceProvider())
+                    {
+                        des.Key = key;
+                        des.Mode = CipherMode.CBC;
+                        des.Padding = PaddingMode.PKCS7;
+                        des.IV = iv;
+
+                        ICryptoTransform desEncrypt = des.CreateEncryptor();
+
+                        byte[] buffer = input;
+                        return desEncrypt.TransformFinalBlock(buffer, 0, buffer.Length);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("DES3 加密异常", ex);
+                }
+            }
+
+            /// <summary>
+            /// 解密
+            /// </summary>
+            /// <param name="input"></param>
+            /// <param name="key"></param>
+            /// <param name="iv"></param>
+            /// <returns></returns>
+            public static byte[] Decrypt(byte[] input, byte[] key, byte[] iv)
+            {
+                try
+                {
+                    using (var des = new TripleDESCryptoServiceProvider())
+                    {
+                        des.Key = key;
+                        des.Mode = CipherMode.CBC;
+                        des.Padding = PaddingMode.PKCS7;
+                        des.IV = iv;
+
+                        ICryptoTransform desDecrypt = des.CreateDecryptor();
+
+                        byte[] buffer = input;
+
+                        try
+                        {
+                            return desDecrypt.TransformFinalBlock(buffer, 0, buffer.Length);
+                        }
+                        catch
+                        {
+                            return null;
                         }
                     }
                 }

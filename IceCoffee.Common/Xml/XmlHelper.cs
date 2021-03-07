@@ -18,9 +18,12 @@ namespace IceCoffee.Common.Xml
                 return;
             }
 
+            ConfigNodeAttribute configNodeAttribute;
+            object value;
+
             foreach (PropertyInfo property in obj.GetType().GetProperties())
             {
-                ConfigNodeAttribute configNodeAttribute = property.GetCustomAttribute<ConfigNodeAttribute>(false);
+                configNodeAttribute = property.GetCustomAttribute<ConfigNodeAttribute>(false);
 
                 if (configNodeAttribute != null)
                 {
@@ -37,7 +40,8 @@ namespace IceCoffee.Common.Xml
 
                         case XmlNodeType.Attribute:
                             {
-                                baseNode.SaveAttribute(contextDoc, property.Name, property.GetValue(obj)?.ToString());
+                                value = property.GetValue(obj);
+                                baseNode.SaveAttribute(contextDoc, property.Name, value == null ? string.Empty : value.ToString());
                             }
                             break;
 
@@ -60,9 +64,11 @@ namespace IceCoffee.Common.Xml
                 return;
             }
 
+            ConfigNodeAttribute configNodeAttribute;
+
             foreach (PropertyInfo property in obj.GetType().GetProperties())
             {
-                ConfigNodeAttribute configNodeAttribute = property.GetCustomAttribute<ConfigNodeAttribute>(false);
+                configNodeAttribute = property.GetCustomAttribute<ConfigNodeAttribute>(false);
 
                 if (configNodeAttribute != null)
                 {
