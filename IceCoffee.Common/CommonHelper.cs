@@ -225,12 +225,12 @@ namespace IceCoffee.Common
                 {
                     if (curByte >= 0x80)
                     {
-                        //判断当前
+                        // 判断当前
                         while (((curByte <<= 1) & 0x80) != 0)
                         {
                             ++charByteCounter;
                         }
-                        //标记位首位若为非0 则至少以2个1开始 如:110XXXXX...........1111110X　
+                        // 标记位首位若为非0 则至少以2个1开始 如:110XXXXX...........1111110X　
                         if (charByteCounter == 1 || charByteCounter > 6)
                         {
                             return false;
@@ -239,7 +239,7 @@ namespace IceCoffee.Common
                 }
                 else
                 {
-                    //若是UTF-8 此时第一位必须为1
+                    // 若是UTF-8 此时第一位必须为1
                     if ((curByte & 0xC0) != 0x80)
                     {
                         return false;
