@@ -32,6 +32,8 @@ namespace IceCoffee.Common.Timers
 
         private int _interval = 1;
 
+        private Action _action;
+
         /// <summary>
         /// 是否启用
         /// </summary>
@@ -45,7 +47,7 @@ namespace IceCoffee.Common.Timers
         /// <summary>
         /// 执行方法
         /// </summary>
-        internal Action action;
+        public Action Action => _action;
 
         /// <summary>
         /// 构造
@@ -54,7 +56,7 @@ namespace IceCoffee.Common.Timers
         /// <param name="interval"></param>
         public SubTimer(Action action, int interval)
         {
-            this.action = action;
+            this._action = action;
             this._interval = interval;
         }
 

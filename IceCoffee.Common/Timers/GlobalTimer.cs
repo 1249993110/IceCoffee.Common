@@ -37,7 +37,7 @@ namespace IceCoffee.Common.Timers
                     if (subTimer.countInSeconds >= subTimer.Interval)
                     {
                         subTimer.countInSeconds = 0;
-                        subTimer.action();
+                        Task.Run(subTimer.Action);
                     }
                 }
             }
@@ -76,6 +76,20 @@ namespace IceCoffee.Common.Timers
             }
 
             _subTimers.Add(subTimer);
+        }
+
+        /// <summary>
+        /// 取消注册子计时器
+        /// </summary>
+        /// <param name="subTimer"></param>
+        public static void UnregisterSubTimer(SubTimer subTimer)
+        {
+            if (subTimer == null)
+            {
+                throw new ArgumentNullException(nameof(subTimer));
+            }
+
+            _subTimers.Remove(subTimer);
         }
     }
 }
