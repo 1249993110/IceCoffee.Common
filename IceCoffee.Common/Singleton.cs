@@ -31,7 +31,7 @@ namespace IceCoffee.Common
         {
             get
             {
-                if (_instance == null) //双if +lock
+                if (_instance == null) // 双if +lock
                 {
                     lock (_singleton_Lock)
                     {
@@ -47,7 +47,7 @@ namespace IceCoffee.Common
     }
 
     /// <summary>
-    /// 使用反射,懒汉模式
+    /// 使用反射，懒汉模式
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class Singleton3<T> where T : class
