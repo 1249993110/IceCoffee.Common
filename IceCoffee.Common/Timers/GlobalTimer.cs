@@ -21,7 +21,7 @@ namespace IceCoffee.Common.Timers
         /// </summary>
         static GlobalTimer()
         {
-            _timer = new Timer(1.0);
+            _timer = new Timer(1000D);
             _timer.Elapsed += _timer_Elapsed;
             _subTimers = new List<SubTimer>();
         }
@@ -46,7 +46,7 @@ namespace IceCoffee.Common.Timers
         /// <summary>
         /// 开始全部定时器
         /// </summary>
-        public static void StartAll()
+        public static void Start()
         {
             _timer.Start();
         }
@@ -54,7 +54,7 @@ namespace IceCoffee.Common.Timers
         /// <summary>
         /// 停止全部定时器
         /// </summary>
-        public static void StopAll()
+        public static void Stop()
         {
             _timer.Stop();
         }
