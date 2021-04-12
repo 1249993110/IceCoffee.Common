@@ -30,7 +30,7 @@ namespace IceCoffee.Common.Timers
         {
             foreach (var subTimer in _subTimers)
             {
-                if (subTimer.IsEnabled)
+                if (subTimer.isEnabled)
                 {
                     ++subTimer.countInSeconds;
 
@@ -52,11 +52,16 @@ namespace IceCoffee.Common.Timers
         }
 
         /// <summary>
-        /// 停止全部定时器
+        /// 停止全部定时器，并重置计数
         /// </summary>
         public static void Stop()
         {
             _timer.Stop();
+
+            foreach (var subTimer in _subTimers)
+            {
+                subTimer.countInSeconds = 0;
+            }
         }
 
         /// <summary>
@@ -79,7 +84,7 @@ namespace IceCoffee.Common.Timers
         }
 
         /// <summary>
-        /// 取消注册子计时器
+        /// 取消注册子计时器，并重置其计数
         /// </summary>
         /// <param name="subTimer"></param>
         public static void UnregisterSubTimer(SubTimer subTimer)
@@ -89,6 +94,7 @@ namespace IceCoffee.Common.Timers
                 throw new ArgumentNullException(nameof(subTimer));
             }
 
+            subTimer.IsEnabled = false;
             _subTimers.Remove(subTimer);
         }
     }

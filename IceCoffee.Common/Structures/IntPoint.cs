@@ -1,4 +1,4 @@
-﻿namespace IceCoffee.Common.Structure
+﻿namespace IceCoffee.Common.Structures
 {
     /// <summary>
     /// 整数点

@@ -21,7 +21,7 @@ namespace IceCoffee.Common.Timers
             {
                 if (value < 1)
                 {
-                    IsEnabled = false;
+                    isEnabled = false;
                 }
                 else
                 {
@@ -31,13 +31,26 @@ namespace IceCoffee.Common.Timers
         }
 
         private int _interval = 1;
-
         private Action _action;
 
         /// <summary>
-        /// 是否启用
+        /// 是否启用，在启用时禁用将重置计数
         /// </summary>
-        public bool IsEnabled { get; set; }
+        public bool IsEnabled 
+        { 
+            get => isEnabled; 
+            set 
+            { 
+                if (isEnabled && value == false)
+                {
+                    countInSeconds = 0;
+                }
+
+                isEnabled = value;
+            }
+        }
+
+        internal bool isEnabled;
 
         /// <summary>
         /// 秒级的计数

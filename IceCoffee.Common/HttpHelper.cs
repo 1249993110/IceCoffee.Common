@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
+using System.Net;
 #if NET45
 using Newtonsoft.Json;
 #else
@@ -20,7 +21,7 @@ namespace IceCoffee.Common
     /// </summary>
     public class HttpHelper : IDisposable
     {
-        public struct ContentType
+        public static class ContentType
         {
             public const string Json = "application/json";// StringContent
 
@@ -38,34 +39,39 @@ namespace IceCoffee.Common
         private HttpClient _httpClient;
 
 
-        private static HttpHelper _instance = null;
+        private static HttpHelper _defaultInstance = null;
         private static readonly object _singleton_Lock = new object();
 
         /// <summary>
         /// 获得默认实例，请求超时前等待的时间跨度默认为 20 秒
         /// </summary>
-        public static HttpHelper Instance
+        public static HttpHelper Default
         {
             get
             {
-                if (_instance == null) //双if + lock
+                if (_defaultInstance == null) //双if + lock
                 {
                     lock (_singleton_Lock)
                     {
-                        if (_instance == null)
+                        if (_defaultInstance == null)
                         {
-                            _instance = new HttpHelper();
+                            _defaultInstance = new HttpHelper();
                         }
                     }
                 }
-                return _instance;
+                return _defaultInstance;
             }
         }
 
         private HttpHelper()
         {
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
             _httpClient = new HttpClient();
             _httpClient.Timeout = TimeSpan.FromSeconds(20);
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType.Json));
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*", 0.01));
         }
 
         public HttpHelper(HttpClient httpClient)
