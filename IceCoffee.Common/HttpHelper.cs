@@ -169,12 +169,7 @@ namespace IceCoffee.Common
         /// <returns>返回请求的对象</returns>
         public T GetObject<T>(string url, object param)
         {
-            string responseBody = GetString(AttachQueryString(url, param));
-#if NET45
-            return JsonConvert.DeserializeObject<T>(responseBody);
-#else
-            return JsonSerializer.Deserialize<T>(responseBody);
-#endif
+            return GetObjectAsync<T>(url, param).Result;
         }
         /// <summary>
         /// 使用 Get 返回异步请求直接返回对象
@@ -205,11 +200,7 @@ namespace IceCoffee.Common
         /// <returns>返回的字符串</returns>
         public string PostString(string url, object param)
         {
-            HttpContent content = new StringContent(param.ToJson());
-            content.Headers.ContentType = new MediaTypeHeaderValue(ContentType.Json);
-            HttpResponseMessage response = _httpClient.PostAsync(url, content).Result;
-            response.EnsureSuccessStatusCode();
-            return response.Content.ReadAsStringAsync().Result;
+            return PostStringAsync(url, param).Result;
         }
         /// <summary>
         /// 使用 Post 方法异步请求
@@ -219,7 +210,9 @@ namespace IceCoffee.Common
         /// <returns>返回的字符串</returns>
         public async Task<string> PostStringAsync(string url, object param)
         {
-            HttpContent content = new StringContent(param.ToJson());
+            string json = (param as string) ?? param.ToJson();
+
+            HttpContent content = new StringContent(json);
             content.Headers.ContentType = new MediaTypeHeaderValue(ContentType.Json);
             HttpResponseMessage response = await _httpClient.PostAsync(url, content);
             response.EnsureSuccessStatusCode();
@@ -235,12 +228,7 @@ namespace IceCoffee.Common
         /// <returns>返回请求的对象</returns>
         public T PostObject<T>(string url, object param)
         {
-            string responseBody = PostString(url, param);
-#if NET45
-            return JsonConvert.DeserializeObject<T>(responseBody);
-#else
-            return JsonSerializer.Deserialize<T>(responseBody);
-#endif
+            return PostObjectAsync<T>(url, param).Result;
         }
         /// <summary>
         /// 使用 Post 返回异步请求直接返回对象
