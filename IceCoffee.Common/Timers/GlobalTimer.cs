@@ -12,9 +12,9 @@ namespace IceCoffee.Common.Timers
     /// </summary>
     public static class GlobalTimer
     {
-        private static Timer _timer;
+        private static readonly Timer _timer;
 
-        private static List<SubTimer> _subTimers;
+        private static readonly List<SubTimer> _subTimers;
 
         /// <summary>
         /// 构造
@@ -77,7 +77,7 @@ namespace IceCoffee.Common.Timers
 
             if(_subTimers.Contains(subTimer))
             {
-                throw new Exception("subTimer已注册");
+                throw new Exception("subTimer registered");
             }
 
             _subTimers.Add(subTimer);

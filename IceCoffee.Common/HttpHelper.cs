@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Net;
+using System.IO;
 #if NET45
 using Newtonsoft.Json;
 #else
@@ -84,6 +85,50 @@ namespace IceCoffee.Common
         }
 
         #region Get
+        /// <summary>
+        /// 将 Get 请求发送到指定 Url 并在同步操作中以字节数组的形式返回响应正文。
+        /// </summary>
+        public byte[] GetByteArray(string requestUri)
+        {
+            return _httpClient.GetByteArrayAsync(requestUri).Result;
+        }
+        /// <summary>
+        /// 将 Get 请求发送到指定 Url 并在异步操作中以字节数组的形式返回响应正文。
+        /// </summary>
+        public async Task<byte[]> GetByteArrayAsync(string requestUri)
+        {
+            return await _httpClient.GetByteArrayAsync(requestUri);
+        }
+
+        /// <summary>
+        /// 将 Get 请求发送到指定 Url 并在同步操作中以流的形式返回响应正文。
+        /// </summary>
+        public Stream GetStream(string requestUri)
+        {
+            return _httpClient.GetStreamAsync(requestUri).Result;
+        }
+        /// <summary>
+        /// 将 Get 请求发送到指定 Url 并在异步操作中以流的形式返回响应正文。
+        /// </summary>
+        public async Task<Stream> GetStreamAsync(string requestUri)
+        {
+            return await _httpClient.GetStreamAsync(requestUri);
+        }
+
+        /// <summary>
+        /// 将 Get 请求发送到指定 Url 并在同步操作中以字符串的形式返回响应正文。
+        /// </summary>
+        public string GetString(string requestUri)
+        {
+            return _httpClient.GetStringAsync(requestUri).Result;
+        }
+        /// <summary>
+        /// 将 Get 请求发送到指定 Url 并在异步操作中以字符串的形式返回响应正文。
+        /// </summary>
+        public async Task<string> GetStringAsync(string requestUri)
+        {
+            return await _httpClient.GetStringAsync(requestUri);
+        }
 
         /// <summary>
         /// 将 Get 请求发送到指定 Url 并在同步操作中以字符串的形式返回响应正文。
