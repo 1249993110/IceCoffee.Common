@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <Product>IceCoffee</Product>
     <Description>大部分库需要用到的公共模块</Description>
-    <Copyright>Copyright (c) 2020 IceCoffee</Copyright>
+    <Copyright>Copyright (c) 2021 IceCoffee</Copyright>
     <PackageProjectUrl>https://github.com/1249993110/IceCoffee.Common</PackageProjectUrl>
     <RepositoryUrl>https://github.com/1249993110/IceCoffee.Common</RepositoryUrl>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>

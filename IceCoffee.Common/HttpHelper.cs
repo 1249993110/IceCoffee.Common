@@ -22,7 +22,7 @@ namespace IceCoffee.Common
     /// </summary>
     public class HttpHelper : IDisposable
     {
-        public static class ContentType
+        public static class ContentTypes
         {
             public const string Json = "application/json";// StringContent
 
@@ -71,7 +71,7 @@ namespace IceCoffee.Common
 
             _httpClient = new HttpClient();
             _httpClient.Timeout = TimeSpan.FromSeconds(20);
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentType.Json));
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentTypes.Json));
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("*/*", 0.01));
         }
 
@@ -113,21 +113,6 @@ namespace IceCoffee.Common
         public async Task<Stream> GetStreamAsync(string requestUri)
         {
             return await _httpClient.GetStreamAsync(requestUri);
-        }
-
-        /// <summary>
-        /// 将 Get 请求发送到指定 Url 并在同步操作中以字符串的形式返回响应正文。
-        /// </summary>
-        public string GetString(string requestUri)
-        {
-            return _httpClient.GetStringAsync(requestUri).Result;
-        }
-        /// <summary>
-        /// 将 Get 请求发送到指定 Url 并在异步操作中以字符串的形式返回响应正文。
-        /// </summary>
-        public async Task<string> GetStringAsync(string requestUri)
-        {
-            return await _httpClient.GetStringAsync(requestUri);
         }
 
         /// <summary>
@@ -258,7 +243,7 @@ namespace IceCoffee.Common
             string json = (param as string) ?? param.ToJson();
 
             HttpContent content = new StringContent(json);
-            content.Headers.ContentType = new MediaTypeHeaderValue(ContentType.Json);
+            content.Headers.ContentType = new MediaTypeHeaderValue(ContentTypes.Json);
             HttpResponseMessage response = await _httpClient.PostAsync(url, content);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
