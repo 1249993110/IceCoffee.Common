@@ -14,7 +14,7 @@ namespace IceCoffee.Common.Extensions
         /// <summary>
         /// 格林尼治时间1970年1月1日0时（北京时间1970年1月1日8时）
         /// </summary>
-        public static DateTime UnixStartTimeStamp = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        public static readonly DateTime UnixStartTimeStamp = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         /// DateTime转换为10位时间戳（单位：秒）

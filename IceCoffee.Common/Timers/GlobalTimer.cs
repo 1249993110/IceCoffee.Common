@@ -75,12 +75,16 @@ namespace IceCoffee.Common.Timers
                 throw new ArgumentNullException(nameof(subTimer));
             }
 
-            if(_subTimers.Contains(subTimer))
+            lock (_timer)
             {
-                throw new Exception("subTimer registered");
-            }
 
-            _subTimers.Add(subTimer);
+                if (_subTimers.Contains(subTimer))
+                {
+                    throw new Exception("subTimer registered");
+                }
+
+                _subTimers.Add(subTimer);
+            }
         }
 
         /// <summary>
@@ -95,7 +99,11 @@ namespace IceCoffee.Common.Timers
             }
 
             subTimer.IsEnabled = false;
-            _subTimers.Remove(subTimer);
+
+            lock (_timer)
+            {
+                _subTimers.Remove(subTimer);
+            }
         }
     }
 }

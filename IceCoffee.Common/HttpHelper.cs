@@ -22,7 +22,7 @@ namespace IceCoffee.Common
     /// </summary>
     public class HttpHelper : IDisposable
     {
-        public static class ContentTypes
+        public struct ContentTypes
         {
             public const string Json = "application/json";// StringContent
 
@@ -50,7 +50,7 @@ namespace IceCoffee.Common
         {
             get
             {
-                if (_defaultInstance == null) //双if + lock
+                if (_defaultInstance == null) // 双if + lock
                 {
                     lock (_singleton_Lock)
                     {

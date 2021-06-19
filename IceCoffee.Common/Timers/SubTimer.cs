@@ -66,11 +66,20 @@ namespace IceCoffee.Common.Timers
         /// 构造
         /// </summary>
         /// <param name="action"></param>
+        public SubTimer(Action action)
+        {
+            this._action = action;
+        }
+
+        /// <summary>
+        /// 构造
+        /// </summary>
+        /// <param name="action"></param>
         /// <param name="interval"></param>
         public SubTimer(Action action, int interval)
         {
             this._action = action;
-            this._interval = interval;
+            this.Interval = interval;
         }
 
     }

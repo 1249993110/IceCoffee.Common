@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -123,18 +124,51 @@ namespace IceCoffee.Common
         public static string GetRandomString(int length, bool useNum = true, bool useLow = false, bool useUpp = false, bool useSpe = false, string custom = null)
         {
             byte[] b = new byte[4];
-            new System.Security.Cryptography.RNGCryptoServiceProvider().GetBytes(b);
-            Random r = new Random(BitConverter.ToInt32(b, 0));
-            string s = null, str = custom;
-            if (useNum == true) { str += "0123456789"; }
-            if (useLow == true) { str += "abcdefghijklmnopqrstuvwxyz"; }
-            if (useUpp == true) { str += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; }
-            if (useSpe == true) { str += "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"; }
-            for (int i = 0; i < length; i++)
+            using (var rng = new System.Security.Cryptography.RNGCryptoServiceProvider())
             {
-                s += str.Substring(r.Next(0, str.Length - 1), 1);
+                rng.GetBytes(b);
+
+                Random r = new Random(BitConverter.ToInt32(b, 0));
+                StringBuilder sb = new StringBuilder();
+                string str = custom;
+                if (useNum == true) { str += "0123456789"; }
+                if (useLow == true) { str += "abcdefghijklmnopqrstuvwxyz"; }
+                if (useUpp == true) { str += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; }
+                if (useSpe == true) { str += "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"; }
+                for (int i = 0; i < length; ++i)
+                {
+                    sb.Append(str.Substring(r.Next(0, str.Length - 1), 1));
+                }
+
+                return sb.ToString();
             }
-            return s;
+        }
+
+        /// <summary>
+        /// 生成随机字符串
+        /// </summary>
+        /// <returns></returns>
+        public static string GetRandomString(int byteLen = 24)
+        {
+            var randomNumber = new byte[byteLen];
+            using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
+        }
+
+        /// <summary>
+        /// 生成随机字符串
+        /// </summary>
+        /// <param name="chars"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static string GetRandomString(string chars, int length)
+        {
+            var random = new Random();
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(x => x[random.Next(x.Length)]).ToArray());
         }
 
         //#define MB_OK                       0x00000000L
@@ -254,5 +288,44 @@ namespace IceCoffee.Common
             return true;
         }
 
+        /// <summary>
+        /// 洗牌
+        /// </summary>
+        /// <param name="array"></param>
+        public static T[] Shuffle<T>(T[] array)
+        {
+            Random rng = new Random();  // i.e.
+            int n = array.Length;       // The number of items left to shuffle (loop invariant).
+            while (n > 1)
+            {
+                int k = rng.Next(n);    // 0 <= k < n.
+                --n;                    // n is now the last pertinent index;
+                T temp = array[n];      // swap array[n] with array[k] (does nothing if k == n).
+                array[n] = array[k];
+                array[k] = temp;
+            }
+
+            return array;
+        }
+
+        /// <summary>
+        /// 洗牌
+        /// </summary>
+        /// <param name="array"></param>
+        public static IList<T> Shuffle<T>(IList<T> array)
+        {
+            Random rng = new Random();  // i.e.
+            int n = array.Count;        // The number of items left to shuffle (loop invariant).
+            while (n > 1)
+            {
+                int k = rng.Next(n);    // 0 <= k < n.
+                --n;                    // n is now the last pertinent index;
+                T temp = array[n];      // swap array[n] with array[k] (does nothing if k == n).
+                array[n] = array[k];
+                array[k] = temp;
+            }
+
+            return array;
+        }
     }
 }
