@@ -64,11 +64,19 @@ namespace IceCoffee.Common
             }
         }
 
-        private HttpHelper()
+        static HttpHelper()
         {
+#if NETCOREAPP3_1
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType .Tls13;
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+#else
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+#endif
+        }
 
+        protected HttpHelper()
+        {
             _httpClient = new HttpClient();
             _httpClient.Timeout = TimeSpan.FromSeconds(20);
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(ContentTypes.Json));
@@ -77,7 +85,7 @@ namespace IceCoffee.Common
 
         public HttpHelper(HttpClient httpClient)
         {
-            if(httpClient == null)
+            if (httpClient == null)
             {
                 throw new ArgumentNullException(nameof(httpClient));
             }
@@ -260,6 +268,7 @@ namespace IceCoffee.Common
         {
             return PostObjectAsync<T>(url, param).Result;
         }
+
         /// <summary>
         /// 使用 Post 返回异步请求直接返回对象
         /// </summary>
