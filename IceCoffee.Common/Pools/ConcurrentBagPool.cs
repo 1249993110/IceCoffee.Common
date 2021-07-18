@@ -4,21 +4,15 @@ using System.Collections.Concurrent;
 namespace IceCoffee.Common.Pools
 {
     /// <summary>
-    /// 简单的线程安全对象池，无资源释放
+    /// 简单的线程安全对象池，<see cref="ConcurrentBag{T}"/>实现
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class SimplePool<T> : IPool<T>, IDisposable where T : class
+    public abstract class ConcurrentBagPool<T> : IObjectPool<T>, IDisposable where T : class
     {
         #region 字段
 
         // 并发安全集合
         private readonly ConcurrentBag<T> _bag = new ConcurrentBag<T>();
-
-        // 集合锁
-        private readonly object _bagLock = new object();
-
-        // 是否已释放资源
-        private bool _isDisposed;
 
         #endregion 字段
 
@@ -34,26 +28,14 @@ namespace IceCoffee.Common.Pools
                 return _bag.Count;
             }
         }
-
-        /// <summary>
-        /// 资源是否被释放
-        /// </summary>
-        public bool IsDisposed
-        {
-            get
-            {
-                lock (_bagLock)
-                {
-                    return _isDisposed;
-                }
-            }
-        }
-
         #endregion 属性
 
         #region 方法
 
-        public SimplePool()
+        /// <summary>
+        /// 实例化 <see cref="ConcurrentBagPool{T}"/>
+        /// </summary>
+        public ConcurrentBagPool()
         {
         }
 
@@ -71,27 +53,23 @@ namespace IceCoffee.Common.Pools
         /// 从池中取走一个对象
         /// </summary>
         /// <returns></returns>
-        public virtual T Take()
+        public virtual T Get()
         {
-            T item;
-            return _bag.TryTake(out item) ? item : Create();
+            return _bag.TryTake(out T item) ? item : Create();
         }
 
         /// <summary>
         /// 往池中放入一个对象
         /// </summary>
         /// <param name="item"></param>
-        public virtual bool Put(T item)
+        public virtual void Return(T item)
         {
             if (item == null)
             {
-                return false;
+                throw new ArgumentNullException(nameof(item));
             }
-            else
-            {
-                _bag.Add(item);
-                return true;
-            }
+
+            _bag.Add(item);
         }
 
         /// <summary>
@@ -107,7 +85,29 @@ namespace IceCoffee.Common.Pools
         }
 
         /// <summary>
-        /// 释放资源
+        /// 清空
+        /// </summary>
+        /// <returns></returns>
+        public virtual void Clear()
+        {
+            int count = this.Count;
+            for (int i = 0; i < count; ++i)
+            {
+                if (this.Get() is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
+            }
+        }
+
+        #region IDisposable implementation
+        /// <summary>
+        /// Disposed flag
+        /// </summary>
+        private bool _isDisposed;
+
+        /// <summary>
+        /// <inheritdoc/>
         /// </summary>
         public void Dispose()
         {
@@ -116,50 +116,36 @@ namespace IceCoffee.Common.Pools
         }
 
         /// <summary>
-        /// 释放资源
+        /// <inheritdoc/>
         /// </summary>
-        /// <param name="disposing">正在释放资源</param>
-        protected virtual void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposingManagedResources)
         {
-            lock (_bagLock)
+            if (_isDisposed == false)
             {
-                if (_isDisposed)
+                if (disposingManagedResources)
                 {
-                    return;
+                    // Dispose managed resources here...
+                    Clear();
                 }
 
-                if (disposing)
-                {
-                    // free managed objects here
-                    InternalClear();
-                }
+                // Dispose unmanaged resources here...
 
+                // Set large fields to null here...
+
+                // Mark as disposed.
                 _isDisposed = true;
             }
         }
 
-        public virtual int Clear()
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        ~ConcurrentBagPool()
         {
-            lock (_bagLock)
-            {
-                return InternalClear();
-            }
+            Dispose(false);
         }
+        #endregion
 
-        private int InternalClear()
-        {
-            int count = this.Count;
-            for (int i = 0; i < count; ++i)
-            {
-                IDisposable item = this.Take() as IDisposable;
-                if (item != null)
-                {
-                    item.Dispose();
-                }
-            }
-            return count;
-        }
-
-        #endregion 方法
+        #endregion
     }
 }

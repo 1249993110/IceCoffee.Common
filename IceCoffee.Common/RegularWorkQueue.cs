@@ -11,21 +11,26 @@ namespace IceCoffee.Common
     /// <summary>
     /// 定期工作队列
     /// </summary>
-    public class RegularWorkQueue<T> : ConcurrentQueue<T>, IDisposable
+    public class RegularWorkQueue<T> : ConcurrentQueue<T>
     {
         private readonly Timer _timer;
 
         /// <summary>
-        /// 做工作
+        /// 做工作，仅当待处理工作数量大于 0 时触发
         /// </summary>
-        public event Action<IList<T>> DoWork;
+        public event Action<List<T>> DoWork;
 
         /// <summary>
         /// 构造 WorkQueue 实例
         /// </summary>
-        /// <param name="processInterval">处理间隔</param>
+        /// <param name="processInterval">处理间隔（单位：毫秒）</param>
         public RegularWorkQueue(double processInterval)
         {
+            if(processInterval <= 0)
+            {
+                throw new ArgumentException("processInterval 必须大于 0", nameof(processInterval));
+            }
+
             _timer = new Timer();
             _timer.Interval = processInterval;
             _timer.AutoReset = true;
@@ -47,17 +52,11 @@ namespace IceCoffee.Common
                     }
                 }
 
-                DoWork?.Invoke(works);
+                if(works.Count > 0)
+                {
+                    DoWork?.Invoke(works);
+                }
             }
-        }
-
-        /// <summary>
-        /// 释放资源
-        /// </summary>
-        public void Dispose()
-        {
-            _timer.Stop();
-            _timer.Dispose();
         }
     }
 }
