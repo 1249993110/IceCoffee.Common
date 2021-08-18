@@ -45,8 +45,7 @@ namespace IceCoffee.Common.Pools
         /// <returns>返回对象</returns>
         protected virtual T Create()
         {
-            var type = typeof(T);
-            return Activator.CreateInstance(type, true) as T;
+            return Activator.CreateInstance(typeof(T), true) as T;
         }
 
         /// <summary>

@@ -234,7 +234,7 @@ namespace IceCoffee.Common
         /// 使用 Post 方法同步请求
         /// </summary>
         /// <param name="url">目标链接</param>
-        /// <param name="param">发送的对象,自动转换为Json对象</param>
+        /// <param name="param">发送的对象,如果对象不是string类型则自动转换为Json对象</param>
         /// <returns>返回的字符串</returns>
         public string PostString(string url, object param)
         {
@@ -244,13 +244,13 @@ namespace IceCoffee.Common
         /// 使用 Post 方法异步请求
         /// </summary>
         /// <param name="url">目标链接</param>
-        /// <param name="param">发送的对象,自动转换为Json对象</param>
+        /// <param name="param">发送的对象,如果对象不是string类型则自动转换为Json对象</param>
         /// <returns>返回的字符串</returns>
         public async Task<string> PostStringAsync(string url, object param)
         {
-            string json = (param as string) ?? param.ToJson();
+            string str = (param as string) ?? param.ToJson();
 
-            HttpContent content = new StringContent(json);
+            HttpContent content = new StringContent(str);
             content.Headers.ContentType = new MediaTypeHeaderValue(ContentTypes.Json);
             HttpResponseMessage response = await _httpClient.PostAsync(url, content);
             response.EnsureSuccessStatusCode();
@@ -262,7 +262,7 @@ namespace IceCoffee.Common
         /// </summary>
         /// <typeparam name="T">请求对象类型</typeparam>
         /// <param name="url">请求链接</param>
-        /// <param name="param">发送的对象,自动转换为Json对象</param>
+        /// <param name="param">发送的对象,如果对象不是string类型则自动转换为Json对象</param>
         /// <returns>返回请求的对象</returns>
         public T PostObject<T>(string url, object param)
         {
@@ -274,7 +274,7 @@ namespace IceCoffee.Common
         /// </summary>
         /// <typeparam name="T">请求对象类型</typeparam>
         /// <param name="url">请求链接</param>
-        /// <param name="param">发送的对象,自动转换为Json对象</param>
+        /// <param name="param">发送的对象,如果对象不是string类型则自动转换为Json对象</param>
         /// <returns>返回请求的对象</returns>
         public async Task<T> PostObjectAsync<T>(string url, object param)
         {

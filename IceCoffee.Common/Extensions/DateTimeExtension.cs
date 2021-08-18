@@ -55,5 +55,20 @@ namespace IceCoffee.Common.Extensions
         {
             return UnixStartTimeStamp.AddMilliseconds(longTimeStamp).ToLocalTime();
         }
+
+        /// <summary>
+        /// 没有'T'的字符串格式
+        /// </summary>
+        public const string DateTimeFormatWithoutT = "yyyy-MM-dd HH:mm:ss";
+
+        /// <summary>
+        /// 将 <see cref="DateTime"/> 转换成没有'T'的字符串
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static string ToStringWithoutT(this DateTime dateTime)
+        {
+            return dateTime.ToString(DateTimeFormatWithoutT);
+        }
     }
 }
