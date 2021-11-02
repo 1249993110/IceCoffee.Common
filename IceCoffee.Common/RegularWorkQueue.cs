@@ -51,7 +51,7 @@ namespace IceCoffee.Common
                         works.Add(result);
                     }
                 }
-
+                
                 if(works.Count > 0)
                 {
                     DoWork?.Invoke(works);

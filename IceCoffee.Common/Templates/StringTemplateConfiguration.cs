@@ -34,7 +34,7 @@ namespace IceCoffee.Common.Templates
     /// </summary>
     public class FluentStringTemplateConfiguration
     {
-        private StringTemplateConfiguration _cfg = new StringTemplateConfiguration();
+        private readonly StringTemplateConfiguration _cfg = new StringTemplateConfiguration();
         /// <summary>
         /// Default constructor
         /// </summary>

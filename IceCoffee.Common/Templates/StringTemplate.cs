@@ -14,7 +14,7 @@ namespace IceCoffee.Common.Templates
     /// </summary>
     public static class StringTemplate
     {
-        private static StringTemplateConfiguration _cfg = new StringTemplateConfiguration();
+        private static readonly StringTemplateConfiguration _cfg = new StringTemplateConfiguration();
         /// <summary>
         /// The global <see cref="FluentStringTemplateConfiguration"/>
         /// </summary>

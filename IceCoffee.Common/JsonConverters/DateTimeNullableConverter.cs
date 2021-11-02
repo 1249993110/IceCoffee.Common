@@ -15,6 +15,11 @@ namespace IceCoffee.Common.JsonConverters
     {
         public override DateTime? ReadJson(JsonReader reader, Type objectType, DateTime? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
+            if (reader.TokenType == JsonToken.Null)
+            {
+                return null;
+            }
+
             return DateTime.Parse(reader.Value.ToString());
         }
 
@@ -28,6 +33,11 @@ namespace IceCoffee.Common.JsonConverters
     {
         public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
+            if (reader.TokenType == JsonTokenType.Null)
+            {
+                return null;
+            }
+
             return DateTime.Parse(reader.GetString());
         }
 
