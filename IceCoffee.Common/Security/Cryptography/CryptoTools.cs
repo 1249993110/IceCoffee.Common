@@ -54,7 +54,7 @@ namespace IceCoffee.Common.Security.Cryptography
             /// <returns></returns>
             public static string Encrypt(string input, Encoding encoding)
             {
-                var md5 = new MD5CryptoServiceProvider();
+                using var md5 = System.Security.Cryptography.MD5.Create();
                 byte[] retVal = md5.ComputeHash(encoding.GetBytes(input));
                 StringBuilder sb = new StringBuilder(32);
                 for (int i = 0; i < retVal.Length; ++i)
@@ -74,7 +74,7 @@ namespace IceCoffee.Common.Security.Cryptography
                 try
                 {
                     FileStream file = new FileStream(path, FileMode.Open);
-                    var md5 = new MD5CryptoServiceProvider();
+                    using var md5 = System.Security.Cryptography.MD5.Create();
                     byte[] retVal = md5.ComputeHash(file);
                     file.Close();
 
@@ -111,7 +111,7 @@ namespace IceCoffee.Common.Security.Cryptography
                 byte[] byKey = encoding.GetBytes(key);
                 byte[] byIV = encoding.GetBytes(iv);
 
-                var cryptoProvider = new DESCryptoServiceProvider();
+                using var cryptoProvider = System.Security.Cryptography.DES.Create();
                 int i = cryptoProvider.KeySize;
                 MemoryStream ms = new MemoryStream();
                 CryptoStream cst = new CryptoStream(ms, cryptoProvider.CreateEncryptor(byKey, byIV), CryptoStreamMode.Write);
@@ -147,7 +147,7 @@ namespace IceCoffee.Common.Security.Cryptography
                     return string.Empty;
                 }
 
-                var cryptoProvider = new DESCryptoServiceProvider();
+                using var cryptoProvider = System.Security.Cryptography.DES.Create();
                 MemoryStream ms = new MemoryStream(byEnc);
                 CryptoStream cst = new CryptoStream(ms, cryptoProvider.CreateDecryptor(byKey, byIV), CryptoStreamMode.Read);
                 StreamReader sr = new StreamReader(cst);
@@ -172,18 +172,16 @@ namespace IceCoffee.Common.Security.Cryptography
             {
                 try
                 {
-                    using (var des = new TripleDESCryptoServiceProvider())
-                    {
-                        des.Key = encoding.GetBytes(key);
-                        des.Mode = CipherMode.CBC;
-                        des.Padding = PaddingMode.PKCS7;
-                        des.IV = encoding.GetBytes(iv);
+                    using var des = TripleDES.Create();
+                    des.Key = encoding.GetBytes(key);
+                    des.Mode = CipherMode.CBC;
+                    des.Padding = PaddingMode.PKCS7;
+                    des.IV = encoding.GetBytes(iv);
 
-                        ICryptoTransform desEncrypt = des.CreateEncryptor();
+                    ICryptoTransform desEncrypt = des.CreateEncryptor();
 
-                        byte[] buffer = encoding.GetBytes(input);
-                        return Convert.ToBase64String(desEncrypt.TransformFinalBlock(buffer, 0, buffer.Length));
-                    }
+                    byte[] buffer = encoding.GetBytes(input);
+                    return Convert.ToBase64String(desEncrypt.TransformFinalBlock(buffer, 0, buffer.Length));
                 }
                 catch (Exception ex)
                 {
@@ -203,7 +201,7 @@ namespace IceCoffee.Common.Security.Cryptography
             {
                 try
                 {
-                    using (var des = new TripleDESCryptoServiceProvider())
+                    using (var des = TripleDES.Create())
                     {
                         des.Key = encoding.GetBytes(key);
                         des.Mode = CipherMode.CBC;
@@ -241,7 +239,7 @@ namespace IceCoffee.Common.Security.Cryptography
             {
                 try
                 {
-                    using (var des = new TripleDESCryptoServiceProvider())
+                    using (var des = TripleDES.Create())
                     {
                         des.Key = key;
                         des.Mode = CipherMode.CBC;
@@ -267,11 +265,11 @@ namespace IceCoffee.Common.Security.Cryptography
             /// <param name="key"></param>
             /// <param name="iv"></param>
             /// <returns></returns>
-            public static byte[] Decrypt(byte[] input, byte[] key, byte[] iv)
+            public static byte[]? Decrypt(byte[] input, byte[] key, byte[] iv)
             {
                 try
                 {
-                    using (var des = new TripleDESCryptoServiceProvider())
+                    using (var des = TripleDES.Create())
                     {
                         des.Key = key;
                         des.Mode = CipherMode.CBC;
@@ -315,8 +313,11 @@ namespace IceCoffee.Common.Security.Cryptography
             public static void HashPassword(string plaintext, out string hashValue, out string saltBase64)
             {
                 byte[] salt = new byte[24];
-                RNGCryptoServiceProvider cryptoProvider = new RNGCryptoServiceProvider();
-                cryptoProvider.GetBytes(salt);
+
+                using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
+                {
+                    rng.GetBytes(salt);
+                }
 
                 Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(plaintext, salt, 1000);
 

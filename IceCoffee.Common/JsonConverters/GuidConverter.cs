@@ -16,7 +16,7 @@ namespace IceCoffee.Common.JsonConverters
     {
         public override Guid ReadJson(JsonReader reader, Type objectType, Guid existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            return Guid.Parse(reader.Value.ToString());
+            return Guid.Parse(reader.Value?.ToString());
         }
 
         public override void WriteJson(JsonWriter writer, Guid value, JsonSerializer serializer)
@@ -29,7 +29,13 @@ namespace IceCoffee.Common.JsonConverters
     {
         public override Guid Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return Guid.Parse(reader.GetString());
+            var str = reader.GetString();
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str));
+            }
+
+            return Guid.Parse(str);
         }
 
         public override void Write(Utf8JsonWriter writer, Guid value, JsonSerializerOptions options)

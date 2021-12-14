@@ -19,7 +19,7 @@ namespace IceCoffee.Common.Pools
         public int Count => _items.Length;
 
         private ObjectWrapper[] _items;
-        private T _firstItem;
+        private T? _firstItem;
 
         /// <summary>
         /// PERF: the struct wrapper avoids array-covariance-checks from the runtime when assigning to elements of the array
@@ -27,7 +27,7 @@ namespace IceCoffee.Common.Pools
         [DebuggerDisplay("{Element}")]
         private struct ObjectWrapper
         {
-            public T Element;
+            public T? Element;
         }
 
         #endregion 属性
@@ -112,10 +112,10 @@ namespace IceCoffee.Common.Pools
                 items[i].Element = null;
             }
 
-            _items = null;
+            _items = new ObjectWrapper[_items.Length];
         }
 
-        private void DisposeItem(T item)
+        private void DisposeItem(T? item)
         {
             if (item is IDisposable disposable)
             {
@@ -132,7 +132,12 @@ namespace IceCoffee.Common.Pools
         protected virtual T Create()
         {
             var type = typeof(T);
-            return Activator.CreateInstance(type, true) as T;
+            if(Activator.CreateInstance(type, true) is T t)
+            {
+                return t;
+            }
+
+            throw new InvalidOperationException();
         }
         #endregion
 

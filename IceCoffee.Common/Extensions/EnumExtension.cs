@@ -24,10 +24,13 @@ namespace IceCoffee.Common.Extensions
         /// <param name="member">成员名、值、实例均可</param>
         private static int GetValue(Type type, object member)
         {
-            string value = member.ToString();
+            string? value = member.ToString();
             if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentNullException("member");
-            return (int)Enum.Parse(type, member.ToString(), true);
+            {
+                throw new ArgumentNullException(nameof(member));
+            }
+
+            return (int)Enum.Parse(type, value, true);
         }
     }
 }

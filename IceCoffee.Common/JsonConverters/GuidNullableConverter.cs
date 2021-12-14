@@ -21,7 +21,7 @@ namespace IceCoffee.Common.JsonConverters
                 return null;
             }
 
-            return Guid.Parse(reader.Value.ToString());
+            return Guid.Parse(reader.Value?.ToString());
         }
 
         public override void WriteJson(JsonWriter writer, Guid? value, JsonSerializer serializer)
@@ -39,7 +39,13 @@ namespace IceCoffee.Common.JsonConverters
                 return null;
             }
 
-            return Guid.Parse(reader.GetString());
+            var str = reader.GetString();
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str));
+            }
+
+            return Guid.Parse(str);
         }
 
         public override void Write(Utf8JsonWriter writer, Guid? value, JsonSerializerOptions options)

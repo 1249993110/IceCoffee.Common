@@ -21,7 +21,7 @@ namespace IceCoffee.Common
         /// 获取 appSettings
         /// </summary>
         /// <param name="key">键名</param>
-        public static string GetAppSettings(string key)
+        public static string? GetAppSettings(string key)
         {
             return ConfigurationManager.AppSettings[key];
         }
@@ -80,7 +80,12 @@ namespace IceCoffee.Common
         /// <returns></returns>
         public static Expression CreateExpressionByPropertyInfo<TModel, TProperty>(PropertyInfo propertyInfo)
         {
-            var parameter = Expression.Parameter(propertyInfo.DeclaringType);
+            Type? declaringType = propertyInfo.DeclaringType;
+            if(declaringType == null)
+            {
+                throw new ArgumentException("The DeclaringType of propertyInfo is null");
+            }
+            ParameterExpression? parameter = Expression.Parameter(declaringType);
             var property = Expression.Property(parameter, propertyInfo);
             var conversion = Expression.Convert(property, typeof(object));
             var lambda = Expression.Lambda<Func<TModel, TProperty>>(conversion, parameter);
@@ -97,10 +102,11 @@ namespace IceCoffee.Common
         /// <param name="useSpe">是否包含特殊字符，1=包含，默认为不包含</param>
         /// <param name="custom">要包含的自定义字符，直接输入要包含的字符列表</param>
         /// <returns>指定长度的随机字符串</returns>
-        public static string GetRandomString(int length, bool useNum = true, bool useLow = false, bool useUpp = false, bool useSpe = false, string custom = null)
+        public static string GetRandomString(int length, bool useNum = true, bool useLow = false, bool useUpp = false, bool useSpe = false, string custom = "")
         {
             byte[] b = new byte[4];
-            using (var rng = new System.Security.Cryptography.RNGCryptoServiceProvider())
+  
+            using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
             {
                 rng.GetBytes(b);
 

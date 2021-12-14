@@ -16,19 +16,25 @@ namespace IceCoffee.Common
 
         #region 嵌套类
 
-        public class MetaEvent
+        public struct MetaEvent
         {
-            public EventHandler eventHandler1;
-            public EventHandler<EventArgs> eventHandler = null;
-            public object sender = null;
-            public EventArgs args = null;
+            public EventHandler<EventArgs> EventHandler;
+            public object Sender;
+            public EventArgs Args;
+
+            public MetaEvent(EventHandler<EventArgs> eventHandler, object sender, EventArgs args)
+            {
+                this.EventHandler=eventHandler;
+                this.Sender=sender;
+                this.Args=args;
+            }
         }
 
         #endregion 嵌套类
 
         #region 字段&属性
 
-        private MetaEvent _currentEvent = null;
+        private MetaEvent _currentEvent;
 
         /// <summary>
         /// EventQueue
@@ -63,10 +69,10 @@ namespace IceCoffee.Common
             while (_isRunning)
             {
                 if (_eventsQueue.IsEmpty)
-                    //Thread.Yield();
+                    // Thread.Yield();
                     Thread.Sleep(20);
                 else
-                    processEvents();
+                    ProcessEvents();
             }
         }
 
@@ -81,12 +87,12 @@ namespace IceCoffee.Common
         /// <summary>
         /// Processes pending events until there are no more events to process.
         /// </summary>
-        private void processEvents()
+        private void ProcessEvents()
         {
             do
             {
                 _eventsQueue.TryDequeue(out _currentEvent);
-                _currentEvent.eventHandler.Invoke(_currentEvent.sender, _currentEvent.args);
+                _currentEvent.EventHandler.Invoke(_currentEvent.Sender, _currentEvent.Args);
             }
             while (_eventsQueue.IsEmpty == false);
         }

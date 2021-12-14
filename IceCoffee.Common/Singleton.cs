@@ -24,7 +24,7 @@ namespace IceCoffee.Common
     /// <typeparam name="T"></typeparam>
     public abstract class Singleton2<T> where T : class, new()
     {
-        private static T _instance = null;
+        private static T? _instance;
         private static readonly object _singleton_Lock = new object();
 
         public static T Instance

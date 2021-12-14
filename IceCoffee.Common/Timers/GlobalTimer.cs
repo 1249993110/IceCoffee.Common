@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
 
 namespace IceCoffee.Common.Timers
 {
@@ -21,12 +20,11 @@ namespace IceCoffee.Common.Timers
         /// </summary>
         static GlobalTimer()
         {
-            _timer = new Timer(1000D);
-            _timer.Elapsed += _timer_Elapsed;
+            _timer = new Timer(TimerCallback, null, Timeout.Infinite, 1000);
             _subTimers = new List<SubTimer>();
         }
 
-        private static void _timer_Elapsed(object sender, ElapsedEventArgs e)
+        private static void TimerCallback(object? state)
         {
             foreach (var subTimer in _subTimers)
             {
@@ -48,7 +46,7 @@ namespace IceCoffee.Common.Timers
         /// </summary>
         public static void Start()
         {
-            _timer.Start();
+            _timer.Change(0, 1000);
         }
 
         /// <summary>
@@ -56,7 +54,7 @@ namespace IceCoffee.Common.Timers
         /// </summary>
         public static void Stop()
         {
-            _timer.Stop();
+            _timer.Change(Timeout.Infinite, Timeout.Infinite);
 
             foreach (var subTimer in _subTimers)
             {

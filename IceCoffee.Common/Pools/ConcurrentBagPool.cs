@@ -45,7 +45,12 @@ namespace IceCoffee.Common.Pools
         /// <returns>返回对象</returns>
         protected virtual T Create()
         {
-            return Activator.CreateInstance(typeof(T), true) as T;
+            if(Activator.CreateInstance(typeof(T), true) is T t)
+            {
+                return t;
+            }
+
+            throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -54,7 +59,12 @@ namespace IceCoffee.Common.Pools
         /// <returns></returns>
         public virtual T Get()
         {
-            return _bag.TryTake(out T item) ? item : Create();
+            if(_bag.TryTake(out T? item))
+            {
+                return item;
+            }
+
+            return  Create();
         }
 
         /// <summary>

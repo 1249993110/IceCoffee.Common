@@ -13,7 +13,7 @@ namespace IceCoffee.Common.Xml
         /// <param name="contextDoc"></param>
         /// <param name="childName"></param>
         /// <returns></returns>
-        public static XmlNode GetSingleChildNode(this XmlNode thisNode, XmlDocument contextDoc, string childName)
+        public static XmlNode? GetSingleChildNode(this XmlNode thisNode, XmlDocument contextDoc, string childName)
         {
             return thisNode.SelectSingleNode(childName) ?? thisNode.AppendChild(contextDoc.CreateElement(childName));
         }
@@ -26,7 +26,7 @@ namespace IceCoffee.Common.Xml
         /// <param name="property"></param>
         public static void LoadAttribute(this XmlNode baseNode, object obj, PropertyInfo property)
         {
-            XmlElement currentNode = baseNode.SelectSingleNode(string.Format("property[@name='{0}']", property.Name)) as XmlElement;
+            var currentNode = baseNode.SelectSingleNode(string.Format("property[@name='{0}']", property.Name)) as XmlElement;
 
             if (currentNode == null)
             {
@@ -61,7 +61,7 @@ namespace IceCoffee.Common.Xml
         /// <param name="value"></param>
         public static void SaveAttribute(this XmlNode baseNode, XmlDocument contextDoc, string name, string value)
         {
-            XmlElement currentNode = baseNode.SelectSingleNode(string.Format("property[@name='{0}']", name)) as XmlElement;
+            var currentNode = baseNode.SelectSingleNode(string.Format("property[@name='{0}']", name)) as XmlElement;
             if (currentNode == null)
             {
                 currentNode = contextDoc.CreateElement("property");

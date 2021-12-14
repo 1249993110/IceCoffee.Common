@@ -6,6 +6,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+#pragma warning disable CS8602,CS8604 // 解引用可能出现空引用。
 
 namespace IceCoffee.Common.Templates
 {
@@ -197,3 +198,6 @@ namespace IceCoffee.Common.Templates
         }
     }
 }
+
+#pragma warning restore CS8602,CS8604 // 解引用可能出现空引用。
+

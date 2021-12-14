@@ -14,11 +14,11 @@ namespace IceCoffee.Common.JsonConverters
 #if NET45
     class StringConverter : JsonConverter<string>
     {
-        public override string ReadJson(JsonReader reader, Type objectType, string existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override string? ReadJson(JsonReader reader, Type objectType, string? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             if(reader.TokenType == JsonToken.String)
             {
-                return reader.Value.ToString();
+                return reader.Value?.ToString();
             }
             else if (reader.TokenType == JsonToken.Null)
             {
@@ -26,21 +26,21 @@ namespace IceCoffee.Common.JsonConverters
             }
             else if(reader.TokenType == JsonToken.Integer || reader.TokenType == JsonToken.Float)
             {
-                return reader.Value.ToString();
+                return reader.Value?.ToString();
             }
 
             throw new JsonException();
         }
 
-        public override void WriteJson(JsonWriter writer, string value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, string? value, JsonSerializer serializer)
         {
-            writer.WriteValue(value.ToString());
+            writer.WriteValue(value?.ToString());
         }
     }
 #else
     public class StringConverter : System.Text.Json.Serialization.JsonConverter<string>
     {
-        public override string Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override string? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             if (reader.TokenType == JsonTokenType.String)
             {

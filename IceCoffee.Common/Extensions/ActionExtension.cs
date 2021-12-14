@@ -104,8 +104,11 @@ namespace IceCoffee.Common.Extensions
                                 break;
                             }
 
+#pragma warning disable CS8602 // 解引用可能出现空引用。
                             // Get the next item from the queue
                             item = _tasks.First.Value;
+#pragma warning restore CS8602 // 解引用可能出现空引用。
+
                             _tasks.RemoveFirst();
                         }
 

@@ -12,15 +12,15 @@ namespace IceCoffee.Common.Extensions
         /// <summary>
         /// 从startIndex位置开始搜索，取出中间子文本，outEnd返回后面文本在原字符串中的位置
         /// </summary>
-        /// <param name="src"></param>
+        /// <param name="str"></param>
         /// <param name="front"></param>
         /// <param name="rear"></param>
         /// <param name="outEnd"></param>
         /// <param name="startIndex"></param>
         /// <returns></returns>
-        public static string GetMidStr(this string src, string front, string rear, out int outEnd, int startIndex = 0)
+        public static string GetMidStr(this string str, string front, string rear, out int outEnd, int startIndex = 0)
         {
-            int srcLength = src.Length;
+            int srcLength = str.Length;
             int frontLength = front.Length;
 
             outEnd = -1;
@@ -29,40 +29,41 @@ namespace IceCoffee.Common.Extensions
                 return string.Empty;
             }
 
-            int start = src.IndexOf(front, startIndex);
+            int start = str.IndexOf(front, startIndex);
 
             if (start == -1 || start + frontLength > srcLength)// 没找到或尾部越界
             {
                 return string.Empty;
             }
 
-            outEnd = src.IndexOf(rear, start + frontLength);
+            outEnd = str.IndexOf(rear, start + frontLength);
 
             if (outEnd == -1)
             {
                 return string.Empty;
             }
 
-            return src.Substring(start + frontLength, outEnd - frontLength - start);
+            return str.Substring(start + frontLength, outEnd - frontLength - start);
         }
 
         /// <summary>
         /// 从startIndex位置开始搜索，取出中间子文本
         /// </summary>
-        /// <param name="src"></param>
+        /// <param name="str"></param>
         /// <param name="front"></param>
         /// <param name="rear"></param>
         /// <param name="startIndex"></param>
         /// <returns></returns>
-        public static string GetMidStr(this string src, string front, string rear, int startIndex = 0)
+        public static string GetMidStr(this string str, string front, string rear, int startIndex = 0)
         {
-            return src.GetMidStr(front, rear, out _, startIndex);
+            return str.GetMidStr(front, rear, out _, startIndex);
         }
 
         /// <summary>
         /// 将string转换为十进制有符号短整数，如果格式错误将转换失败并返回默认值
         /// </summary>
-        /// <param name="src"></param>
+        /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
         /// <returns></returns>
         public static short ToShort(this string str, short defaultValue = default)
         {
@@ -77,7 +78,8 @@ namespace IceCoffee.Common.Extensions
         /// <summary>
         /// 将string转换为32位十进制有符号整数，如果格式错误将转换失败并返回默认值
         /// </summary>
-        /// <param name="src"></param>
+        /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
         /// <returns></returns>
         public static int ToInt(this string str, int defaultValue = default)
         {
@@ -92,7 +94,8 @@ namespace IceCoffee.Common.Extensions
         /// <summary>
         /// 将string转换为32位十进制无符号整数，如果格式错误将转换失败并返回默认值
         /// </summary>
-        /// <param name="src"></param>
+        /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
         /// <returns></returns>
         public static uint ToUInt(this string str, uint defaultValue = default)
         {
@@ -107,7 +110,8 @@ namespace IceCoffee.Common.Extensions
         /// <summary>
         /// 将string转换为十进制有符号长整数，如果格式错误将转换失败并返回默认值
         /// </summary>
-        /// <param name="src"></param>
+        /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
         /// <returns></returns>
         public static long ToLong(this string str, long defaultValue = default)
         {
@@ -123,6 +127,7 @@ namespace IceCoffee.Common.Extensions
         /// 将string转换为十进制双精度数，如果格式错误将转换失败并返回默认值
         /// </summary>
         /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
         /// <returns></returns>
         public static double ToDouble(this string str, double defaultValue = default)
         {

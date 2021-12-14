@@ -20,9 +20,9 @@ namespace IceCoffee.Common
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static T DeepCopy<T>(T obj) where T : new()
+        public static T? DeepCopy<T>(T obj) where T : new()
         {
-            object result;
+            object? result;
             using (MemoryStream ms = new MemoryStream())
             {
                 DataContractSerializer ser = new DataContractSerializer(typeof(T));
@@ -31,7 +31,7 @@ namespace IceCoffee.Common
                 result = ser.ReadObject(ms);
                 ms.Close();
             }
-            return (T)result;
+            return (T?)result;
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace IceCoffee.Common
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static object DeepCopy(object obj)
+        public static object? DeepCopy(object obj)
         {
             if (obj == null)
             {
@@ -54,24 +54,44 @@ namespace IceCoffee.Common
             }
             else if (type.IsArray)
             {
-                Type elementType = Type.GetType(
-                     type.FullName.Replace("[]", string.Empty));
-                var array = obj as Array;
-                Array copied = Array.CreateInstance(elementType, array.Length);
-                for (int i = 0; i < array.Length; i++)
+                if (type.FullName==null)
                 {
-                    copied.SetValue(DeepCopy(array.GetValue(i)), i);
+                    return obj;
                 }
-                return Convert.ChangeType(copied, obj.GetType());
+
+                var elementType = Type.GetType(
+                     type.FullName.Replace("[]", string.Empty));
+
+                if (elementType==null)
+                {
+                    return obj;
+                }
+
+                if (obj is Array array)
+                {
+                    Array copied = Array.CreateInstance(elementType, array.Length);
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        var value = array.GetValue(i);
+                        if (value != null)
+                        {
+                            copied.SetValue(DeepCopy(value), i);
+                        }
+                    }
+
+                    return Convert.ChangeType(copied, obj.GetType());
+                }
+
+                return obj;
             }
             else if (type.IsClass)
             {
-                object toret = Activator.CreateInstance(obj.GetType());
+                var toret = Activator.CreateInstance(obj.GetType());
                 FieldInfo[] fields = type.GetFields(BindingFlags.Public |
                             BindingFlags.NonPublic | BindingFlags.Instance);
                 foreach (FieldInfo field in fields)
                 {
-                    object fieldValue = field.GetValue(obj);
+                    var fieldValue = field.GetValue(obj);
                     if (fieldValue == null)
                         continue;
                     field.SetValue(toret, DeepCopy(fieldValue));
@@ -90,9 +110,9 @@ namespace IceCoffee.Common
         /// <typeparam name="TOut"></typeparam>
         /// <param name="inObject"></param>
         /// <returns></returns>
-        public static TOut CopyProperties<TOut>(object inObject) where TOut : new()
+        public static TOut? CopyProperties<TOut>(object inObject) where TOut : new()
         {
-            return (TOut)CopyProperties(inObject, typeof(TOut));
+            return (TOut?)CopyProperties(inObject, typeof(TOut));
         }
 
         /// <summary>
@@ -101,9 +121,9 @@ namespace IceCoffee.Common
         /// <param name="outType"></param>
         /// <param name="inObject"></param>
         /// <returns></returns>
-        public static object CopyProperties(object inObject, Type outType)
+        public static object? CopyProperties(object inObject, Type outType)
         {
-            object outObject = Activator.CreateInstance(outType);
+            var outObject = Activator.CreateInstance(outType);
 
             Type inObjectType = inObject.GetType();
 
@@ -111,7 +131,7 @@ namespace IceCoffee.Common
             {
                 if (propertyInfo.CanWrite)
                 {
-                    object propertyValue = inObjectType.GetProperty(propertyInfo.Name).GetValue(inObject);
+                    var propertyValue = inObjectType.GetProperty(propertyInfo.Name)?.GetValue(inObject);
                     if (propertyValue != null)
                     {
                         propertyInfo.SetValue(outObject, propertyValue);
@@ -134,7 +154,7 @@ namespace IceCoffee.Common
             {
                 if (propertyInfo.CanWrite)
                 {
-                    object propertyValue = srcObjectType.GetProperty(propertyInfo.Name).GetValue(srcObject);
+                    var propertyValue = srcObjectType.GetProperty(propertyInfo.Name)?.GetValue(srcObject);
                     if (propertyValue != null)
                     {
                         propertyInfo.SetValue(toObject, propertyValue);
@@ -160,7 +180,7 @@ namespace IceCoffee.Common
 
             foreach (var item in typeof(TOut).GetProperties())
             {
-                PropertyInfo propertyInfo = typeof(TIn).GetProperty(item.Name);
+                PropertyInfo? propertyInfo = typeof(TIn).GetProperty(item.Name);
 
                 if (propertyInfo != null && propertyInfo.PropertyType == item.PropertyType && item.CanWrite)
                 {
@@ -207,9 +227,13 @@ namespace IceCoffee.Common
                     continue;
                 }
 
-                MemberExpression property = Expression.Property(parameterExpression, objectType.GetProperty(item.Name));
-                MemberBinding memberBinding = Expression.Bind(item, property);
-                memberBindingList.Add(memberBinding);
+                var porp = objectType.GetProperty(item.Name);
+                if (porp != null)
+                {
+                    MemberExpression property = Expression.Property(parameterExpression, porp);
+                    MemberBinding memberBinding = Expression.Bind(item, property);
+                    memberBindingList.Add(memberBinding);
+                }
             }
 
             MemberInitExpression memberInitExpression = Expression.MemberInit(Expression.New(objectType), memberBindingList.ToArray());

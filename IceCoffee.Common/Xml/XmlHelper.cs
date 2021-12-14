@@ -11,15 +11,15 @@ namespace IceCoffee.Common.Xml
         /// <param name="obj"></param>
         /// <param name="contextDoc"></param>
         /// <param name="baseNode"></param>
-        public static void SaveConfig(object obj, XmlDocument contextDoc, XmlNode baseNode)
+        public static void SaveConfig(object? obj, XmlDocument contextDoc, XmlNode? baseNode)
         {
             if (obj == null || baseNode == null)
             {
                 return;
             }
 
-            ConfigNodeAttribute configNodeAttribute;
-            object value;
+            ConfigNodeAttribute? configNodeAttribute;
+            object? value;
 
             foreach (PropertyInfo property in obj.GetType().GetProperties())
             {
@@ -32,7 +32,7 @@ namespace IceCoffee.Common.Xml
                         case XmlNodeType.Element:
                             {
                                 // 将标记了ConfigNodeType.Element特性的属性名作为父节点
-                                XmlNode currentNode = baseNode.GetSingleChildNode(contextDoc, property.PropertyType.Name);
+                                var currentNode = baseNode.GetSingleChildNode(contextDoc, property.PropertyType.Name);
 
                                 SaveConfig(property.GetValue(obj), contextDoc, currentNode);
                             }
@@ -41,7 +41,22 @@ namespace IceCoffee.Common.Xml
                         case XmlNodeType.Attribute:
                             {
                                 value = property.GetValue(obj);
-                                baseNode.SaveAttribute(contextDoc, property.Name, value == null ? string.Empty : value.ToString());
+                                if (value == null)
+                                {
+                                    baseNode.SaveAttribute(contextDoc, property.Name, string.Empty);
+                                }
+                                else
+                                {
+                                    var str = value.ToString();
+                                    if (str == null)
+                                    {
+                                        baseNode.SaveAttribute(contextDoc, property.Name, string.Empty);
+                                    }
+                                    else
+                                    {
+                                        baseNode.SaveAttribute(contextDoc, property.Name, str);
+                                    }
+                                }
                             }
                             break;
 
@@ -57,14 +72,14 @@ namespace IceCoffee.Common.Xml
         /// </summary>
         /// <param name="obj"></param>
         /// <param name="baseNode"></param>
-        public static void LoadConfig(object obj, XmlNode baseNode)
+        public static void LoadConfig(object? obj, XmlNode? baseNode)
         {
             if (obj == null || baseNode == null)
             {
                 return;
             }
 
-            ConfigNodeAttribute configNodeAttribute;
+            ConfigNodeAttribute? configNodeAttribute;
 
             foreach (PropertyInfo property in obj.GetType().GetProperties())
             {
@@ -76,7 +91,7 @@ namespace IceCoffee.Common.Xml
                     {
                         case XmlNodeType.Element:
                             {
-                                object propertyObj = property.GetValue(obj);
+                                var propertyObj = property.GetValue(obj);
 
                                 if (propertyObj != null)
                                 {

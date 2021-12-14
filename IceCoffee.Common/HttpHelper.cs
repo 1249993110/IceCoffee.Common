@@ -40,7 +40,7 @@ namespace IceCoffee.Common
         private HttpClient _httpClient;
 
 
-        private static HttpHelper _defaultInstance = null;
+        private static HttpHelper? _defaultInstance;
         private static readonly object _singleton_Lock = new object();
 
         /// <summary>
@@ -67,10 +67,10 @@ namespace IceCoffee.Common
         static HttpHelper()
         {
 #if NETCOREAPP3_1 || NET5_0
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType .Tls13;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType .Tls13;
             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 #else
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 #endif
         }
@@ -144,7 +144,7 @@ namespace IceCoffee.Common
         /// <typeparam name="T">请求对象类型</typeparam>
         /// <param name="url">请求链接</param>
         /// <returns>返回请求的对象</returns>
-        public T GetObject<T>(string url)
+        public T? GetObject<T>(string url)
         {
             string responseBody = GetString(url);
 #if NET45
@@ -159,7 +159,7 @@ namespace IceCoffee.Common
         /// <typeparam name="T">请求对象类型</typeparam>
         /// <param name="url">请求链接</param>
         /// <returns>返回请求的对象</returns>
-        public async Task<T> GetObjectAsync<T>(string url)
+        public async Task<T?> GetObjectAsync<T>(string url)
         {
             string responseBody = await GetStringAsync(url);
 #if NET45
@@ -205,7 +205,7 @@ namespace IceCoffee.Common
         /// <param name="url">请求链接</param>
         /// <param name="param">使用反射自动转化为QueryString</param>
         /// <returns>返回请求的对象</returns>
-        public T GetObject<T>(string url, object param)
+        public T? GetObject<T>(string url, object param)
         {
             return GetObjectAsync<T>(url, param).Result;
         }
@@ -216,7 +216,7 @@ namespace IceCoffee.Common
         /// <param name="url">请求链接</param>
         /// <param name="param">使用反射自动转化为QueryString</param>
         /// <returns>返回请求的对象</returns>
-        public async Task<T> GetObjectAsync<T>(string url, object param)
+        public async Task<T?> GetObjectAsync<T>(string url, object param)
         {
             string responseBody = await GetStringAsync(AttachQueryString(url, param));
 #if NET45
@@ -264,7 +264,7 @@ namespace IceCoffee.Common
         /// <param name="url">请求链接</param>
         /// <param name="param">发送的对象,如果对象不是string类型则自动转换为Json对象</param>
         /// <returns>返回请求的对象</returns>
-        public T PostObject<T>(string url, object param)
+        public T? PostObject<T>(string url, object param)
         {
             return PostObjectAsync<T>(url, param).Result;
         }
@@ -276,7 +276,7 @@ namespace IceCoffee.Common
         /// <param name="url">请求链接</param>
         /// <param name="param">发送的对象,如果对象不是string类型则自动转换为Json对象</param>
         /// <returns>返回请求的对象</returns>
-        public async Task<T> PostObjectAsync<T>(string url, object param)
+        public async Task<T?> PostObjectAsync<T>(string url, object param)
         {
             string responseBody = await PostStringAsync(url, param);
 #if NET45

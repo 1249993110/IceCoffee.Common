@@ -20,7 +20,7 @@ namespace IceCoffee.Common.JsonConverters
                 return null;
             }
 
-            return DateTime.Parse(reader.Value.ToString());
+            return DateTime.Parse(reader.Value?.ToString());
         }
 
         public override void WriteJson(JsonWriter writer, DateTime? value, JsonSerializer serializer)
@@ -38,7 +38,13 @@ namespace IceCoffee.Common.JsonConverters
                 return null;
             }
 
-            return DateTime.Parse(reader.GetString());
+            var str = reader.GetString();
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str));
+            }
+
+            return DateTime.Parse(str);
         }
 
         public override void Write(Utf8JsonWriter writer, DateTime? value, JsonSerializerOptions options)
