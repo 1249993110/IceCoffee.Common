@@ -66,11 +66,11 @@ namespace IceCoffee.Common
 
         static HttpHelper()
         {
-#if NETCOREAPP3_1 || NET5_0
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType .Tls13;
+#if NET45
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 #else
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13;
             ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 #endif
         }
