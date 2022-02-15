@@ -1,6 +1,9 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading;
+﻿using Microsoft.Extensions.ObjectPool;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace IceCoffee.Common.Pools
 {
@@ -10,181 +13,50 @@ namespace IceCoffee.Common.Pools
     /// 数组具有极快的查找速度，结构体确保没有GC操作。
     /// </remarks>
     /// <typeparam name="T"></typeparam>
-    public class LocklessPool<T> : IObjectPool<T>, IDisposable where T : class
+    public class LocklessPool<T> : IObjectPool<T> where T : class
     {
-        #region 属性
-        /// <summary>
-        /// 对象池大小。默认CPU*2
-        /// </summary>
-        public int Count => _items.Length;
+        private readonly ObjectPool<T> _pool;
 
-        private ObjectWrapper[] _items;
-        private T? _firstItem;
-
-        /// <summary>
-        /// PERF: the struct wrapper avoids array-covariance-checks from the runtime when assigning to elements of the array
-        /// </summary>
-        [DebuggerDisplay("{Element}")]
-        private struct ObjectWrapper
+        public LocklessPool()
         {
-            public T? Element;
+            // 创建一个可销毁的对象池
+            _pool = new DefaultObjectPoolProvider().Create(new LocklessPooledObjectPolicy<T>());
         }
 
-        #endregion 属性
-
-        #region 构造
-
-        /// <summary>
-        /// 实例化对象池
-        /// </summary>
-        /// <param name="count">默认大小CPU*2</param>
-        public LocklessPool(int count = 0)
+        public LocklessPool(int maximumRetained)
         {
-            if (count <= 0)
-            {
-                count = Environment.ProcessorCount * 2;
-            }
-
-            _items = new ObjectWrapper[count - 1];
+            // 创建一个可销毁的对象池
+            _pool = new DefaultObjectPoolProvider() { MaximumRetained = maximumRetained }.Create(new LocklessPooledObjectPolicy<T>());
         }
-        #endregion 构造
 
-        #region 方法
+        public LocklessPool(Func<T> objectGenerator)
+        {
+            // 创建一个可销毁的对象池
+            _pool = new DefaultObjectPoolProvider().Create(new LocklessPooledObjectPolicy<T>(objectGenerator));
+        }
 
-        /// <summary>
-        /// 从池中取走一个对象
-        /// </summary>
-        /// <returns></returns>
+        public LocklessPool(Func<T> objectGenerator, int maximumRetained)
+        {
+            // 创建一个可销毁的对象池
+            _pool = new DefaultObjectPoolProvider() { MaximumRetained = maximumRetained }.Create(new LocklessPooledObjectPolicy<T>(objectGenerator));
+        }
+
         public virtual T Get()
         {
-            // 最热的一个对象在外层，便于快速存取
-            var item = _firstItem;
-            if (item == null || Interlocked.CompareExchange(ref _firstItem, null, item) != item)
-            {
-                var items = _items;
-                int len = items.Length;
-                for (var i = 0; i < len; ++i)
-                {
-                    item = items[i].Element;
-                    if (item != null && Interlocked.CompareExchange(ref items[i].Element, null, item) == item)
-                    {
-                        return item;
-                    }
-                }
-
-                item = Create();
-            }
-
-            return item;
+            return _pool.Get();
         }
 
-        /// <summary>
-        /// 往池中放入一个对象
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
         public virtual void Return(T obj)
         {
-            // 最热的一个对象在外层，便于快速存取
-            if (_firstItem != null || Interlocked.CompareExchange(ref _firstItem, obj, null) != null)
-            {
-                var items = _items;
-                int len = items.Length;
-                for (var i = 0; i < len && Interlocked.CompareExchange(ref items[i].Element, obj, null) != null; ++i)
-                {
-                }
-            }
+            _pool.Return(obj);
         }
 
-        /// <summary>
-        /// 清空
-        /// </summary>
-        public virtual void Clear()
+        public void Dispose()
         {
-            DisposeItem(_firstItem);
-            _firstItem = null;
-
-            var items = _items;
-            int len = items.Length;
-            for (var i = 0; i < len; ++i)
-            {
-                DisposeItem(items[i].Element);
-                items[i].Element = null;
-            }
-
-            _items = new ObjectWrapper[_items.Length];
-        }
-
-        private void DisposeItem(T? item)
-        {
-            if (item is IDisposable disposable)
+            if(_pool is IDisposable disposable)
             {
                 disposable.Dispose();
             }
         }
-        #endregion
-
-        #region 重载
-        /// <summary>
-        /// 创建实例
-        /// </summary>
-        /// <returns></returns>
-        protected virtual T Create()
-        {
-            var type = typeof(T);
-            if(Activator.CreateInstance(type, true) is T t)
-            {
-                return t;
-            }
-
-            throw new InvalidOperationException();
-        }
-        #endregion
-
-        #region IDisposable implementation
-        /// <summary>
-        /// Disposed flag
-        /// </summary>
-        private bool _isDisposed;
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        protected virtual void Dispose(bool disposingManagedResources)
-        {
-            if (_isDisposed == false)
-            {
-                if (disposingManagedResources)
-                {
-                    // Dispose managed resources here...
-                    Clear();
-                }
-
-                // Dispose unmanaged resources here...
-
-                // Set large fields to null here...
-
-                // Mark as disposed.
-                _isDisposed = true;
-            }
-        }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        ~LocklessPool()
-        {
-            Dispose(false);
-        }
-        #endregion
     }
 }

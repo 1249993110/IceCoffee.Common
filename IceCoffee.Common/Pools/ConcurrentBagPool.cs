@@ -1,18 +1,21 @@
-﻿using System;
+﻿using Microsoft.Extensions.ObjectPool;
+using System;
 using System.Collections.Concurrent;
+using System.ComponentModel;
 
 namespace IceCoffee.Common.Pools
 {
     /// <summary>
-    /// 简单的线程安全对象池，<see cref="ConcurrentBag{T}"/>实现
+    /// 具有基础并发类型的线程安全对象池，<see cref="ConcurrentBag{T}"/>实现
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class ConcurrentBagPool<T> : IObjectPool<T>, IDisposable where T : class
+    public abstract class ConcurrentBagPool<T> : ObjectPool<T>, IObjectPool<T> where T : class
     {
         #region 字段
 
-        // 并发安全集合
         private readonly ConcurrentBag<T> _bag = new ConcurrentBag<T>();
+        private readonly Func<T>? _objectGenerator;
+        private readonly int _maximumRetained;
 
         #endregion 字段
 
@@ -21,13 +24,12 @@ namespace IceCoffee.Common.Pools
         /// <summary>
         /// 池中对象数量
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return _bag.Count;
-            }
-        }
+        public int Count => _bag.Count;
+
+        /// <summary>
+        /// 最大保留数量，默认无限制
+        /// </summary>
+        public int MaximumRetained => _maximumRetained;
         #endregion 属性
 
         #region 方法
@@ -40,11 +42,45 @@ namespace IceCoffee.Common.Pools
         }
 
         /// <summary>
-        /// 创建一个对象实例
+        /// 实例化 <see cref="ConcurrentBagPool{T}"/>
+        /// </summary>
+        /// <param name="maximumRetained"></param>
+        public ConcurrentBagPool(int maximumRetained)
+        {
+            _maximumRetained = maximumRetained;
+        }
+
+        /// <summary>
+        /// 实例化 <see cref="ConcurrentBagPool{T}"/>
+        /// </summary>
+        /// <param name="objectGenerator"></param>
+        public ConcurrentBagPool(Func<T> objectGenerator)
+        {
+            _objectGenerator = objectGenerator;
+        }
+
+        /// <summary>
+        /// 实例化 <see cref="ConcurrentBagPool{T}"/>
+        /// </summary>
+        /// <param name="objectGenerator"></param>
+        /// <param name="maximumRetained"></param>
+        public ConcurrentBagPool(Func<T> objectGenerator, int maximumRetained)
+        {
+            _objectGenerator = objectGenerator;
+            _maximumRetained = maximumRetained;
+        }
+
+        /// <summary>
+        /// 创建一个对象实例，默认调用 objectGenerator
         /// </summary>
         /// <returns>返回对象</returns>
         protected virtual T Create()
         {
+            if(_objectGenerator != null)
+            {
+                return _objectGenerator.Invoke();
+            }
+
             if(Activator.CreateInstance(typeof(T), true) is T t)
             {
                 return t;
@@ -57,28 +93,38 @@ namespace IceCoffee.Common.Pools
         /// 从池中取走一个对象
         /// </summary>
         /// <returns></returns>
-        public virtual T Get()
+        public override T Get()
         {
             if(_bag.TryTake(out T? item))
             {
                 return item;
             }
 
-            return  Create();
+            return Create();
         }
 
         /// <summary>
         /// 往池中放入一个对象
         /// </summary>
         /// <param name="item"></param>
-        public virtual void Return(T item)
+        public override void Return(T item)
         {
             if (item == null)
             {
                 throw new ArgumentNullException(nameof(item));
             }
 
-            _bag.Add(item);
+            if(_maximumRetained > 0 && Count >= _maximumRetained)
+            {
+                if (item is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
+            }
+            else
+            {
+                _bag.Add(item);
+            }
         }
 
         /// <summary>
@@ -99,12 +145,14 @@ namespace IceCoffee.Common.Pools
         /// <returns></returns>
         public virtual void Clear()
         {
-            int count = this.Count;
-            for (int i = 0; i < count; ++i)
+            while (this._bag.IsEmpty == false)
             {
-                if (this.Get() is IDisposable disposable)
+                if (this._bag.TryTake(out T? item))
                 {
-                    disposable.Dispose();
+                    if (item is IDisposable disposable)
+                    {
+                        disposable.Dispose();
+                    }
                 }
             }
         }

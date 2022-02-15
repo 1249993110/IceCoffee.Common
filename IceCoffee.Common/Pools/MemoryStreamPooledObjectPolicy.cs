@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.ObjectPool;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,10 +9,14 @@ using System.Threading.Tasks;
 namespace IceCoffee.Common.Pools
 {
     /// <summary>
-    /// 内存流池
+    /// 内存流池策略
     /// </summary>
-    public class MemoryStreamPool : LocklessPool<MemoryStream>
+    public class MemoryStreamPooledObjectPolicy : PooledObjectPolicy<MemoryStream>
     {
+        public MemoryStreamPooledObjectPolicy()
+        {
+        }
+
         /// <summary>
         /// 初始容量。默认1024个
         /// </summary>
@@ -22,11 +27,11 @@ namespace IceCoffee.Common.Pools
         /// </summary>
         public int MaximumCapacity { get; set; } = 64 * 1024;
 
-       /// <summary>
-       /// <inheritdoc/>
-       /// </summary>
-       /// <returns></returns>
-        protected override MemoryStream Create()
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <returns></returns>
+        public override MemoryStream Create()
         {
             return new MemoryStream(InitialCapacity);
         }
@@ -34,16 +39,17 @@ namespace IceCoffee.Common.Pools
         /// <summary>归还</summary>
         /// <param name="memoryStream"></param>
         /// <returns></returns>
-        public override void Return(MemoryStream memoryStream)
+        public override bool Return(MemoryStream memoryStream)
         {
             if (memoryStream.Capacity > MaximumCapacity)
             {
-                return;
+                return false;
             }
 
             memoryStream.Position = 0;
             memoryStream.SetLength(0);
-            base.Return(memoryStream);
+
+            return true;
         }
     }
 }

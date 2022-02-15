@@ -13,7 +13,7 @@ namespace IceCoffee.Common
     /// <summary>
     /// 工具类
     /// </summary>
-    public static class CommonHelper
+    public static class Utils
     {
         #region 获取配置项
 
@@ -91,7 +91,7 @@ namespace IceCoffee.Common
             var lambda = Expression.Lambda<Func<TModel, TProperty>>(conversion, parameter);
             return lambda;
         }
-
+        
         /// <summary>
         /// 生成随机字符串
         /// </summary>
