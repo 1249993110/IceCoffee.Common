@@ -12,7 +12,7 @@ namespace IceCoffee.Common.Pools
     public abstract class ConcurrentBagPool<T> : ObjectPool<T>, IObjectPool<T> where T : class
     {
         #region 字段
-
+        private volatile bool _isDisposed;
         private readonly ConcurrentBag<T> _bag = new ConcurrentBag<T>();
         private readonly Func<T>? _objectGenerator;
         private readonly int _maximumRetained;
@@ -95,7 +95,12 @@ namespace IceCoffee.Common.Pools
         /// <returns></returns>
         public override T Get()
         {
-            if(_bag.TryTake(out T? item))
+            if (_isDisposed)
+            {
+                throw new ObjectDisposedException(GetType().Name);
+            }
+
+            if (_bag.TryTake(out T? item))
             {
                 return item;
             }
@@ -114,12 +119,9 @@ namespace IceCoffee.Common.Pools
                 throw new ArgumentNullException(nameof(item));
             }
 
-            if(_maximumRetained > 0 && Count >= _maximumRetained)
+            if (_isDisposed || (_maximumRetained > 0 && Count >= _maximumRetained))
             {
-                if (item is IDisposable disposable)
-                {
-                    disposable.Dispose();
-                }
+                DisposeItem(item);
             }
             else
             {
@@ -149,20 +151,12 @@ namespace IceCoffee.Common.Pools
             {
                 if (this._bag.TryTake(out T? item))
                 {
-                    if (item is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                    }
+                    DisposeItem(item);
                 }
             }
         }
 
         #region IDisposable implementation
-        /// <summary>
-        /// Disposed flag
-        /// </summary>
-        private bool _isDisposed;
-
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -175,34 +169,23 @@ namespace IceCoffee.Common.Pools
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        protected virtual void Dispose(bool disposingManagedResources)
+        protected virtual void Dispose(bool disposing)
         {
-            if (_isDisposed == false)
+            if (disposing)
             {
-                if (disposingManagedResources)
-                {
-                    // Dispose managed resources here...
-                    Clear();
-                }
-
-                // Dispose unmanaged resources here...
-
-                // Set large fields to null here...
-
-                // Mark as disposed.
                 _isDisposed = true;
+                Clear();
             }
-        }
-
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>
-        ~ConcurrentBagPool()
-        {
-            Dispose(false);
         }
         #endregion
 
+        private static void DisposeItem(T? item)
+        {
+            if (item is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+        }
         #endregion
     }
 }

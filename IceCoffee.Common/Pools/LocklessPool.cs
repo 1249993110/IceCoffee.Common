@@ -53,9 +53,18 @@ namespace IceCoffee.Common.Pools
 
         public void Dispose()
         {
-            if(_pool is IDisposable disposable)
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
             {
-                disposable.Dispose();
+                if (_pool is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
             }
         }
     }
