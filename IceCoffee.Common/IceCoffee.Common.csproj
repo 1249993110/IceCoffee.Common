@@ -27,13 +27,6 @@
 		<None Include="..\README.md" />
 	</ItemGroup>
 
-	<!--<ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-		<Reference Include="System.Net.Http" />
-		<Reference Include="System.Configuration" />
-		<Reference Include="Microsoft.CSharp" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-	</ItemGroup>-->
-
 	<ItemGroup Condition="'$(TargetFramework)' == 'net461'">
 		<Reference Include="System.Net.Http" />
 		<Reference Include="Microsoft.CSharp" />
