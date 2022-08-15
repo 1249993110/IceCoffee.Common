@@ -15,7 +15,7 @@ namespace IceCoffee.Common.Templates
     /// </summary>
     public static class StringTemplate
     {
-        private static readonly StringTemplateConfiguration _cfg = new StringTemplateConfiguration();
+        private static readonly StringTemplateConfiguration _cfg = StringTemplateConfiguration.Default;
         /// <summary>
         /// The global <see cref="FluentStringTemplateConfiguration"/>
         /// </summary>
@@ -83,7 +83,7 @@ namespace IceCoffee.Common.Templates
             string prefix(string p) => string.IsNullOrEmpty(p) ? "" : $"{p}.";
 
             IEnumerable<KeyValuePair<string, object>> CollectProperties(string pre, object o) =>
-                o.GetType().GetTypeInfo().DeclaredProperties.Where(p => p.GetMethod?.IsPublic ?? false)
+                o.GetType().GetTypeInfo().GetProperties(BindingFlags.Public | BindingFlags.Instance).Where(p => p.GetMethod?.IsPublic ?? false)
                     .SelectMany(prop => new[] { new KeyValuePair<string, object>($"{prefix(pre)}{prop.Name}", prop.GetValue(o)) }
                     .Concat((prop.PropertyType.GetTypeInfo().IsClass && prop.PropertyType != typeof(string) && !typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(prop.PropertyType.GetTypeInfo())) ?
                         CollectProperties($"{prefix(pre)}{prop.Name}", prop.GetValue(o))

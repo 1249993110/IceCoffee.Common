@@ -10,7 +10,7 @@ namespace IceCoffee.Common.Extensions
     public static class StringExtension
     {
         /// <summary>
-        /// 从startIndex位置开始搜索，取出中间子文本，outEnd返回后面文本在原字符串中的位置
+        /// 从 startIndex 位置开始搜索, 取出中间子文本, outEnd返回后面文本在原字符串中的位置
         /// </summary>
         /// <param name="str"></param>
         /// <param name="front"></param>
@@ -47,7 +47,7 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
-        /// 从startIndex位置开始搜索，取出中间子文本
+        /// 从 startIndex 位置开始搜索, 取出中间子文本
         /// </summary>
         /// <param name="str"></param>
         /// <param name="front"></param>
@@ -60,7 +60,7 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
-        /// 将string转换为十进制有符号短整数，如果格式错误将转换失败并返回默认值
+        /// 将 String 转换为十进制有符号短整数, 如果格式错误将转换失败并返回默认值
         /// </summary>
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
@@ -76,7 +76,7 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
-        /// 将string转换为32位十进制有符号整数，如果格式错误将转换失败并返回默认值
+        /// 将 String 转换为 Int, 如果格式错误将转换失败并返回默认值
         /// </summary>
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
@@ -92,7 +92,7 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
-        /// 将string转换为32位十进制无符号整数，如果格式错误将转换失败并返回默认值
+        /// 将 String 转换为 UInt, 如果格式错误将转换失败并返回默认值
         /// </summary>
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
@@ -108,7 +108,7 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
-        /// 将string转换为十进制有符号长整数，如果格式错误将转换失败并返回默认值
+        /// 将 String 转换为 Long, 如果格式错误将转换失败并返回默认值
         /// </summary>
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
@@ -124,7 +124,7 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
-        /// 将string转换为十进制双精度数，如果格式错误将转换失败并返回默认值
+        /// 将 String 转换为 Double, 如果格式错误将转换失败并返回默认值
         /// </summary>
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
@@ -212,6 +212,41 @@ namespace IceCoffee.Common.Extensions
             return Encoding.UTF8.GetString(Convert.FromBase64String(str));
         }
 
+        /// <summary>
+        /// 将 String 转换为 Int?, 如果格式错误将转换失败并返回默认值
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static int? ToIntNullable(this string str, int? defaultValue = default)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return defaultValue;
+            }
 
+            if (int.TryParse(str, out var result))
+            {
+                return result;
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// 将 String 转换为 Decimal, 如果格式错误将转换失败并返回默认值
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static decimal ToDecimal(this string str, decimal defaultValue = default)
+        {
+            if (decimal.TryParse(str, out decimal result))
+            {
+                return result;
+            }
+
+            return defaultValue;
+        }
     }
 }

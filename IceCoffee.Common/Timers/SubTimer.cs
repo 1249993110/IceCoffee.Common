@@ -50,7 +50,7 @@ namespace IceCoffee.Common.Timers
             }
         }
 
-        internal bool isEnabled;
+        internal volatile bool isEnabled;
 
         /// <summary>
         /// 秒级的计数

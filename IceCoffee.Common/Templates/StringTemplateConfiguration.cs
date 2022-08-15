@@ -11,6 +11,8 @@ namespace IceCoffee.Common.Templates
     /// </summary>
     public class StringTemplateConfiguration
     {
+        public readonly static StringTemplateConfiguration Default = new StringTemplateConfiguration();
+
         /// <summary>
         /// The Open token (default "{")
         /// </summary>
@@ -34,11 +36,14 @@ namespace IceCoffee.Common.Templates
     /// </summary>
     public class FluentStringTemplateConfiguration
     {
-        private readonly StringTemplateConfiguration _cfg = new StringTemplateConfiguration();
+        private readonly StringTemplateConfiguration _cfg;
         /// <summary>
         /// Default constructor
         /// </summary>
-        public FluentStringTemplateConfiguration() { }
+        public FluentStringTemplateConfiguration() 
+        {
+            _cfg = StringTemplateConfiguration.Default;
+        }
 
         /// <summary>
         /// Constructs a new <see cref="FluentStringTemplateConfiguration"/> instance using the supplied <see cref="StringTemplateConfiguration"/>
