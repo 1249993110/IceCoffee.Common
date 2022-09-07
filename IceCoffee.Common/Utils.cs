@@ -191,9 +191,8 @@ namespace IceCoffee.Common
         /// <returns>文件的编码类型</returns>
         public static Encoding GetType(string path)
         {
-            FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
             Encoding r = GetType(fs);
-            fs.Close();
             return r;
         }
 
