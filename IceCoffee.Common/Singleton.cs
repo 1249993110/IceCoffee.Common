@@ -47,7 +47,7 @@ namespace IceCoffee.Common
     }
 
     /// <summary>
-    /// 使用反射，懒汉模式
+    /// 使用反射, 懒汉模式
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class Singleton3<T> where T : class
@@ -64,7 +64,7 @@ namespace IceCoffee.Common
               var ctor = ctors.SingleOrDefault(c => !c.GetParameters().Any() && c.IsPrivate);
               if (ctor == null)//The constructor for {0} must be private and take no parameters.
               {
-                  throw new InvalidOperationException(string.Format("{0}的构造函数必须是私有的，并且不接受任何参数。", typeof(T)));
+                  throw new InvalidOperationException(string.Format("{0}的构造函数必须是私有的, 并且不接受任何参数。", typeof(T)));
               }
               return (T)ctor.Invoke(null);
           }, true);

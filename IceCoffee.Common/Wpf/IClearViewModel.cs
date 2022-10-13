@@ -12,7 +12,7 @@ namespace IceCoffee.Common.Wpf
     public interface IClearViewModel
     {
         /// <summary>
-        /// 清理ViewModel资源，在窗口关闭时调用
+        /// 清理ViewModel资源, 在窗口关闭时调用
         /// </summary>
         void Clear();
     }

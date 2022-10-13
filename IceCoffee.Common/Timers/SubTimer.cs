@@ -12,7 +12,7 @@ namespace IceCoffee.Common.Timers
     public class SubTimer
     {
         /// <summary>
-        /// 执行间隔 (单位：秒，默认：1 秒)
+        /// 执行间隔 (单位：秒, 默认：1 秒)
         /// </summary>
         public int Interval 
         { 
@@ -34,7 +34,7 @@ namespace IceCoffee.Common.Timers
         private Action _action;
 
         /// <summary>
-        /// 是否启用，在启用时禁用将重置计数
+        /// 是否启用, 在启用时禁用将重置计数
         /// </summary>
         public bool IsEnabled 
         { 

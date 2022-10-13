@@ -35,7 +35,7 @@ namespace IceCoffee.Common
         }
 
         /// <summary>
-        /// 深拷贝对象，不能有循环引用
+        /// 深拷贝对象, 不能有循环引用
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>

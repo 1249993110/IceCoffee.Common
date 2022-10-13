@@ -20,7 +20,7 @@ namespace IceCoffee.Common.GIS
 
         private const double x_pi = pi * 3000.0 / 180.0;
 
-        // (北京54)椭球长半轴，卫星椭球坐标投影到平面地图坐标系的投影因子
+        // (北京54)椭球长半轴, 卫星椭球坐标投影到平面地图坐标系的投影因子
         private const double a = 6378245.0;
         /*
             * Krasovsky 1940 (北京54)椭球长半轴第一偏心率平方
@@ -142,7 +142,7 @@ namespace IceCoffee.Common.GIS
 
         /// <summary>
         /// 高德坐标转WGS84坐标 精确(二分极限法)
-        /// 默认设置的是精确到小数点后9位，这个值越小，越精确
+        /// 默认设置的是精确到小数点后9位, 这个值越小, 越精确
         /// </summary>
         /// <param name="in_lng"></param>
         /// <param name="in_lat"></param>
@@ -608,7 +608,7 @@ namespace IceCoffee.Common.GIS
         #endregion
 
         /// <summary>
-        /// 得到两点之间的距离，单位：米
+        /// 得到两点之间的距离, 单位：米
         /// </summary>
         public static double GetDistance(double latA, double lonA, double latB, double lonB)
         {

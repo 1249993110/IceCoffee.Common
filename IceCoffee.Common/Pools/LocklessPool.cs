@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace IceCoffee.Common.Pools
 {
-    /// <summary>轻量级对象池。数组无锁实现，高性能</summary>
+    /// <summary>轻量级对象池。数组无锁实现, 高性能</summary>
     /// <remarks>
-    /// 内部 1+N 的存储结果，保留最热的一个对象在外层，便于快速存取。
-    /// 数组具有极快的查找速度，结构体确保没有GC操作。
+    /// 内部 1+N 的存储结果, 保留最热的一个对象在外层, 便于快速存取。
+    /// 数组具有极快的查找速度, 结构体确保没有GC操作。
     /// </remarks>
     /// <typeparam name="T"></typeparam>
     public class LocklessPool<T> : IObjectPool<T> where T : class

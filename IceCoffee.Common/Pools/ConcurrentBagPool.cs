@@ -6,7 +6,7 @@ using System.ComponentModel;
 namespace IceCoffee.Common.Pools
 {
     /// <summary>
-    /// 具有基础并发类型的线程安全对象池，<see cref="ConcurrentBag{T}"/>实现
+    /// 具有基础并发类型的线程安全对象池, <see cref="ConcurrentBag{T}"/>实现
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class ConcurrentBagPool<T> : ObjectPool<T>, IObjectPool<T> where T : class
@@ -27,7 +27,7 @@ namespace IceCoffee.Common.Pools
         public int Count => _bag.Count;
 
         /// <summary>
-        /// 最大保留数量，默认无限制
+        /// 最大保留数量, 默认无限制
         /// </summary>
         public int MaximumRetained => _maximumRetained;
         #endregion 属性
@@ -71,7 +71,7 @@ namespace IceCoffee.Common.Pools
         }
 
         /// <summary>
-        /// 创建一个对象实例，默认调用 objectGenerator
+        /// 创建一个对象实例, 默认调用 objectGenerator
         /// </summary>
         /// <returns>返回对象</returns>
         protected virtual T Create()

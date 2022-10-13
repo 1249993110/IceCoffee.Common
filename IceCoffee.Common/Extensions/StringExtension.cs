@@ -248,5 +248,21 @@ namespace IceCoffee.Common.Extensions
 
             return defaultValue;
         }
+
+        /// <summary>
+        /// 将 String? 转换为 Guid?, 如果格式错误将转换失败并返回默认值
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static Guid? ToGuidNullable(this string? str, Guid? defaultValue = default)
+        {
+            if (Guid.TryParse(str, out Guid result))
+            {
+                return result;
+            }
+
+            return defaultValue;
+        }
     }
 }

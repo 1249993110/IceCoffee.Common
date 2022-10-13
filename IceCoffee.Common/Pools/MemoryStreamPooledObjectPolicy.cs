@@ -23,7 +23,7 @@ namespace IceCoffee.Common.Pools
         public int InitialCapacity { get; set; } = 1024;
 
         /// <summary>
-        /// 最大容量。超过该大小时不进入池内，默认64k
+        /// 最大容量。超过该大小时不进入池内, 默认64k
         /// </summary>
         public int MaximumCapacity { get; set; } = 64 * 1024;
 

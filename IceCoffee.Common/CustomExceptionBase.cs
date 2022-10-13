@@ -8,12 +8,12 @@ namespace IceCoffee.Common
     public enum CustomExceptionType
     {
         /// <summary>
-        /// 非检查异常，致命异常并且对于被捕获者不知如何处理的异常
+        /// 非检查异常, 致命异常并且对于被捕获者不知如何处理的异常
         /// </summary>
         Unchecked,
 
         /// <summary>
-        /// 检查异常，必须处理的异常
+        /// 检查异常, 必须处理的异常
         /// </summary>
         Checked
     }

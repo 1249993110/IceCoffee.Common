@@ -10,7 +10,7 @@ namespace IceCoffee.Common.Security.Cryptography
 {
     /// <summary>
     /// PBKDF2 不可逆加密
-    /// <para>通过一个伪随机函数（例如HMAC函数），把明文和一个盐值作为输入参数，然后重复进行运算，并最终产生密钥</para>
+    /// <para>通过一个伪随机函数（例如HMAC函数）, 把明文和一个盐值作为输入参数, 然后重复进行运算, 并最终产生密钥</para>
     /// <para>此实现使用 Rfc2898DeriveBytes 进行 1000 次迭代</para>
     /// </summary>
     public static class PBKDF2

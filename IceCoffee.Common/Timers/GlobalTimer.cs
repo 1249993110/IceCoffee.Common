@@ -50,7 +50,7 @@ namespace IceCoffee.Common.Timers
         }
 
         /// <summary>
-        /// 停止全部定时器，并重置计数
+        /// 停止全部定时器, 并重置计数
         /// </summary>
         public static void Stop()
         {
@@ -86,7 +86,7 @@ namespace IceCoffee.Common.Timers
         }
 
         /// <summary>
-        /// 取消注册子计时器，并重置其计数
+        /// 取消注册子计时器, 并重置其计数
         /// </summary>
         /// <param name="subTimer"></param>
         public static void UnregisterSubTimer(SubTimer subTimer)

@@ -7,7 +7,7 @@ namespace IceCoffee.Common.Xml
     public static class XmlNodeExtension
     {
         /// <summary>
-        /// 得到单个子节点，如果节点不存在则自动创建Element元素
+        /// 得到单个子节点, 如果节点不存在则自动创建Element元素
         /// </summary>
         /// <param name="thisNode"></param>
         /// <param name="contextDoc"></param>
@@ -19,7 +19,7 @@ namespace IceCoffee.Common.Xml
         }
 
         /// <summary>
-        /// 在根节点baseNode下查找具有name Attribute的子节点，加载value
+        /// 在根节点baseNode下查找具有name Attribute的子节点, 加载value
         /// </summary>
         /// <param name="baseNode"></param>
         /// <param name="obj"></param>
@@ -53,7 +53,7 @@ namespace IceCoffee.Common.Xml
         }
 
         /// <summary>
-        /// 在根节点baseNode下查找具有name Attribute的子节点，保存value，自动创建不存在的子节点
+        /// 在根节点baseNode下查找具有name Attribute的子节点, 保存value, 自动创建不存在的子节点
         /// </summary>
         /// <param name="baseNode"></param>
         /// <param name="contextDoc"></param>

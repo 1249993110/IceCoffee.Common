@@ -11,7 +11,7 @@ namespace IceCoffee.Common.Extensions
     public static class ActionExtension
     {
         /// <summary>
-        /// 提供任务计划程序，确保在线程池顶部运行时达到最大并发级别。默认使用CPU核心数
+        /// 提供任务计划程序, 确保在线程池顶部运行时达到最大并发级别。默认使用CPU核心数
         /// </summary>
         /// <param name="actions"></param>
         /// <param name="maxDegreeOfParallelism"></param>
@@ -40,7 +40,7 @@ namespace IceCoffee.Common.Extensions
     }
 
     /// <summary>
-    /// 提供任务计划程序，确保在线程池顶部运行时达到最大并发级别
+    /// 提供任务计划程序, 确保在线程池顶部运行时达到最大并发级别
     /// </summary>
     class LimitedConcurrencyLevelTaskScheduler : TaskScheduler
     {
