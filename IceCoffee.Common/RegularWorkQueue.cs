@@ -32,12 +32,21 @@ namespace IceCoffee.Common
         }
 
         /// <summary>
-        /// Adds an object to the end of the System.Collections.Concurrent.ConcurrentQueue
+        /// Adds an object to the end of the <see cref="ConcurrentQueue{T}"></see>
         /// </summary>
         /// <param name="item"></param>
         public void Enqueue(T item)
         {
             _queue.Enqueue(item);
+        }
+
+        /// <summary>
+        /// Copies the elements stored in the <see cref="ConcurrentQueue{T}"/> to a new array.
+        /// </summary>
+        /// <returns>A new array containing a snapshot of elements copied from the <see cref="ConcurrentQueue{T}"/></returns>
+        public T[] ToArray()
+        {
+            return _queue.ToArray();
         }
 
         private void TimerCallback(object? state)
