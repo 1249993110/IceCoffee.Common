@@ -127,7 +127,7 @@ namespace IceCoffee.Common
         }
 
         /// <summary>
-        /// 生成随机字符串
+        /// 字节长度为 24 代表生成长度为 32 的随机字符串
         /// </summary>
         /// <returns></returns>
         public static string GetRandomString(int byteLen = 24)
