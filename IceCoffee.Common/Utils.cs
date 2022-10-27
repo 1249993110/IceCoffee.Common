@@ -133,11 +133,9 @@ namespace IceCoffee.Common
         public static string GetRandomString(int byteLen = 24)
         {
             var randomNumber = new byte[byteLen];
-            using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(randomNumber);
-                return Convert.ToBase64String(randomNumber);
-            }
+            using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
 
         /// <summary>
@@ -204,11 +202,10 @@ namespace IceCoffee.Common
             // byte[] Unicode = new byte[] { 0xFF, 0xFE, 0x41 };
             // byte[] UnicodeBIG = new byte[] { 0xFE, 0xFF, 0x00 };
             // byte[] UTF8 = new byte[] { 0xEF, 0xBB, 0xBF }; // 带BOM
-            Encoding reVal = Encoding.Default;
+            var reVal = Encoding.Default;
 
-            BinaryReader r = new BinaryReader(fs, Encoding.Default);
-            int i;
-            int.TryParse(fs.Length.ToString(), out i);
+            var r = new BinaryReader(fs, Encoding.Default);
+            int i = int.Parse(fs.Length.ToString());
             byte[] ss = r.ReadBytes(i);
             if (IsUtf8Bytes(ss) || (ss[0] == 0xEF && ss[1] == 0xBB && ss[2] == 0xBF))
             {
@@ -222,6 +219,7 @@ namespace IceCoffee.Common
             {
                 reVal = Encoding.Unicode;
             }
+
             r.Close();
             return reVal;
         }
