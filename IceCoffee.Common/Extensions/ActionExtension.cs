@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace IceCoffee.Common.Extensions
+﻿namespace IceCoffee.Common.Extensions
 {
     public static class ActionExtension
     {
         /// <summary>
-        /// 提供任务计划程序, 确保在线程池顶部运行时达到最大并发级别。默认使用CPU核心数
+        /// 提供任务计划程序, 确保在线程池顶部运行时达到最大并发级别。默认使用CPU核心数 * 2
         /// </summary>
         /// <param name="actions"></param>
-        /// <param name="maxDegreeOfParallelism"></param>
+        /// <param name="maxDegreeOfParallelism"><see cref="Environment.ProcessorCount"/> * 2</param>
         /// <returns></returns>
         public static List<Task> RunByScheduler(this IEnumerable<Action> actions, int maxDegreeOfParallelism = 0)
         {
-            if(maxDegreeOfParallelism < 1)
+            if (maxDegreeOfParallelism < 1)
             {
-                maxDegreeOfParallelism = Environment.ProcessorCount;
+                maxDegreeOfParallelism = Environment.ProcessorCount * 2;
             }
 
             LimitedConcurrencyLevelTaskScheduler lcts = new LimitedConcurrencyLevelTaskScheduler(maxDegreeOfParallelism);
@@ -42,7 +34,7 @@ namespace IceCoffee.Common.Extensions
     /// <summary>
     /// 提供任务计划程序, 确保在线程池顶部运行时达到最大并发级别
     /// </summary>
-    class LimitedConcurrencyLevelTaskScheduler : TaskScheduler
+    internal class LimitedConcurrencyLevelTaskScheduler : TaskScheduler
     {
         // Indicates whether the current thread is processing work items.
         [ThreadStatic]
@@ -65,7 +57,7 @@ namespace IceCoffee.Common.Extensions
         }
 
         // Queues a task to the scheduler.
-        protected sealed override void QueueTask(Task task)
+        protected override sealed void QueueTask(Task task)
         {
             // Add the task to the list of tasks to be processed.  If there aren't enough
             // delegates currently queued or running to process tasks, schedule another.
@@ -122,7 +114,7 @@ namespace IceCoffee.Common.Extensions
         }
 
         // Attempts to execute the specified task on the current thread.
-        protected sealed override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
+        protected override sealed bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
             // If this thread isn't already processing a task, we don't support inlining
             if (!_currentThreadIsProcessingItems) return false;
@@ -139,16 +131,17 @@ namespace IceCoffee.Common.Extensions
         }
 
         // Attempt to remove a previously scheduled task from the scheduler.
-        protected sealed override bool TryDequeue(Task task)
+        protected override sealed bool TryDequeue(Task task)
         {
             lock (_tasks) return _tasks.Remove(task);
         }
 
         // Gets the maximum concurrency level supported by this scheduler.
-        public sealed override int MaximumConcurrencyLevel { get { return _maxDegreeOfParallelism; } }
+        public override sealed int MaximumConcurrencyLevel
+        { get { return _maxDegreeOfParallelism; } }
 
         // Gets an enumerable of the tasks currently scheduled on this scheduler.
-        protected sealed override IEnumerable<Task> GetScheduledTasks()
+        protected override sealed IEnumerable<Task> GetScheduledTasks()
         {
             bool lockTaken = false;
             try

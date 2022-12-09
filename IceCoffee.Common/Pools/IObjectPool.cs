@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IceCoffee.Common.Pools
+﻿namespace IceCoffee.Common.Pools
 {
     /// <summary>
     /// Object pool interface

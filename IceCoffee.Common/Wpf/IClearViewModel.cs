@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IceCoffee.Common.Wpf
+﻿namespace IceCoffee.Common.Wpf
 {
     /// <summary>
     /// 清理ViewModel资源接口

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Extensions.ObjectPool;
+﻿using Microsoft.Extensions.ObjectPool;
 
 namespace IceCoffee.Common.Pools
 {
@@ -41,5 +37,4 @@ namespace IceCoffee.Common.Pools
             return true;
         }
     }
-
 }

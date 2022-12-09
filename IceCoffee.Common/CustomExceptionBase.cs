@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace IceCoffee.Common
+﻿namespace IceCoffee.Common
 {
     /// <summary>
     /// 自定义异常类型

@@ -1,9 +1,4 @@
 ﻿using IceCoffee.Common.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IceCoffee.Common.GIS
 {
@@ -22,6 +17,7 @@ namespace IceCoffee.Common.GIS
 
         // (北京54)椭球长半轴, 卫星椭球坐标投影到平面地图坐标系的投影因子
         private const double a = 6378245.0;
+
         /*
             * Krasovsky 1940 (北京54)椭球长半轴第一偏心率平方
             * 计算方式：
@@ -35,6 +31,7 @@ namespace IceCoffee.Common.GIS
             * e2 = (a^2 - b^2) / a^2;
         */
         private const double ee = 0.00669342162296594323;
+
         // 地球半径
         private const double earthR = 6371004.0;
 
@@ -59,6 +56,7 @@ namespace IceCoffee.Common.GIS
         }
 
         #region 高德坐标转WGS84坐标
+
         /// <summary>
         /// 高德坐标转WGS84坐标
         /// </summary>
@@ -169,8 +167,8 @@ namespace IceCoffee.Common.GIS
                 if ((Math.Abs(dLat) < threshold) && (Math.Abs(dLng) < threshold))
                     break;
 
-                if (dLat > 0) 
-                    pLat = wgsLat; 
+                if (dLat > 0)
+                    pLat = wgsLat;
                 else
                     mLat = wgsLat;
 
@@ -183,9 +181,11 @@ namespace IceCoffee.Common.GIS
                     break;
             }
         }
-        #endregion
+
+        #endregion 高德坐标转WGS84坐标
 
         #region 高德坐标转百度坐标
+
         /// <summary>
         /// 高德坐标转百度坐标
         /// </summary>
@@ -262,9 +262,10 @@ namespace IceCoffee.Common.GIS
             out_lat = _lat.ToString(decimals);
         }
 
-        #endregion
+        #endregion 高德坐标转百度坐标
 
         #region 百度坐标转高德坐标
+
         /// <summary>
         /// 百度坐标转高德坐标
         /// </summary>
@@ -340,9 +341,11 @@ namespace IceCoffee.Common.GIS
             out_lng = _lng.ToString(decimals);
             out_lat = _lat.ToString(decimals);
         }
-        #endregion
+
+        #endregion 百度坐标转高德坐标
 
         #region 百度坐标转WGS84坐标
+
         /// <summary>
         /// 百度坐标转WGS84坐标
         /// </summary>
@@ -355,9 +358,11 @@ namespace IceCoffee.Common.GIS
             BD09_to_GCJ02(in_lng, in_lat, out out_lng, out out_lat);
             GCJ02_to_WGS84(out_lng, out_lat, out out_lng, out out_lat);
         }
-        #endregion
+
+        #endregion 百度坐标转WGS84坐标
 
         #region WGS-84 to Web mercator
+
         /// <summary>
         /// WGS-84 to Web mercator
         /// </summary>
@@ -431,9 +436,11 @@ namespace IceCoffee.Common.GIS
             out_lng = _lng.ToString(decimals);
             out_lat = _lat.ToString(decimals);
         }
-        #endregion
+
+        #endregion WGS-84 to Web mercator
 
         #region Web mercator to WGS-84
+
         /// <summary>
         /// Web mercator to WGS-84
         /// </summary>
@@ -507,9 +514,11 @@ namespace IceCoffee.Common.GIS
             out_lng = _lng.ToString(decimals);
             out_lat = _lat.ToString(decimals);
         }
-        #endregion
+
+        #endregion Web mercator to WGS-84
 
         #region WGS84坐标转高德坐标
+
         /// <summary>
         /// WGS84坐标转高德坐标
         /// </summary>
@@ -590,9 +599,11 @@ namespace IceCoffee.Common.GIS
             out_lng = _lng.ToString(decimals);
             out_lat = _lat.ToString(decimals);
         }
-        #endregion
+
+        #endregion WGS84坐标转高德坐标
 
         #region WGS84坐标转百度坐标
+
         /// <summary>
         /// WGS84坐标转百度坐标
         /// </summary>
@@ -605,7 +616,8 @@ namespace IceCoffee.Common.GIS
             WGS84_to_GCJ02(in_lng, in_lat, out out_lng, out out_lat);
             GCJ02_to_BD09(out_lng, out_lat, out out_lng, out out_lat);
         }
-        #endregion
+
+        #endregion WGS84坐标转百度坐标
 
         /// <summary>
         /// 得到两点之间的距离, 单位：米

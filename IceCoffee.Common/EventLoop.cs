@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Threading;
+﻿using System.Collections.Concurrent;
 
 namespace IceCoffee.Common
 {
@@ -24,9 +22,9 @@ namespace IceCoffee.Common
 
             public MetaEvent(EventHandler<EventArgs> eventHandler, object sender, EventArgs args)
             {
-                this.EventHandler=eventHandler;
-                this.Sender=sender;
-                this.Args=args;
+                this.EventHandler = eventHandler;
+                this.Sender = sender;
+                this.Args = args;
             }
         }
 

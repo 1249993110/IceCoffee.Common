@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace IceCoffee.Common
 {
@@ -15,7 +13,8 @@ namespace IceCoffee.Common
         /// <summary>
         /// 获得实例
         /// </summary>
-        public static T Instance { get { return _instance; } }
+        public static T Instance
+        { get { return _instance; } }
     }
 
     /// <summary>

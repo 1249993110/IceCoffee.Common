@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IceCoffee.Common.Timers
+﻿namespace IceCoffee.Common.Timers
 {
     /// <summary>
     /// 全局计时器
@@ -68,14 +62,13 @@ namespace IceCoffee.Common.Timers
         /// <param name="subTimer"></param>
         public static void RegisterSubTimer(SubTimer subTimer)
         {
-            if(subTimer == null)
+            if (subTimer == null)
             {
                 throw new ArgumentNullException(nameof(subTimer));
             }
 
             lock (_timer)
             {
-
                 if (_subTimers.Contains(subTimer))
                 {
                     throw new Exception("subTimer registered");

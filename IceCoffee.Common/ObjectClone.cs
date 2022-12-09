@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -54,7 +51,7 @@ namespace IceCoffee.Common
             }
             else if (type.IsArray)
             {
-                if (type.FullName==null)
+                if (type.FullName == null)
                 {
                     return obj;
                 }
@@ -62,7 +59,7 @@ namespace IceCoffee.Common
                 var elementType = Type.GetType(
                      type.FullName.Replace("[]", string.Empty));
 
-                if (elementType==null)
+                if (elementType == null)
                 {
                     return obj;
                 }

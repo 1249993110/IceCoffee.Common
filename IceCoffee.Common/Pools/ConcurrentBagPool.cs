@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.ObjectPool;
-using System;
 using System.Collections.Concurrent;
-using System.ComponentModel;
 
 namespace IceCoffee.Common.Pools
 {
@@ -12,6 +10,7 @@ namespace IceCoffee.Common.Pools
     public abstract class ConcurrentBagPool<T> : ObjectPool<T>, IObjectPool<T> where T : class
     {
         #region 字段
+
         private volatile bool _isDisposed;
         private readonly ConcurrentBag<T> _bag = new ConcurrentBag<T>();
         private readonly Func<T>? _objectGenerator;
@@ -30,6 +29,7 @@ namespace IceCoffee.Common.Pools
         /// 最大保留数量, 默认无限制
         /// </summary>
         public int MaximumRetained => _maximumRetained;
+
         #endregion 属性
 
         #region 方法
@@ -76,12 +76,12 @@ namespace IceCoffee.Common.Pools
         /// <returns>返回对象</returns>
         protected virtual T Create()
         {
-            if(_objectGenerator != null)
+            if (_objectGenerator != null)
             {
                 return _objectGenerator.Invoke();
             }
 
-            if(Activator.CreateInstance(typeof(T), true) is T t)
+            if (Activator.CreateInstance(typeof(T), true) is T t)
             {
                 return t;
             }
@@ -157,6 +157,7 @@ namespace IceCoffee.Common.Pools
         }
 
         #region IDisposable implementation
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -177,7 +178,8 @@ namespace IceCoffee.Common.Pools
                 Clear();
             }
         }
-        #endregion
+
+        #endregion IDisposable implementation
 
         private static void DisposeItem(T? item)
         {
@@ -186,6 +188,7 @@ namespace IceCoffee.Common.Pools
                 disposable.Dispose();
             }
         }
-        #endregion
+
+        #endregion 方法
     }
 }

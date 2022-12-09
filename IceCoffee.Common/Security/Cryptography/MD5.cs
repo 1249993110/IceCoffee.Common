@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace IceCoffee.Common.Security.Cryptography
 {
@@ -50,7 +46,7 @@ namespace IceCoffee.Common.Security.Cryptography
 
                 return sb.ToString();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception("Error in MD5.GetMD5HashFromFile", ex);
             }

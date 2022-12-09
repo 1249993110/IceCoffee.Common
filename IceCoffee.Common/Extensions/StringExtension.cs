@@ -82,7 +82,7 @@ namespace IceCoffee.Common.Extensions
         /// <returns></returns>
         public static int ToInt(this string str, int defaultValue = default)
         {
-            if(int.TryParse(str, out int result))
+            if (int.TryParse(str, out int result))
             {
                 return result;
             }
@@ -98,7 +98,7 @@ namespace IceCoffee.Common.Extensions
         /// <returns></returns>
         public static uint ToUInt(this string str, uint defaultValue = default)
         {
-            if(uint.TryParse(str, out uint result))
+            if (uint.TryParse(str, out uint result))
             {
                 return result;
             }
@@ -114,7 +114,7 @@ namespace IceCoffee.Common.Extensions
         /// <returns></returns>
         public static long ToLong(this string str, long defaultValue = default)
         {
-            if(long.TryParse(str, out long result))
+            if (long.TryParse(str, out long result))
             {
                 return result;
             }
@@ -130,7 +130,7 @@ namespace IceCoffee.Common.Extensions
         /// <returns></returns>
         public static double ToDouble(this string str, double defaultValue = default)
         {
-            if(double.TryParse(str, out double result))
+            if (double.TryParse(str, out double result))
             {
                 return result;
             }
@@ -203,7 +203,7 @@ namespace IceCoffee.Common.Extensions
         /// <returns></returns>
         public static string FormBase64(string str)
         {
-            if(string.IsNullOrEmpty(str))
+            if (string.IsNullOrEmpty(str))
             {
                 return string.Empty;
             }

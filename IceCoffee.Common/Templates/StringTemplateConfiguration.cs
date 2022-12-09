@@ -1,30 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace IceCoffee.Common.Templates
+﻿namespace IceCoffee.Common.Templates
 {
     /// <summary>
     /// Configuration options for <see cref="StringTemplate"/>
     /// </summary>
     public class StringTemplateConfiguration
     {
-        public readonly static StringTemplateConfiguration Default = new StringTemplateConfiguration();
+        public static readonly StringTemplateConfiguration Default = new StringTemplateConfiguration();
 
         /// <summary>
         /// The Open token (default "{")
         /// </summary>
         public string OpenToken { get; set; } = "{";
+
         /// <summary>
         /// The Close token (default "}")
         /// </summary>
         public string CloseToken { get; set; } = "}";
+
         /// <summary>
         /// The Foreach token (default "foreach")
         /// </summary>
         public string ForeachToken { get; set; } = "foreach";
+
         /// <summary>
         /// The If token (default "if")
         /// </summary>
@@ -37,10 +34,11 @@ namespace IceCoffee.Common.Templates
     public class FluentStringTemplateConfiguration
     {
         private readonly StringTemplateConfiguration _cfg;
+
         /// <summary>
         /// Default constructor
         /// </summary>
-        public FluentStringTemplateConfiguration() 
+        public FluentStringTemplateConfiguration()
         {
             _cfg = StringTemplateConfiguration.Default;
         }
@@ -53,6 +51,7 @@ namespace IceCoffee.Common.Templates
         {
             _cfg = cfg;
         }
+
         /// <summary>
         /// Sets the Open Token <see cref="StringTemplateConfiguration.OpenToken"/>
         /// </summary>
@@ -63,6 +62,7 @@ namespace IceCoffee.Common.Templates
             _cfg.OpenToken = openToken;
             return this;
         }
+
         /// <summary>
         /// Sets the Close Token
         /// </summary>
@@ -73,6 +73,7 @@ namespace IceCoffee.Common.Templates
             _cfg.CloseToken = closeToken;
             return this;
         }
+
         /// <summary>
         /// Sets the Foreach Token <see cref="StringTemplateConfiguration.ForeachToken"/>
         /// </summary>
@@ -83,6 +84,7 @@ namespace IceCoffee.Common.Templates
             _cfg.ForeachToken = foreachToken;
             return this;
         }
+
         /// <summary>
         /// Sets te If Token <see cref="StringTemplateConfiguration.IfToken"/>
         /// </summary>
@@ -93,6 +95,7 @@ namespace IceCoffee.Common.Templates
             _cfg.IfToken = ifToken;
             return this;
         }
+
         /// <summary>
         /// Exposes the internal <see cref="StringTemplateConfiguration"/>
         /// </summary>

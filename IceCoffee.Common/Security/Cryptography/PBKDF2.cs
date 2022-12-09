@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Cryptography;
 
 namespace IceCoffee.Common.Security.Cryptography
 {
@@ -50,7 +44,7 @@ namespace IceCoffee.Common.Security.Cryptography
 
             using var pbkdf2 = new Rfc2898DeriveBytes(plaintext, salt, 1000);
 
-            return hashValue == Convert.ToBase64String(pbkdf2.GetBytes(20)); // Size of PBKDF2-HMAC-SHA-1 Hash 
+            return hashValue == Convert.ToBase64String(pbkdf2.GetBytes(20)); // Size of PBKDF2-HMAC-SHA-1 Hash
         }
     }
 }
