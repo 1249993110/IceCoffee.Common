@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 
 namespace IceCoffee.Common.Extensions
@@ -247,6 +246,18 @@ namespace IceCoffee.Common.Extensions
             }
 
             return defaultValue;
+        }
+
+        /// <summary>
+        /// 将 String 转换为 Guid, 如果格式错误将抛出异常
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static Guid ToGuid(this string? str)
+        {
+#pragma warning disable CS8604 // 引用类型参数可能为 null。
+            return Guid.Parse(str);
+#pragma warning restore CS8604 // 引用类型参数可能为 null。
         }
 
         /// <summary>

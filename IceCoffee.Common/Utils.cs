@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
-using System.Linq;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -15,6 +10,8 @@ namespace IceCoffee.Common
     /// </summary>
     public static class Utils
     {
+#if NET462
+
         #region 获取配置项
 
         /// <summary>
@@ -46,9 +43,12 @@ namespace IceCoffee.Common
 
         #endregion 获取配置项
 
+#endif
+
         #region CRC16校验
-        
+
         private static readonly ushort[] crcTlb = new ushort[16] { 0x0000, 0xCC01, 0xD801, 0x1400, 0xF001, 0x3C00, 0x2800, 0xE401, 0xA001, 0x6C00, 0x7800, 0xB401, 0x5000, 0x9C01, 0x8801, 0x4400 };
+
         /// <summary>
         /// CRC16校验
         /// </summary>
@@ -69,7 +69,8 @@ namespace IceCoffee.Common
 
             return (ushort)((crc & 0xFF) << 8 | (crc >> 8));
         }
-        #endregion
+
+        #endregion CRC16校验
 
         /// <summary>
         /// 通过PropertyInfo创建Expression表达式
@@ -81,7 +82,7 @@ namespace IceCoffee.Common
         public static Expression CreateExpressionByPropertyInfo<TModel, TProperty>(PropertyInfo propertyInfo)
         {
             Type? declaringType = propertyInfo.DeclaringType;
-            if(declaringType == null)
+            if (declaringType == null)
             {
                 throw new ArgumentException("The DeclaringType of propertyInfo is null");
             }
@@ -91,7 +92,7 @@ namespace IceCoffee.Common
             var lambda = Expression.Lambda<Func<TModel, TProperty>>(conversion, parameter);
             return lambda;
         }
-        
+
         /// <summary>
         /// 生成随机字符串
         /// </summary>
@@ -105,25 +106,23 @@ namespace IceCoffee.Common
         public static string GetRandomString(int length, bool useNum = true, bool useLow = false, bool useUpp = false, bool useSpe = false, string custom = "")
         {
             byte[] b = new byte[4];
-  
-            using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
+
+            using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
+            rng.GetBytes(b);
+
+            var random = new Random(BitConverter.ToInt32(b, 0));
+            var sb = new StringBuilder();
+            string str = custom;
+            if (useNum == true) { str += "0123456789"; }
+            if (useLow == true) { str += "abcdefghijklmnopqrstuvwxyz"; }
+            if (useUpp == true) { str += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; }
+            if (useSpe == true) { str += "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"; }
+            for (int i = 0; i < length; ++i)
             {
-                rng.GetBytes(b);
-
-                Random r = new Random(BitConverter.ToInt32(b, 0));
-                StringBuilder sb = new StringBuilder();
-                string str = custom;
-                if (useNum == true) { str += "0123456789"; }
-                if (useLow == true) { str += "abcdefghijklmnopqrstuvwxyz"; }
-                if (useUpp == true) { str += "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; }
-                if (useSpe == true) { str += "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"; }
-                for (int i = 0; i < length; ++i)
-                {
-                    sb.Append(str.Substring(r.Next(0, str.Length - 1), 1));
-                }
-
-                return sb.ToString();
+                sb.Append(str.Substring(random.Next(0, str.Length - 1), 1));
             }
+
+            return sb.ToString();
         }
 
         /// <summary>
@@ -165,6 +164,7 @@ namespace IceCoffee.Common
             [MarshalAs(UnmanagedType.LPWStr)] string title,
             [MarshalAs(UnmanagedType.U4)] uint utype = 0,
             ushort wLanguageId = 0, uint dwMilliseconds = 3000);
+
         /// <summary>
         /// 定时关闭消息框
         /// </summary>
@@ -273,11 +273,11 @@ namespace IceCoffee.Common
         /// <param name="array"></param>
         public static T[] Shuffle<T>(T[] array)
         {
-            Random rng = new Random();  // i.e.
+            var random = new Random();  // i.e.
             int n = array.Length;       // The number of items left to shuffle (loop invariant).
             while (n > 1)
             {
-                int k = rng.Next(n);    // 0 <= k < n.
+                int k = random.Next(n); // 0 <= k < n.
                 --n;                    // n is now the last pertinent index;
                 T temp = array[n];      // swap array[n] with array[k] (does nothing if k == n).
                 array[n] = array[k];
@@ -293,13 +293,13 @@ namespace IceCoffee.Common
         /// <param name="array"></param>
         public static IList<T> Shuffle<T>(IList<T> array)
         {
-            Random rng = new Random();  // i.e.
-            int n = array.Count;        // The number of items left to shuffle (loop invariant).
+            var random = new Random();      // i.e.
+            int n = array.Count;            // The number of items left to shuffle (loop invariant).
             while (n > 1)
             {
-                int k = rng.Next(n);    // 0 <= k < n.
-                --n;                    // n is now the last pertinent index;
-                T temp = array[n];      // swap array[n] with array[k] (does nothing if k == n).
+                int k = random.Next(n);     // 0 <= k < n.
+                --n;                        // n is now the last pertinent index;
+                T temp = array[n];          // swap array[n] with array[k] (does nothing if k == n).
                 array[n] = array[k];
                 array[k] = temp;
             }
