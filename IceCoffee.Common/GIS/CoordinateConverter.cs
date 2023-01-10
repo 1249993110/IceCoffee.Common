@@ -51,7 +51,7 @@ namespace IceCoffee.Common.GIS
             double magic = Math.Sin(radLat);
             magic = 1 - ee * magic * magic;
             double sqrtMagic = Math.Sqrt(magic);
-            dLat = (dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * pi);
+            dLat = (dLat * 180.0) / (a * (1 - ee) / (magic * sqrtMagic) * pi);
             dLng = (dLng * 180.0) / (a / sqrtMagic * Math.Cos(radLat) * pi);
         }
 
