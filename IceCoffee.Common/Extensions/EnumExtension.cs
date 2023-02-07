@@ -1,4 +1,7 @@
-﻿namespace IceCoffee.Common.Extensions
+﻿using System.ComponentModel;
+using System.Reflection;
+
+namespace IceCoffee.Common.Extensions
 {
     public static class EnumExtension
     {
@@ -25,6 +28,30 @@
             }
 
             return (int)Enum.Parse(type, value, true);
+        }
+
+        /// <summary>
+        /// 返回枚举项的描述信息。
+        /// </summary>
+        /// <param name="value">要获取描述信息的枚举项。</param>
+        /// <returns>枚举想的描述信息。</returns>
+        public static string? GetDescription(this Enum value)
+        {
+            var enumType = value.GetType();
+            // 获取枚举常数名称。
+            string name = Enum.GetName(enumType, value);
+            // 获取枚举字段。
+            FieldInfo? fieldInfo = enumType.GetField(name);
+            if (fieldInfo != null)
+            {
+                // 获取描述的属性。
+                if (Attribute.GetCustomAttribute(fieldInfo, typeof(DescriptionAttribute), false) is DescriptionAttribute attr)
+                {
+                    return attr.Description;
+                }
+            }
+
+            return null;
         }
     }
 }
