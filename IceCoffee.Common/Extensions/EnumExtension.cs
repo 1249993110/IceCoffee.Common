@@ -41,7 +41,7 @@ namespace IceCoffee.Common.Extensions
             // 获取枚举常数名称。
             string name = Enum.GetName(enumType, value);
             // 获取枚举字段。
-            FieldInfo? fieldInfo = enumType.GetField(name);
+            var fieldInfo = enumType.GetField(name);
             if (fieldInfo != null)
             {
                 // 获取描述的属性。
