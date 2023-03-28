@@ -249,6 +249,27 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
+        /// 将 String 转换为 Decimal?, 如果格式错误将转换失败并返回默认值
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static decimal? ToDecimalNullable(this string str, decimal? defaultValue = default)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return defaultValue;
+            }
+
+            if (decimal.TryParse(str, out var result))
+            {
+                return result;
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
         /// 将 String 转换为 Guid, 如果格式错误将抛出异常
         /// </summary>
         /// <param name="str"></param>
