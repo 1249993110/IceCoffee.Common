@@ -17,7 +17,7 @@
 		<Product>IceCoffee</Product>
 		<RepositoryUrl>https://github.com/1249993110/IceCoffee.Common</RepositoryUrl>
 		<TargetFrameworks>net6.0;net462</TargetFrameworks>
-		<Version>1.0.3.4</Version>
+		<Version>1.0.3.5</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
