@@ -4,7 +4,7 @@
     {
         private static SynchronizationContext? _context;
 
-        public static  void Init(SynchronizationContext mainThreadSyncContext)
+        public static  void Init(SynchronizationContext? mainThreadSyncContext)
         {
             _context = mainThreadSyncContext;
         }
