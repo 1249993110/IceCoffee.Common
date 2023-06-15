@@ -56,7 +56,7 @@ namespace IceCoffee.Common
           {
               var ctors = typeof(T).GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
-              if (ctors.Count() != 1)//Type {0} must have exactly one constructor.
+              if (ctors.Length != 1)//Type {0} must have exactly one constructor.
               {
                   throw new InvalidOperationException(string.Format("类型{0}必须只有一个构造函数。", typeof(T)));
               }
