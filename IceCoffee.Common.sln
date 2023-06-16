@@ -1,25 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.0.32014.148
+VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IceCoffee.Common", "IceCoffee.Common\IceCoffee.Common.csproj", "{A9A0FF05-6C20-4655-964B-63BBC4C3C0FD}"
-EndProject
 Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A9A0FF05-6C20-4655-964B-63BBC4C3C0FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A9A0FF05-6C20-4655-964B-63BBC4C3C0FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A9A0FF05-6C20-4655-964B-63BBC4C3C0FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A9A0FF05-6C20-4655-964B-63BBC4C3C0FD}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {A20E5094-454A-4D1B-9634-F4CD7C3AA038}
+		SolutionGuid = {D0200B39-6076-4C4F-8ACA-8B8C5B89F4DF}
 	EndGlobalSection
 EndGlobal
