@@ -21,7 +21,7 @@ namespace IceCoffee.Common.Extensions
         /// <param name="member">成员名、值、实例均可</param>
         private static int GetValue(Type type, object member)
         {
-            string value = member.ToString();
+            string? value = member.ToString();
             if (string.IsNullOrWhiteSpace(value))
             {
                 throw new ArgumentNullException(nameof(member));
@@ -35,19 +35,22 @@ namespace IceCoffee.Common.Extensions
         /// </summary>
         /// <param name="value">要获取描述信息的枚举项。</param>
         /// <returns>枚举想的描述信息。</returns>
-        public static string GetDescription(this Enum value)
+        public static string? GetDescription(this Enum value)
         {
             var enumType = value.GetType();
             // 获取枚举常数名称。
-            string name = Enum.GetName(enumType, value);
-            // 获取枚举字段。
-            var fieldInfo = enumType.GetField(name);
-            if (fieldInfo != null)
+            string? name = Enum.GetName(enumType, value);
+            if(name != null)
             {
-                // 获取描述的属性。
-                if (Attribute.GetCustomAttribute(fieldInfo, typeof(DescriptionAttribute), false) is DescriptionAttribute attr)
+                // 获取枚举字段。
+                var fieldInfo = enumType.GetField(name);
+                if (fieldInfo != null)
                 {
-                    return attr.Description;
+                    // 获取描述的属性。
+                    if (Attribute.GetCustomAttribute(fieldInfo, typeof(DescriptionAttribute), false) is DescriptionAttribute attr)
+                    {
+                        return attr.Description;
+                    }
                 }
             }
 

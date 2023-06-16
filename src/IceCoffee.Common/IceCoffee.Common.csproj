@@ -9,6 +9,7 @@
 		<Description>公共模块</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<LangVersion>10.0</LangVersion>
 		<!--取消方法注释警告-->
 		<NoWarn>$(NoWarn);1591</NoWarn>
 		<!--取消字段退出构造方法可空警告-->
@@ -18,17 +19,19 @@
 		<PackageProjectUrl>https://github.com/1249993110/IceCoffee.Common</PackageProjectUrl>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<RepositoryUrl>https://github.com/1249993110/IceCoffee.Common</RepositoryUrl>
-		<Version>1.0.3.8</Version>
+		<Version>1.0.4.0</Version>
 	</PropertyGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-		<Reference Include="Microsoft.CSharp" />
-		<Reference Include="System.Configuration" />
+	<ItemGroup Condition="$(TargetFramework) == 'net6.0'">
+		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="6.0.18" />
+	</ItemGroup>
+	
+	<ItemGroup Condition="$(TargetFramework) != 'net6.0'">
+		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="7.0.7" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="6.0.18" />
-		<!--<PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />-->
+	<ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+		<Reference Include="System.Configuration" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -36,11 +39,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="..\..\LICENSE">
-			<Pack>True</Pack>
-		</None>
-		<None Include="..\..\README.md">
-			<Pack>True</Pack>
-		</None>
+		<None Include="..\..\LICENSE" Pack="true" PackagePath="" />
+		<None Include="..\..\README.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 </Project>

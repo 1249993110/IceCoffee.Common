@@ -1,5 +1,4 @@
-﻿using Microsoft.CSharp.RuntimeBinder;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -77,7 +76,7 @@ namespace IceCoffee.Common.Templates
         {
             if (obj is IDynamicMetaObjectProvider)
             {
-                return BuildDynamicPropertyDictionary(obj);
+                throw new NotSupportedException("The dynamic type is not supported.");
             }
 
             string prefix(string p) => string.IsNullOrEmpty(p) ? "" : $"{p}.";
@@ -91,58 +90,7 @@ namespace IceCoffee.Common.Templates
 
             return CollectProperties(string.Empty, obj).ToDictionary(x => x.Key, x => x.Value);
         }
-        /// <summary>
-        /// Builds a property dictionary of key:value from the object instance
-        /// </summary>
-        /// <param name="obj">the dynamic object instance</param>
-        /// <returns></returns>
-        public static Dictionary<string, object> BuildDynamicPropertyDictionary(dynamic obj)
-        {
-            string prefix(string p) => string.IsNullOrEmpty(p) ? "" : $"{p}.";
-
-            IEnumerable<KeyValuePair<string, object>> CollectProperties(string pre, dynamic o)
-            {
-                Dictionary<string, object> casted;
-                try
-                {
-                    casted = new Dictionary<string, object>(o);
-                }
-                catch (RuntimeBinderException)
-                {
-                    try
-                    {
-                        var t = o.Type;
-                        if (t?.ToString() == nameof(Array))
-                        {
-                            Dictionary<string, object>[] oo = o.ToObject<Dictionary<string, object>[]>();
-
-                            return new[] {new KeyValuePair<string, object>(pre,oo.Select(f => f
-                                .Select(kvp => kvp.Value.GetType().GetTypeInfo().IsClass
-                                    ? CollectProperties($"{prefix(pre)}{kvp.Key}", kvp.Value)
-                                    : new[] { new KeyValuePair<string, object>($"{prefix(pre)}{kvp.Key}", kvp.Value) }
-                                )
-                            ))};
-                        }
-                        else
-                        {
-                            casted = o.ToObject<Dictionary<string, object>>();
-                        }
-                    }
-                    catch (RuntimeBinderException)
-                    {
-                        casted = o.ToObject<Dictionary<string, object>>();
-                    }
-                }
-                return casted
-                    .SelectMany(prop => new[] { new KeyValuePair<string, object>($"{prefix(pre)}{prop.Key}", prop.Value) }
-                        .Concat((prop.Value is IDynamicMetaObjectProvider prov && ((dynamic)prov).Type?.ToString() != nameof(Array)) ? CollectProperties($"{prefix(pre)}{prop.Key}", prop.Value)
-                        .Select(kvp => new KeyValuePair<string, object>($"{prefix(pre)}{kvp.Key}", kvp.Value)) : new KeyValuePair<string, object>[0])
-                    );
-
-            }
-            return CollectProperties(string.Empty, obj).ToDictionary(x => x.Key, x => x.Value);
-        }
-
+        
         /// <summary>
         /// This performs all of the token replacements and recursion
         /// </summary>

@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -11,7 +10,7 @@ namespace IceCoffee.Common
     /// </summary>
     public static class Utils
     {
-#if NET462
+#if NETFRAMEWORK
 
         #region 获取配置项
 
@@ -21,7 +20,7 @@ namespace IceCoffee.Common
         /// <param name="key">键名</param>
         public static string? GetAppSettings(string key)
         {
-            return ConfigurationManager.AppSettings[key];
+            return System.Configuration.ConfigurationManager.AppSettings[key];
         }
 
         /// <summary>
@@ -30,7 +29,7 @@ namespace IceCoffee.Common
         /// <param name="key">键名</param>
         public static string GetConnectionString(string key)
         {
-            return ConfigurationManager.ConnectionStrings[key].ConnectionString;
+            return System.Configuration.ConfigurationManager.ConnectionStrings[key].ConnectionString;
         }
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace IceCoffee.Common
         /// <param name="key">键名</param>
         public static string GetProviderName(string key)
         {
-            return ConfigurationManager.ConnectionStrings[key].ProviderName;
+            return System.Configuration.ConfigurationManager.ConnectionStrings[key].ProviderName;
         }
 
         #endregion 获取配置项
