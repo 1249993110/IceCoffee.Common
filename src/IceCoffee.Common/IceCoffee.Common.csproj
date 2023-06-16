@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net462;netstandard2.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Authors>IceCoffee</Authors>
+		<Company>LuoShuiTianYi</Company>
+		<Copyright>Copyright (c) 2022 IceCoffee</Copyright>
+		<Description>公共模块</Description>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<!--取消方法注释警告-->
+		<NoWarn>$(NoWarn);1591</NoWarn>
+		<!--取消字段退出构造方法可空警告-->
+		<NoWarn>$(NoWarn);CS8618</NoWarn>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageProjectUrl>https://github.com/1249993110/IceCoffee.Common</PackageProjectUrl>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<RepositoryUrl>https://github.com/1249993110/IceCoffee.Common</RepositoryUrl>
+		<Version>1.0.3.8</Version>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="System.Configuration" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="6.0.18" />
+		<!--<PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.1" />-->
+	</ItemGroup>
+
+	<ItemGroup>
+		<Using Remove="System.Net.Http" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\..\LICENSE">
+			<Pack>True</Pack>
+		</None>
+		<None Include="..\..\README.md">
+			<Pack>True</Pack>
+		</None>
+	</ItemGroup>
+</Project>
