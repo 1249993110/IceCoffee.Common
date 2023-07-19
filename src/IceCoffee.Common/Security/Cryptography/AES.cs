@@ -33,18 +33,19 @@ namespace IceCoffee.Common.Security.Cryptography
             using (Aes aesAlg = Aes.Create())
             {
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(key, iv);
-                using (MemoryStream msDecrypt = new MemoryStream())
+                byte[] decryptedBytes;
+                using (MemoryStream msDecrypt = new MemoryStream(input))
                 {
                     using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                     {
-#if NET6_0_OR_GREATER
-                        csDecrypt.Write(input);
-#else
-                        csDecrypt.Write(input, 0, input.Length);
-#endif
+                        using (MemoryStream msPlain = new MemoryStream())
+                        {
+                            csDecrypt.CopyTo(msPlain);
+                            decryptedBytes = msPlain.ToArray();
+                        }
                     }
-                    return msDecrypt.ToArray();
                 }
+                return decryptedBytes;
             }
         }
 
