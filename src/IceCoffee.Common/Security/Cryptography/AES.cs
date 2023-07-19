@@ -8,6 +8,38 @@ namespace IceCoffee.Common.Security.Cryptography
     /// </summary>
     public static class AES
     {
+        public static byte[] Encrypt(byte[] input, byte[] key, byte[] iv)
+        {
+            using (Aes aesAlg = Aes.Create())
+            {
+                ICryptoTransform encryptor = aesAlg.CreateEncryptor(key, iv);
+                using (MemoryStream msEncrypt = new MemoryStream())
+                {
+                    using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
+                    {
+                        csEncrypt.Write(input);
+                    }
+                    return msEncrypt.ToArray();
+                }
+            }
+        }
+
+        public static byte[] Decrypt(byte[] input, byte[] key, byte[] iv)
+        {
+            using (Aes aesAlg = Aes.Create())
+            {
+                ICryptoTransform decryptor = aesAlg.CreateDecryptor(key, iv);
+                using (MemoryStream msDecrypt = new MemoryStream(input))
+                {
+                    using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                    {
+                        csDecrypt.Write(input);
+                    }
+                    return msDecrypt.ToArray();
+                }
+            }
+        }
+
         /// <summary>
         /// AES加密
         /// </summary>
@@ -26,7 +58,6 @@ namespace IceCoffee.Common.Security.Cryptography
             using (Aes aesAlg = Aes.Create())
             {
                 ICryptoTransform encryptor = aesAlg.CreateEncryptor(bKey, bVector);
-
                 using (MemoryStream msEncrypt = new MemoryStream())
                 {
                     using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
@@ -59,7 +90,6 @@ namespace IceCoffee.Common.Security.Cryptography
             using (Aes aesAlg = Aes.Create())
             {
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(bKey, bVector);
-
                 using (MemoryStream msDecrypt = new MemoryStream(Convert.FromBase64String(input)))
                 {
                     using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
