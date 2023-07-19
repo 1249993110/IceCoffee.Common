@@ -16,7 +16,7 @@ namespace IceCoffee.Common.Security.Cryptography
         /// <param name="iv">8位字符的初始化向量字符串</param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static string DESEncrypt(string input, string key, string iv, Encoding encoding)
+        public static string Encrypt(string input, string key, string iv, Encoding encoding)
         {
             byte[] byKey = encoding.GetBytes(key);
             byte[] byIV = encoding.GetBytes(iv);
@@ -41,7 +41,7 @@ namespace IceCoffee.Common.Security.Cryptography
         /// <param name="iv">8位字符的初始化向量字符串(需要和加密时相同)</param>
         /// <param name="encoding"></param>
         /// <returns></returns>
-        public static string DESDecrypt(string input, string key, string iv, Encoding encoding)
+        public static string Decrypt(string input, string key, string iv, Encoding encoding)
         {
             byte[] byKey = encoding.GetBytes(key);
             byte[] byIV = encoding.GetBytes(iv);
