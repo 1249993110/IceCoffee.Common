@@ -33,7 +33,7 @@ namespace IceCoffee.Common.Security.Cryptography
             using (Aes aesAlg = Aes.Create())
             {
                 ICryptoTransform decryptor = aesAlg.CreateDecryptor(key, iv);
-                using (MemoryStream msDecrypt = new MemoryStream(input))
+                using (MemoryStream msDecrypt = new MemoryStream())
                 {
                     using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                     {
