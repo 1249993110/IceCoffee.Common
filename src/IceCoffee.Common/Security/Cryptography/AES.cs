@@ -17,7 +17,11 @@ namespace IceCoffee.Common.Security.Cryptography
                 {
                     using (CryptoStream csEncrypt = new CryptoStream(msEncrypt, encryptor, CryptoStreamMode.Write))
                     {
+#if NET6_0_OR_GREATER
                         csEncrypt.Write(input);
+#else
+                        csEncrypt.Write(input, 0, input.Length);
+#endif
                     }
                     return msEncrypt.ToArray();
                 }
@@ -33,7 +37,11 @@ namespace IceCoffee.Common.Security.Cryptography
                 {
                     using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                     {
+#if NET6_0_OR_GREATER
                         csDecrypt.Write(input);
+#else
+                        csDecrypt.Write(input, 0, input.Length);
+#endif
                     }
                     return msDecrypt.ToArray();
                 }
