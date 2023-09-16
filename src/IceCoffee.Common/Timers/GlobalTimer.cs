@@ -20,9 +20,10 @@
 
         private static void TimerCallback(object? state)
         {
-            foreach (var subTimer in _subTimers)
+            var clone = _subTimers.ToArray();
+            foreach (var subTimer in clone)
             {
-                if (subTimer.isEnabled)
+                if (subTimer.IsEnabled)
                 {
                     ++subTimer.countInSeconds;
 
@@ -32,27 +33,6 @@
                         Task.Run(subTimer.Action);
                     }
                 }
-            }
-        }
-
-        /// <summary>
-        /// 开始全部定时器
-        /// </summary>
-        public static void Start()
-        {
-            _timer.Change(0, 1000);
-        }
-
-        /// <summary>
-        /// 停止全部定时器, 并重置计数
-        /// </summary>
-        public static void Stop()
-        {
-            _timer.Change(Timeout.Infinite, Timeout.Infinite);
-
-            foreach (var subTimer in _subTimers)
-            {
-                subTimer.countInSeconds = 0;
             }
         }
 
@@ -75,6 +55,11 @@
                 }
 
                 _subTimers.Add(subTimer);
+
+                if(_subTimers.Count == 1)
+                {
+                    _timer.Change(0, 1000);
+                }
             }
         }
 
@@ -94,6 +79,11 @@
             lock (_timer)
             {
                 _subTimers.Remove(subTimer);
+
+                if (_subTimers.Count == 0)
+                {
+                    _timer.Change(Timeout.Infinite, Timeout.Infinite);
+                }
             }
         }
     }
