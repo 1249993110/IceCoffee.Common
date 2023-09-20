@@ -11,9 +11,7 @@
         internal int countInSeconds;
 
         private Action _action;
-
         private int _interval = 1;
-
         private volatile bool _isEnabled;
 
         /// <summary>
@@ -60,14 +58,14 @@
             }
         }
         /// <summary>
-        /// 是否启用, 在启用时禁用将重置计数
+        /// 是否启用, 设置为禁用时将重置计数
         /// </summary>
         public bool IsEnabled
         {
             get => _isEnabled;
             set
             {
-                if (_isEnabled && value == false)
+                if (value == false)
                 {
                     countInSeconds = 0;
                 }

@@ -6,7 +6,6 @@
     public static class GlobalTimer
     {
         private static readonly Timer _timer;
-
         private static readonly List<SubTimer> _subTimers;
 
         /// <summary>
@@ -20,8 +19,13 @@
 
         private static void TimerCallback(object? state)
         {
-            var clone = _subTimers.ToArray();
-            foreach (var subTimer in clone)
+            SubTimer[] subTimers; 
+            lock (_timer)
+            {
+                subTimers = _subTimers.ToArray();
+            }
+
+            foreach (var subTimer in subTimers)
             {
                 if (subTimer.IsEnabled)
                 {
@@ -51,7 +55,7 @@
             {
                 if (_subTimers.Contains(subTimer))
                 {
-                    throw new Exception("subTimer registered");
+                    throw new Exception("SubTimer registered.");
                 }
 
                 _subTimers.Add(subTimer);
