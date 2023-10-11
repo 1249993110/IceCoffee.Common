@@ -149,39 +149,37 @@ namespace IceCoffee.Common.GIS
         /// <param name="threshold"></param>
         public static void GCJ02_to_WGS84_Exact(double in_lng, double in_lat, out double out_lng, out double out_lat, double threshold = 0.000000001)
         {
-            double dLng = 0.01, dLat = 0.01;
-            double mLng = in_lng - dLng, mLat = in_lat - dLat;
-            double pLng = in_lng + dLng, pLat = in_lat + dLat;
-            double wgsLng, wgsLat;
-            int i = 0;
+            double initDelta = 0.01;
+            double dLng = initDelta;
+            double dLat = initDelta;
+            double mLng = in_lng - dLng;
+            double mLat = in_lat - dLat;
+            double pLng = in_lng + dLng;
+            double pLat = in_lat + dLat;
 
+            int i = 0;
             while (true)
             {
-                wgsLng = (mLng + pLng) / 2;
-                wgsLat = (mLat + pLat) / 2;
-
-                GCJ02_to_WGS84(wgsLng, wgsLat, out out_lng, out out_lat);
-                dLng = out_lng - in_lng;
-                dLat = out_lat - in_lat;
-
-                if ((Math.Abs(dLat) < threshold) && (Math.Abs(dLng) < threshold))
+                out_lng = (mLng + pLng) / 2;
+                out_lat = (mLat + pLat) / 2;
+                WGS84_to_GCJ02(out_lng, out_lat, out double tempLng, out double tempLat);
+                dLng = tempLng - in_lng;
+                dLat = tempLat - in_lat;
+                if ((Math.Abs(dLng) < threshold) && (Math.Abs(dLat) < threshold))
                     break;
-
-                if (dLat > 0)
-                    pLat = wgsLat;
-                else
-                    mLat = wgsLat;
 
                 if (dLng > 0)
-                    pLng = wgsLng;
+                    pLng = out_lng;
                 else
-                    mLng = wgsLng;
+                    mLng = out_lng;
+                if (dLat > 0)
+                    pLat = out_lat;
+                else
+                    mLat = out_lat;
 
-                if (++i > 10000)
-                    break;
+                if (++i > 10000) break;
             }
         }
-
         #endregion 高德坐标转WGS84坐标
 
         #region 高德坐标转百度坐标
