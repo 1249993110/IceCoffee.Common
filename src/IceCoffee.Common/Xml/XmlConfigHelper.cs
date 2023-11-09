@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace IceCoffee.Common.Xml
 {
-    public static class XmlHelper
+    public static class XmlConfigHelper
     {
         /// <summary>
         /// 保存指定对象的配置信息
