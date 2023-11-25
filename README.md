@@ -1,2 +1,2 @@
 # IceCoffee.Common
-公共模块
+Common modules required by most libraries
