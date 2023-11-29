@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<Authors>IceCoffee</Authors>
 		<Company>LuoShuiTianYi</Company>
-		<Copyright>Copyright (c) 2022 IceCoffee</Copyright>
+		<Copyright>Copyright (c) 2023 IceCoffee</Copyright>
 		<Description>公共模块</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -19,7 +19,7 @@
 		<PackageProjectUrl>https://github.com/1249993110/IceCoffee.Common</PackageProjectUrl>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<RepositoryUrl>https://github.com/1249993110/IceCoffee.Common</RepositoryUrl>
-		<Version>1.0.5.1</Version>
+		<Version>1.0.5.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">

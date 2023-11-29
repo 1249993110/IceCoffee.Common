@@ -9,25 +9,22 @@ namespace IceCoffee.Common
     {
         private readonly ConcurrentQueue<T> _queue;
         private readonly Timer _timer;
-
-        /// <summary>
-        /// 做工作, 仅当待处理工作数量大于 0 时触发
-        /// </summary>
-        public event Action<List<T>>? DoWork;
+        private readonly Action<List<T>> _callback;
 
         /// <summary>
         /// 构造 WorkQueue 实例
         /// </summary>
+        /// <param name="callback">当待处理工作数量大于 0 时触发</param>
         /// <param name="processInterval">处理间隔（单位：毫秒）</param>
-        public RegularWorkQueue(int processInterval)
+        public RegularWorkQueue(Action<List<T>> callback, int processInterval)
         {
-            _queue = new ConcurrentQueue<T>();
-
             if (processInterval <= 0)
             {
                 throw new ArgumentException("processInterval 必须大于 0", nameof(processInterval));
             }
 
+            _queue = new ConcurrentQueue<T>();
+            _callback = callback;
             _timer = new Timer(TimerCallback, null, 0, processInterval);
         }
 
@@ -63,7 +60,7 @@ namespace IceCoffee.Common
                     }
                 } while (_queue.IsEmpty == false);
 
-                DoWork?.Invoke(works);
+                _callback.Invoke(works);
             }
         }
     }
