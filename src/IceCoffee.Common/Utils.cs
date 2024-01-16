@@ -140,10 +140,10 @@ namespace IceCoffee.Common
         /// <summary>
         /// 生成随机字符串
         /// </summary>
-        /// <param name="chars"></param>
         /// <param name="length"></param>
+        /// <param name="chars"></param>
         /// <returns></returns>
-        public static string GetRandomString(string chars, int length)
+        public static string GetRandomString(int length, string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
         {
             var random = new Random();
             return new string(Enumerable.Repeat(chars, length)
