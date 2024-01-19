@@ -105,7 +105,7 @@ namespace IceCoffee.Common
         /// <param name="useSpe">是否包含特殊字符, 1=包含, 默认为不包含</param>
         /// <param name="custom">要包含的自定义字符, 直接输入要包含的字符列表</param>
         /// <returns>指定长度的随机字符串</returns>
-        public static string GetRandomString(int length, bool useNum = true, bool useLow = false, bool useUpp = false, bool useSpe = false, string custom = "")
+        public static string GetStrongRandomString(int length, bool useNum = true, bool useLow = false, bool useUpp = false, bool useSpe = false, string custom = "")
         {
             byte[] b = new byte[4];
 
@@ -125,19 +125,6 @@ namespace IceCoffee.Common
             }
 
             return sb.ToString();
-        }
-
-        /// <summary>
-        /// 生成强随机字符串
-        /// <para>字节长度为 24 代表生成长度为 32 的随机字符串</para>
-        /// </summary>
-        /// <returns></returns>
-        public static string GetStrongRandomString(int byteLen)
-        {
-            var randomNumber = new byte[byteLen];
-            using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
         }
 
         /// <summary>
