@@ -128,10 +128,11 @@ namespace IceCoffee.Common
         }
 
         /// <summary>
-        /// 字节长度为 24 代表生成长度为 32 的随机字符串
+        /// 生成强随机字符串
+        /// <para>字节长度为 24 代表生成长度为 32 的随机字符串</para>
         /// </summary>
         /// <returns></returns>
-        public static string GetRandomString(int byteLen = 24)
+        public static string GetStrongRandomString(int byteLen)
         {
             var randomNumber = new byte[byteLen];
             using var rng = System.Security.Cryptography.RandomNumberGenerator.Create();
