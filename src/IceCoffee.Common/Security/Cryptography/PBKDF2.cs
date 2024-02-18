@@ -101,7 +101,7 @@ namespace IceCoffee.Common.Security.Cryptography
             using var pbkdf2 = new Rfc2898DeriveBytes(plaintext, salt, iterations, hashAlgorithm);
             hashValue = Convert.ToBase64String(pbkdf2.GetBytes(size));
             saltBase64 = Convert.ToBase64String(salt);
-        }
+        }                                                              
 
         /// <summary>
         /// 使用PBKDF2验证密码
