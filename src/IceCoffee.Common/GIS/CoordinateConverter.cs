@@ -618,9 +618,9 @@ namespace IceCoffee.Common.GIS
         #endregion WGS84坐标转百度坐标
 
         /// <summary>
-        /// 得到两点之间的距离, 单位：米
+        /// 使用 Haversine 公式计算球面距离, 单位：米
         /// </summary>
-        public static double GetDistance(double latA, double lonA, double latB, double lonB)
+        public static double GetDistance(double lonA, double latA, double lonB, double latB)
         {
             double x = Math.Cos(latA * pi / 180.0) * Math.Cos(latB * pi / 180.0) * Math.Cos((lonA - lonB) * pi / 180.0);
             double y = Math.Sin(latA * pi / 180.0) * Math.Sin(latB * pi / 180.0);
