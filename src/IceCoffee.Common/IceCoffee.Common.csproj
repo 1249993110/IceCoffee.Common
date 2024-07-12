@@ -19,15 +19,15 @@
 		<PackageProjectUrl>https://github.com/1249993110/IceCoffee.Common</PackageProjectUrl>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<RepositoryUrl>https://github.com/1249993110/IceCoffee.Common</RepositoryUrl>
-		<Version>1.0.12</Version>
+		<Version>1.0.13</Version>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="6.0.31" />
+		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="6.0.32" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' != 'net6.0'">
-		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="8.0.6" />
+		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="8.0.7" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net462'">

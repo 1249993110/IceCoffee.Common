@@ -10,7 +10,7 @@ namespace IceCoffee.Common
         private readonly ConcurrentQueue<T> _queue;
         private Task? _task;
         private readonly int _delay;
-        private bool _isRunning;
+        private volatile bool _isRunning;
 
         /// <summary>
         /// 做工作, 仅当待处理工作数量大于 0 时触发
@@ -29,13 +29,19 @@ namespace IceCoffee.Common
             _task = Task.Factory.StartNew(Callback, TaskCreationOptions.LongRunning);
         }
 
-        private void Callback()
+        private async void Callback()
         {
             while (_isRunning)
             {
                 if (DoWork != null && _queue.TryDequeue(out var result))
                 {
-                    DoWork.Invoke(result).Wait();
+                    try
+                    {
+                        await DoWork.Invoke(result).ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                    }
                 }
                 else
                 {
