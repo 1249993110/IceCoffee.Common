@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.ObjectPool;
+﻿using IceCoffee.Common.Extensions;
+using Microsoft.Extensions.ObjectPool;
 using System.Collections.Concurrent;
 
 namespace IceCoffee.Common.Pools
@@ -7,7 +8,7 @@ namespace IceCoffee.Common.Pools
     /// 具有基础并发类型的线程安全对象池, <see cref="ConcurrentBag{T}"/>实现
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class ConcurrentBagPool<T> : ObjectPool<T>, IObjectPool<T> where T : class
+    public class ConcurrentBagPool<T> : ObjectPool<T>, IObjectPool<T> where T : class
     {
         #region 字段
 
@@ -121,7 +122,7 @@ namespace IceCoffee.Common.Pools
 
             if (_isDisposed || (_maximumRetained > 0 && Count >= _maximumRetained))
             {
-                DisposeItem(item);
+                item.TryDispose();
             }
             else
             {
@@ -151,7 +152,7 @@ namespace IceCoffee.Common.Pools
             {
                 if (this._bag.TryTake(out T? item))
                 {
-                    DisposeItem(item);
+                    item.TryDispose();
                 }
             }
         }
@@ -179,16 +180,8 @@ namespace IceCoffee.Common.Pools
             }
         }
 
-        #endregion IDisposable implementation
+        #endregion
 
-        private static void DisposeItem(T? item)
-        {
-            if (item is IDisposable disposable)
-            {
-                disposable.Dispose();
-            }
-        }
-
-        #endregion 方法
+        #endregion
     }
 }

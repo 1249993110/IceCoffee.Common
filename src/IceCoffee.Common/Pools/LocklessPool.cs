@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.ObjectPool;
+﻿using IceCoffee.Common.Extensions;
+using Microsoft.Extensions.ObjectPool;
 
 namespace IceCoffee.Common.Pools
 {
@@ -56,10 +57,7 @@ namespace IceCoffee.Common.Pools
         {
             if (disposing)
             {
-                if (_pool is IDisposable disposable)
-                {
-                    disposable.Dispose();
-                }
+                _pool.TryDispose();
             }
         }
     }

@@ -8,38 +8,40 @@ namespace IceCoffee.Common
     public class SerialWorkQueue<T> : IDisposable
     {
         private readonly ConcurrentQueue<T> _queue;
-        private Task? _task;
+        private readonly Task _task;
         private readonly int _delay;
         private volatile bool _isRunning;
 
         /// <summary>
         /// 做工作, 仅当待处理工作数量大于 0 时触发
         /// </summary>
-        public event Func<T, Task>? DoWork;
+        private readonly Action<T> _callback;
 
         /// <summary>
         /// 构造 WorkQueue 实例
         /// </summary>
+        /// <param name="callback"></param>
         /// <param name="delay"></param>
-        public SerialWorkQueue(int delay = 20)
+        public SerialWorkQueue(Action<T> callback, int delay = 20)
         {
+            _callback = callback;
             _queue = new ConcurrentQueue<T>();
             _delay = delay;
             _isRunning = true;
             _task = Task.Factory.StartNew(Callback, TaskCreationOptions.LongRunning);
         }
 
-        private async void Callback()
+        private void Callback()
         {
             while (_isRunning)
             {
-                if (DoWork != null && _queue.TryDequeue(out var result))
+                if (_queue.TryDequeue(out var result))
                 {
                     try
                     {
-                        await DoWork.Invoke(result).ConfigureAwait(false);
+                        _callback.Invoke(result);
                     }
-                    catch
+                    finally
                     {
                     }
                 }
@@ -59,15 +61,30 @@ namespace IceCoffee.Common
             _queue.Enqueue(item);
         }
 
+        #region IDisposable implementation
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
         public void Dispose()
         {
-            _isRunning = false;
-            if (_task != null)
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
             {
+                _isRunning = false;
                 _task.Wait();
-                ((IDisposable)_task).Dispose();
-                _task = null;
+                _task.Dispose();
             }
         }
+
+        #endregion
     }
 }

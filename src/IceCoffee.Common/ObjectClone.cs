@@ -22,7 +22,7 @@ namespace IceCoffee.Common
             object? result;
             using (MemoryStream ms = new MemoryStream())
             {
-                DataContractSerializer ser = new DataContractSerializer(typeof(T));
+                var ser = new DataContractSerializer(typeof(T));
                 ser.WriteObject(ms, obj);
                 ms.Seek(0, SeekOrigin.Begin);
                 result = ser.ReadObject(ms);

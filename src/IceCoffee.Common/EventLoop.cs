@@ -39,7 +39,7 @@ namespace IceCoffee.Common
         /// </summary>
         private ConcurrentQueue<MetaEvent> _eventsQueue = new ConcurrentQueue<MetaEvent>();
 
-        private bool _isRunning = false;
+        private volatile bool _isRunning = false;
 
         /// <summary>
         /// Returns true if the event loop is running; otherwise returns false.

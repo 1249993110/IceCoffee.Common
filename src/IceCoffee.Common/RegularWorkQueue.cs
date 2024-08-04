@@ -37,31 +37,29 @@ namespace IceCoffee.Common
             _queue.Enqueue(item);
         }
 
-        /// <summary>
-        /// Copies the elements stored in the <see cref="ConcurrentQueue{T}"/> to a new array.
-        /// </summary>
-        /// <returns>A new array containing a snapshot of elements copied from the <see cref="ConcurrentQueue{T}"/></returns>
-        public T[] ToArray()
-        {
-            return _queue.ToArray();
-        }
-
         private void TimerCallback(object? state)
         {
             if (_queue.IsEmpty == false)
             {
                 var works = new List<T>();
 
-                do
+                while (_queue.TryDequeue(out var result))
                 {
-                    if (_queue.TryDequeue(out T? result))
-                    {
-                        works.Add(result);
-                    }
-                } while (_queue.IsEmpty == false);
+                    works.Add(result);
+                }
 
                 _callback.Invoke(works);
             }
         }
+
+        ///// <summary>
+        ///// Copies the elements stored in the <see cref="ConcurrentQueue{T}"/> to a new array.
+        ///// </summary>
+        ///// <returns>A new array containing a snapshot of elements copied from the <see cref="ConcurrentQueue{T}"/></returns>
+        //public T[] ToArray()
+        //{
+        //    return _queue.ToArray();
+        //}
+
     }
 }
