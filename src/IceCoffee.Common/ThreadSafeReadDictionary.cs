@@ -1,9 +1,13 @@
-﻿namespace IceCoffee.Common
+﻿using System.Collections;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+
+namespace IceCoffee.Common
 {
     /// <summary>
     /// 线程安全的字典, 保护由多个线程读取、一个线程写入的资源
     /// </summary>
-    public class ThreadSafeReadDictionary<TKey, TValue> where TKey : notnull
+    public class ThreadSafeReadDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>> where TKey : notnull
     {
         /// <summary>
         /// 添加或更新状态
@@ -17,7 +21,7 @@
 
         private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
         private readonly Dictionary<TKey, TValue> _dict = new Dictionary<TKey, TValue>();
-        
+
         /// <summary>
         /// 获取字典中的元素个数
         /// </summary>
@@ -289,6 +293,43 @@
             {
                 _lock.ExitWriteLock();
             }
+        }
+
+        /// <summary>
+        /// 将字典转换为键值对数组
+        /// </summary>
+        /// <returns>键值对数组</returns>
+        public KeyValuePair<TKey, TValue>[] ToArray()
+        {
+            _lock.EnterReadLock();
+            try
+            {
+                KeyValuePair<TKey, TValue>[] array = new KeyValuePair<TKey, TValue>[_dict.Count];
+                ((IDictionary<TKey, TValue>)_dict).CopyTo(array, 0);
+                return array;
+            }
+            finally
+            {
+                _lock.ExitReadLock();
+            }
+        }
+
+        /// <summary>
+        /// 实现 IEnumerable 接口的 GetEnumerator 方法
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        {
+            return ToArray().AsEnumerable().GetEnumerator();
+        }
+
+        /// <summary>
+        /// 实现 IEnumerable 接口的 GetEnumerator 方法
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         ~ThreadSafeReadDictionary()

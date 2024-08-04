@@ -19,25 +19,22 @@
 
         private static void TimerCallback(object? state)
         {
-            SubTimer[] subTimers; 
+            SubTimer[] subTimers;
             lock (_timer)
             {
-                subTimers = _subTimers.ToArray();
+                subTimers = _subTimers.Where(i => i.IsEnabled).ToArray();
             }
 
-            foreach (var subTimer in subTimers)
+            Parallel.ForEach(subTimers, (subTimer) =>
             {
-                if (subTimer.IsEnabled)
-                {
-                    ++subTimer.countInSeconds;
+                Interlocked.Increment(ref subTimer.countInSeconds);
 
-                    if (subTimer.countInSeconds >= subTimer.Interval)
-                    {
-                        subTimer.countInSeconds = 0;
-                        Task.Run(subTimer.Action);
-                    }
+                if (subTimer.countInSeconds >= subTimer.Interval)
+                {
+                    subTimer.countInSeconds = 0;
+                    subTimer.Action.Invoke();
                 }
-            }
+            });
         }
 
         /// <summary>

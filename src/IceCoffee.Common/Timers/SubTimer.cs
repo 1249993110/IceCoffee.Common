@@ -8,9 +8,9 @@
         /// <summary>
         /// 秒级的计数
         /// </summary>
-        internal int countInSeconds;
+        internal volatile int countInSeconds;
 
-        private Action _action;
+        private readonly Action _action;
         private int _interval = 1;
         private volatile bool _isEnabled;
 

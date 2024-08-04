@@ -1,9 +1,11 @@
-﻿namespace IceCoffee.Common
+﻿using System.Collections;
+
+namespace IceCoffee.Common
 {
     /// <summary>
     /// 线程安全的哈希集合, 保护由多个线程读取、一个线程写入的资源
     /// </summary>
-    public class ThreadSafeReadHashSet<T>
+    public class ThreadSafeReadHashSet<T> : IEnumerable<T>
     {
         private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim();
         private readonly HashSet<T> _hashSet = new HashSet<T>();
@@ -133,18 +135,55 @@
         /// </summary>
         /// <param name="array">目标数组</param>
         /// <param name="index">目标数组的起始索引</param>
-        public void CopyTo(T[] array, int index)
+        /// <param name="count">要复制的元素个数</param>
+        public void CopyTo(T[] array, int index, int count)
         {
             _lock.EnterReadLock();
             try
             {
-                _hashSet.CopyTo(array, index);
+                _hashSet.CopyTo(array, index, count);
             }
             finally
             {
                 _lock.ExitReadLock();
             }
+        }
 
+        /// <summary>
+        /// 将哈希集合的元素复制到一个新数组中
+        /// </summary>
+        /// <returns></returns>
+        public T[] ToArray()
+        {
+            _lock.EnterReadLock();
+            try
+            {
+                T[] array = new T[_hashSet.Count];
+                _hashSet.CopyTo(array, 0, _hashSet.Count);
+                return array;
+            }
+            finally
+            {
+                _lock.ExitReadLock();
+            }
+        }
+
+        /// <summary>
+        /// 实现 IEnumerable 接口的 GetEnumerator 方法
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<T> GetEnumerator()
+        {
+            return ToArray().AsEnumerable().GetEnumerator();
+        }
+
+        /// <summary>
+        /// 实现 IEnumerable 接口的 GetEnumerator 方法
+        /// </summary>
+        /// <returns></returns>
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         ~ThreadSafeReadHashSet()
