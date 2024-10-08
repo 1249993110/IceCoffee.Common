@@ -27,9 +27,7 @@
 
             Parallel.ForEach(subTimers, (subTimer) =>
             {
-                Interlocked.Increment(ref subTimer.countInSeconds);
-
-                if (subTimer.countInSeconds >= subTimer.Interval)
+                if (Interlocked.Increment(ref subTimer.countInSeconds) >= subTimer.Interval)
                 {
                     subTimer.countInSeconds = 0;
                     subTimer.Action.Invoke();
