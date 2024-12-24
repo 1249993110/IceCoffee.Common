@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace IceCoffee.Common.Extensions
@@ -295,6 +296,64 @@ namespace IceCoffee.Common.Extensions
             }
 
             return defaultValue;
+        }
+
+        /// <summary>
+        /// 将输入字符串转换为 Snake Case
+        /// </summary>
+        public static string ToSnakeCase(this string input)
+        {
+            return Regex.Replace(input, @"([a-z0-9])([A-Z])", "$1_$2")
+                        .ToLower();
+        }
+
+        /// <summary>
+        /// 将输入字符串转换为 Pascal Case
+        /// </summary>
+        /// <param name="input">输入字符串</param>
+        /// <returns>转换后的帕斯卡命名法字符串</returns>
+        public static string ToPascalCase(this string input)
+        {
+            // input = Regex.Replace(input, @"[^a-zA-Z0-9_\-./\s]+", "");
+
+            // 使用正则表达式分割字符串，支持下划线、连字符、空格、点号等分隔符
+            var words = Regex.Split(input, @"[\s_\-./]+");
+
+            // 将每个单词的首字母大写，其余部分小写
+            for (int i = 0; i < words.Length; i++)
+            {
+                words[i] = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(words[i].ToLower());
+            }
+
+            // 拼接为帕斯卡命名法
+            return string.Concat(words);
+        }
+
+        /// <summary>
+        /// 将输入字符串转换为 Camel Case
+        /// </summary>
+        public static string ToCamelCase(this string input)
+        {
+            var pascalCase = ToPascalCase(input);
+            return char.ToLower(pascalCase[0]) + pascalCase.Substring(1);
+        }
+
+        /// <summary>
+        /// 将输入字符串转换为 Constant Case
+        /// </summary>
+        public static string ToConstantCase(this string input)
+        {
+            return Regex.Replace(input, @"([a-z0-9])([A-Z])", "$1_$2")
+                        .ToUpper();
+        }
+
+        /// <summary>
+        /// 将输入字符串转换为 Kebab Case
+        /// </summary>
+        public static string ToKebabCase(this string input)
+        {
+            return Regex.Replace(input, @"([a-z0-9])([A-Z])", "$1-$2")
+                        .ToLower();
         }
     }
 }
