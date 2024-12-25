@@ -308,6 +308,16 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
+        /// 判断一个单词是否为 Pascal Case 格式：首字母大写，后续字母中至少有一个小写字母
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
+        public static bool IsPascalCase(string word)
+        {
+            return char.IsUpper(word[0]) && word.Substring(1).Any(char.IsLower);
+        }
+
+        /// <summary>
         /// 将输入字符串转换为 Pascal Case
         /// </summary>
         /// <param name="input">输入字符串</param>
@@ -322,6 +332,10 @@ namespace IceCoffee.Common.Extensions
             // 将每个单词的首字母大写，其余部分小写
             for (int i = 0; i < words.Length; i++)
             {
+                if(IsPascalCase(words[i]))
+                {
+                    continue;
+                }
                 words[i] = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(words[i].ToLower());
             }
 
