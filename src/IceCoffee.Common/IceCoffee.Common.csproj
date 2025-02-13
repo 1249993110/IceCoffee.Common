@@ -9,7 +9,7 @@
 		<Description>公共模块</Description>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<LangVersion>10.0</LangVersion>
+		<LangVersion>11.0</LangVersion>
 		<!--取消方法注释警告-->
 		<NoWarn>$(NoWarn);1591</NoWarn>
 		<!--取消字段退出构造方法可空警告-->
@@ -19,15 +19,15 @@
 		<PackageProjectUrl>https://github.com/1249993110/IceCoffee.Common</PackageProjectUrl>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<RepositoryUrl>https://github.com/1249993110/IceCoffee.Common</RepositoryUrl>
-		<Version>1.2.2</Version>
+		<Version>1.2.3</Version>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
-		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="9.0.2" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' != 'net9.0'">
-		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="8.0.11" />
+		<PackageReference Include="Microsoft.Extensions.ObjectPool" Version="8.0.13" />
 	</ItemGroup>
 	
 	<ItemGroup Condition="'$(TargetFramework)' == 'net462'">

@@ -76,6 +76,27 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
+        /// 将 String 转换为 Short?, 如果格式错误将转换失败并返回默认值
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static short? ToShortNullable(this string str, short? defaultValue = default)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return defaultValue;
+            }
+
+            if (short.TryParse(str, out var result))
+            {
+                return result;
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
         /// 将 String 转换为 Int, 如果格式错误将转换失败并返回默认值
         /// </summary>
         /// <param name="str"></param>
@@ -84,6 +105,27 @@ namespace IceCoffee.Common.Extensions
         public static int ToInt(this string str, int defaultValue = default)
         {
             if (int.TryParse(str, out int result))
+            {
+                return result;
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// 将 String 转换为 Int?, 如果格式错误将转换失败并返回默认值
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static int? ToIntNullable(this string str, int? defaultValue = default)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return defaultValue;
+            }
+
+            if (int.TryParse(str, out var result))
             {
                 return result;
             }
@@ -108,6 +150,27 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
+        /// 将 String 转换为 UInt?, 如果格式错误将转换失败并返回默认值
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static uint? ToUIntNullable(this string str, uint? defaultValue = default)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return defaultValue;
+            }
+
+            if (uint.TryParse(str, out var result))
+            {
+                return result;
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
         /// 将 String 转换为 Long, 如果格式错误将转换失败并返回默认值
         /// </summary>
         /// <param name="str"></param>
@@ -116,6 +179,27 @@ namespace IceCoffee.Common.Extensions
         public static long ToLong(this string str, long defaultValue = default)
         {
             if (long.TryParse(str, out long result))
+            {
+                return result;
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// 将 String 转换为 Long?, 如果格式错误将转换失败并返回默认值
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static long? ToLongNullable(this string str, long? defaultValue = default)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return defaultValue;
+            }
+
+            if (long.TryParse(str, out var result))
             {
                 return result;
             }
@@ -210,27 +294,6 @@ namespace IceCoffee.Common.Extensions
             }
 
             return Encoding.UTF8.GetString(Convert.FromBase64String(str));
-        }
-
-        /// <summary>
-        /// 将 String 转换为 Int?, 如果格式错误将转换失败并返回默认值
-        /// </summary>
-        /// <param name="str"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
-        public static int? ToIntNullable(this string str, int? defaultValue = default)
-        {
-            if (string.IsNullOrEmpty(str))
-            {
-                return defaultValue;
-            }
-
-            if (int.TryParse(str, out var result))
-            {
-                return result;
-            }
-
-            return defaultValue;
         }
 
         /// <summary>
