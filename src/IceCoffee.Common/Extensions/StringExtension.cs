@@ -65,7 +65,7 @@ namespace IceCoffee.Common.Extensions
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static short ToShort(this string str, short defaultValue = default)
+        public static short ToShort(this string? str, short defaultValue = default)
         {
             if (short.TryParse(str, out short result))
             {
@@ -81,7 +81,7 @@ namespace IceCoffee.Common.Extensions
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static short? ToShortNullable(this string str, short? defaultValue = default)
+        public static short? ToShortNullable(this string? str, short? defaultValue = default)
         {
             if (string.IsNullOrEmpty(str))
             {
@@ -102,7 +102,7 @@ namespace IceCoffee.Common.Extensions
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static int ToInt(this string str, int defaultValue = default)
+        public static int ToInt(this string? str, int defaultValue = default)
         {
             if (int.TryParse(str, out int result))
             {
@@ -118,7 +118,7 @@ namespace IceCoffee.Common.Extensions
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static int? ToIntNullable(this string str, int? defaultValue = default)
+        public static int? ToIntNullable(this string? str, int? defaultValue = default)
         {
             if (string.IsNullOrEmpty(str))
             {
@@ -139,7 +139,7 @@ namespace IceCoffee.Common.Extensions
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static uint ToUInt(this string str, uint defaultValue = default)
+        public static uint ToUInt(this string? str, uint defaultValue = default)
         {
             if (uint.TryParse(str, out uint result))
             {
@@ -155,7 +155,7 @@ namespace IceCoffee.Common.Extensions
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static uint? ToUIntNullable(this string str, uint? defaultValue = default)
+        public static uint? ToUIntNullable(this string? str, uint? defaultValue = default)
         {
             if (string.IsNullOrEmpty(str))
             {
@@ -176,7 +176,7 @@ namespace IceCoffee.Common.Extensions
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static long ToLong(this string str, long defaultValue = default)
+        public static long ToLong(this string? str, long defaultValue = default)
         {
             if (long.TryParse(str, out long result))
             {
@@ -192,7 +192,7 @@ namespace IceCoffee.Common.Extensions
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static long? ToLongNullable(this string str, long? defaultValue = default)
+        public static long? ToLongNullable(this string? str, long? defaultValue = default)
         {
             if (string.IsNullOrEmpty(str))
             {
@@ -213,7 +213,7 @@ namespace IceCoffee.Common.Extensions
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static double ToDouble(this string str, double defaultValue = default)
+        public static double ToDouble(this string? str, double defaultValue = default)
         {
             if (double.TryParse(str, out double result))
             {
@@ -271,7 +271,7 @@ namespace IceCoffee.Common.Extensions
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string ToBase64(this string str)
+        public static string ToBase64(this string? str)
         {
             if (string.IsNullOrEmpty(str))
             {
@@ -286,7 +286,7 @@ namespace IceCoffee.Common.Extensions
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string FormBase64(string str)
+        public static string FormBase64(string? str)
         {
             if (string.IsNullOrEmpty(str))
             {
@@ -302,7 +302,7 @@ namespace IceCoffee.Common.Extensions
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static decimal ToDecimal(this string str, decimal defaultValue = default)
+        public static decimal ToDecimal(this string? str, decimal defaultValue = default)
         {
             if (decimal.TryParse(str, out decimal result))
             {
@@ -318,7 +318,7 @@ namespace IceCoffee.Common.Extensions
         /// <param name="str"></param>
         /// <param name="defaultValue"></param>
         /// <returns></returns>
-        public static decimal? ToDecimalNullable(this string str, decimal? defaultValue = default)
+        public static decimal? ToDecimalNullable(this string? str, decimal? defaultValue = default)
         {
             if (string.IsNullOrEmpty(str))
             {
