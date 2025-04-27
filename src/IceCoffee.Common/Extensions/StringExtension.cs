@@ -97,6 +97,37 @@ namespace IceCoffee.Common.Extensions
         }
 
         /// <summary>
+        /// 将 String 转换为 DateTime, 如果格式错误将转换失败并返回默认值
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static DateTime ToDateTime(this string? str, DateTime defaultValue = default)
+        {
+            if (DateTime.TryParse(str, out DateTime result))
+            {
+                return result;
+            }
+
+            return defaultValue;
+        }
+
+        public static DateTime? ToDateTimeNullable(this string? str, DateTime? defaultValue = default)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                return defaultValue;
+            }
+
+            if (DateTime.TryParse(str, out var result))
+            {
+                return result;
+            }
+
+            return defaultValue;
+        }
+
+        /// <summary>
         /// 将 String 转换为 Int, 如果格式错误将转换失败并返回默认值
         /// </summary>
         /// <param name="str"></param>
