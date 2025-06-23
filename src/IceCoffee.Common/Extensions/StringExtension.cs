@@ -408,7 +408,7 @@ namespace IceCoffee.Common.Extensions
         /// <returns></returns>
         public static bool IsPascalCase(string word)
         {
-            return char.IsUpper(word[0]) && word.Substring(1).Any(char.IsLower);
+            return string.IsNullOrEmpty(word) == false && char.IsUpper(word[0]) && word.Substring(1).Any(char.IsLower);
         }
 
         /// <summary>
@@ -426,7 +426,7 @@ namespace IceCoffee.Common.Extensions
             // 将每个单词的首字母大写，其余部分小写
             for (int i = 0; i < words.Length; i++)
             {
-                if(IsPascalCase(words[i]))
+                if(string.IsNullOrEmpty(words[i]) || IsPascalCase(words[i]))
                 {
                     continue;
                 }
